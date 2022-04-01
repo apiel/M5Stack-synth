@@ -1,5 +1,5 @@
-#ifndef NOTE_H_
-#define NOTE_H_
+#ifndef ZIC_NOTE_H_
+#define ZIC_NOTE_H_
 
 #include <stdint.h>
 
