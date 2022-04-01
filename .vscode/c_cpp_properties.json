@@ -1,0 +1,25 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "forcedInclude": [],
+            "defines": [
+                "USBCON"
+            ],
+            "intelliSenseMode": "gcc-x64",
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c11",
+            "cppStandard": "c++14",
+            "includePath": [
+                "/home/alex/dev/arduino/arduino-1.8.19/tools/**",
+                "/home/alex/dev/arduino/arduino-1.8.19/libraries/**",
+                "/home/alex/dev/arduino/arduino-1.8.19/hardware/tools/**",
+                "/home/alex/dev/arduino/arduino-1.8.19/hardware/arduino/avr/**",
+                "/home/alex/dev/arduino/arduino-1.8.19/hardware/teensy/avr/**",
+                "/home/alex/Arduino/libraries/**",
+                "/home/alex/dev/arduino/arduino-1.8.19/libraries/**"
+            ]
+        }
+    ],
+    "version": 4
+}

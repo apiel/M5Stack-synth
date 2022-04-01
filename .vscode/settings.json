@@ -1,0 +1,47 @@
+{
+    "files.associations": {
+        "cstddef": "cpp",
+        "array": "cpp",
+        "string": "cpp",
+        "bitset": "cpp",
+        "cstdio": "cpp",
+        "*.tcc": "cpp",
+        "fstream": "cpp",
+        "functional": "cpp",
+        "regex": "cpp",
+        "optional": "cpp",
+        "ratio": "cpp",
+        "system_error": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "utility": "cpp",
+        "istream": "cpp",
+        "ostream": "cpp",
+        "chrono": "cpp",
+        "typeinfo": "cpp",
+        "thread": "cpp",
+        "deque": "cpp",
+        "list": "cpp",
+        "unordered_map": "cpp",
+        "unordered_set": "cpp",
+        "vector": "cpp",
+        "string_view": "cpp",
+        "initializer_list": "cpp",
+        "cstdarg": "cpp",
+        "algorithm": "cpp",
+        "sstream": "cpp",
+        "random": "cpp",
+        "streambuf": "cpp",
+        "tmp": "c",
+        "cmath": "cpp"
+    },
+    "emeraldwalk.runonsave": {
+        "commands": [
+            {
+                // "match": "\\.(html|js|css)$",
+                // "cmd": "xxd -i ${relativeFile} > ${relativeFile}.h"
+            }
+        ]
+    },
+    "C_Cpp.errorSquiggles": "Enabled"
+}
