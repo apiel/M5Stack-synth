@@ -38,13 +38,17 @@ void loopApp()
 {
     delay(1000);
     osc.frequency = NOTE_FREQ[_C3];
+    Serial.print("on C3: ");
+    Serial.println(millis());
     asr.on();
-    // delay(1000);
-    // osc.frequency = NOTE_FREQ[_D3];
-    // asr.on();
+    delay(1000);
+    osc.frequency = NOTE_FREQ[_D3];
+    Serial.print("on D3: ");
+    Serial.println(millis());
+    asr.on();
 
     count++;
-    if (count > 100)
+    if (count > 10)
     {
         osc.amplitude = 0;
     }
