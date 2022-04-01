@@ -36,15 +36,20 @@ void initApp()
 uint8_t count = 0;
 void loopApp()
 {
+    osc.oscType = OSC_SINE;
     delay(1000);
     osc.frequency = NOTE_FREQ[_C3];
-    Serial.print("on C3: ");
-    Serial.println(millis());
     asr.on();
     delay(1000);
     osc.frequency = NOTE_FREQ[_D3];
-    Serial.print("on D3: ");
-    Serial.println(millis());
+    asr.on();
+
+    osc.oscType = OSC_TRIANGLE;
+    delay(1000);
+    osc.frequency = NOTE_FREQ[_C3];
+    asr.on();
+    delay(1000);
+    osc.frequency = NOTE_FREQ[_D3];
     asr.on();
 
     count++;
