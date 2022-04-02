@@ -22,6 +22,9 @@ protected:
     double double_Pi = PI * 2.0;
     double half_Pi = PI * 0.5;
 
+    // int16_t sine(float freq, float amp)
+    //     {}
+
 public:
     float frequency = 103.82617439443122f; // C3
     float amplitude = 0.1f;
@@ -34,24 +37,54 @@ public:
 
     uint8_t oscType = OSC_SINE;
 
-    uint16_t next()
+    int16_t next()
     {
         float freq = frequency * pitch * pitchMod;
         float amp = amplitudeMod * amplitude * m_amplitude;
 
-        double angle = double_Pi * freq * m_time + m_phase;
         m_time += m_deltaTime;
-
-        uint16_t sineValue = amp * sin(angle);
 
         switch (oscType)
         {
-        // case OSC_SQUARE:
-        //     return sineValue > 0 ? 2000 : 0;
-        // case OSC_TRIANGLE:
-        //     return amp * acos(sin(freq * m_time)) / half_Pi;
+        case OSC_SINE:
+        {
+            double angle = double_Pi * freq * m_time + m_phase;
+            return amp * sin(angle);
         }
-        return sineValue;
+        case OSC_SQUARE:
+        {
+            // return sineValue > 0 ? amp : -amp;
+            double fullPeriodTime = 1.0 / freq;
+            double halfPeriodTime = fullPeriodTime * 0.5;
+            double localTime = fmod(m_time, fullPeriodTime);
+            return localTime < halfPeriodTime ? amp : -amp;
+        }
+        case OSC_TRIANGLE:
+        {
+            // return acos(sin(sineValue)) / half_Pi;
+            double res = 0.0;
+            double fullPeriodTime = 1.0 / frequency;
+            double localTime = fmod(m_time, fullPeriodTime);
+
+            double value = localTime / fullPeriodTime;
+
+            if (value < 0.25)
+            {
+                res = value * 4;
+            }
+            else if (value < 0.75)
+            {
+                res = 2.0 - (value * 4.0);
+            }
+            else
+            {
+                res = value * 4 - 4.0;
+            }
+            return amp * res;
+        }
+        }
+
+        return 0;
     }
 };
 

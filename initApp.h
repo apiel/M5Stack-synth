@@ -28,6 +28,7 @@ int32_t get_data_channels(Frame *frame, int32_t channel_len)
 void initApp()
 {
     Serial.begin(115200);
+    Serial.println("Zic zic");
 
     a2dp_source.start("Geo Speaker", get_data_channels);
     asr.noSustain = true;
@@ -52,11 +53,14 @@ void loopApp()
     osc.frequency = NOTE_FREQ[_D3];
     asr.on();
 
-    count++;
     if (count > 10)
     {
+        if (count == 11) {
+            Serial.println("End making noise");
+        }
         osc.amplitude = 0;
     }
+    count++;
 }
 
 #endif
