@@ -53,9 +53,18 @@ void loopApp()
     osc.frequency = NOTE_FREQ[_D3];
     asr.on();
 
+    osc.oscType = OSC_SAW;
+    delay(1000);
+    osc.frequency = NOTE_FREQ[_C3];
+    asr.on();
+    delay(1000);
+    osc.frequency = NOTE_FREQ[_D3];
+    asr.on();
+
     if (count > 10)
     {
-        if (count == 11) {
+        if (count == 11)
+        {
             Serial.println("End making noise");
         }
         osc.amplitude = 0;

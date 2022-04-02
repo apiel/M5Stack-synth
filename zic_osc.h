@@ -11,6 +11,7 @@ enum
     OSC_SINE,
     OSC_SQUARE,
     OSC_TRIANGLE,
+    OSC_SAW,
     OSC_COUNT
 };
 class Zic_Osc
@@ -22,7 +23,7 @@ protected:
     double double_Pi = PI * 2.0;
     double half_Pi = PI * 0.5;
 
-    // int16_t sine(float freq, float amp)
+    // int16_t sine(float *freq, float *amp)
     //     {}
 
 public:
@@ -81,6 +82,13 @@ public:
                 res = value * 4 - 4.0;
             }
             return amp * res;
+        }
+        case OSC_SAW:
+        {
+            double fullPeriodTime = 1.0 / freq;
+            double localTime = fmod(m_time, fullPeriodTime);
+
+            return amp * ((localTime / fullPeriodTime) * 2 - 1.0);
         }
         }
 
