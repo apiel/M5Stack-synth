@@ -12,8 +12,11 @@ enum
     OSC_SQUARE,
     OSC_TRIANGLE,
     OSC_SAW,
+    OSC_NOIZE,
     OSC_COUNT
 };
+
+// https://github.com/audiowaves/simpleWavesGenerator
 class Zic_Osc
 {
 protected:
@@ -23,8 +26,67 @@ protected:
     double double_Pi = PI * 2.0;
     double half_Pi = PI * 0.5;
 
-    // int16_t sine(float *freq, float *amp)
-    //     {}
+    double sine(float *freq)
+    {
+        return sin(double_Pi * (*freq) * m_time + m_phase);
+    }
+
+    double square(float *freq)
+    {
+        double fullPeriodTime = 1.0 / (*freq);
+        double halfPeriodTime = fullPeriodTime * 0.5;
+        double localTime = fmod(m_time, fullPeriodTime);
+        return localTime < halfPeriodTime ? 1 : -1;
+    }
+
+    double triangle(float *freq)
+    {
+        double fullPeriodTime = 1.0 / (*freq);
+        double localTime = fmod(m_time, fullPeriodTime);
+
+        double value = localTime / fullPeriodTime;
+
+        if (value < 0.25)
+        {
+            return value * 4;
+        }
+        if (value < 0.75)
+        {
+            return 2.0 - (value * 4.0);
+        }
+        return value * 4 - 4.0;
+    }
+
+    double saw(float *freq)
+    {
+        double fullPeriodTime = 1.0 / (*freq);
+        double localTime = fmod(m_time, fullPeriodTime);
+
+        return ((localTime / fullPeriodTime) * 2 - 1.0);
+    }
+
+    double noize(float *freq)
+    {
+        return (rand() % 10000) * 0.00001;
+    }
+
+    double sample(float *freq)
+    {
+        switch (oscType)
+        {
+        case OSC_SINE:
+            return sine(freq);
+        case OSC_SQUARE:
+            return square(freq);
+        case OSC_TRIANGLE:
+            return triangle(freq);
+        case OSC_SAW:
+            return saw(freq);
+        case OSC_NOIZE:
+            return noize(freq);
+        }
+        return 0;
+    }
 
 public:
     float frequency = 103.82617439443122f; // C3
@@ -45,54 +107,7 @@ public:
 
         m_time += m_deltaTime;
 
-        switch (oscType)
-        {
-        case OSC_SINE:
-        {
-            double angle = double_Pi * freq * m_time + m_phase;
-            return amp * sin(angle);
-        }
-        case OSC_SQUARE:
-        {
-            // return sineValue > 0 ? amp : -amp;
-            double fullPeriodTime = 1.0 / freq;
-            double halfPeriodTime = fullPeriodTime * 0.5;
-            double localTime = fmod(m_time, fullPeriodTime);
-            return localTime < halfPeriodTime ? amp : -amp;
-        }
-        case OSC_TRIANGLE:
-        {
-            // return acos(sin(sineValue)) / half_Pi;
-            double res = 0.0;
-            double fullPeriodTime = 1.0 / frequency;
-            double localTime = fmod(m_time, fullPeriodTime);
-
-            double value = localTime / fullPeriodTime;
-
-            if (value < 0.25)
-            {
-                res = value * 4;
-            }
-            else if (value < 0.75)
-            {
-                res = 2.0 - (value * 4.0);
-            }
-            else
-            {
-                res = value * 4 - 4.0;
-            }
-            return amp * res;
-        }
-        case OSC_SAW:
-        {
-            double fullPeriodTime = 1.0 / freq;
-            double localTime = fmod(m_time, fullPeriodTime);
-
-            return amp * ((localTime / fullPeriodTime) * 2 - 1.0);
-        }
-        }
-
-        return 0;
+        return amp * sample(&freq);
     }
 };
 
