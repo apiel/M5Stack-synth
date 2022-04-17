@@ -35,11 +35,19 @@ int32_t get_data_channels(Frame *frame, int32_t channel_len)
     return channel_len;
 }
 
-void displayKeyboardRow(uint8_t y)
+void displayKeyboard(uint8_t y)
 {
     for (uint8_t k = 0; k < KEYS_COUNT; k++)
     {
         keys[k].render();
+    }
+}
+
+void eventHandler(Event& e) {
+    Serial.printf("%s %3d,%3d\n", e.typeName(), e.to.x, e.to.y);
+    for (uint8_t k = 0; k < KEYS_COUNT; k++)
+    {
+        keys[k].update(e);
     }
 }
 
@@ -50,7 +58,8 @@ void initApp()
 
     M5.begin();
     M5.Lcd.fillScreen(BLACK);
-    displayKeyboardRow(20);
+    M5.background.addHandler(eventHandler, E_ALL);    
+    displayKeyboard(20);
 
     a2dp_source.start("Geo Speaker", get_data_channels);
     asr.noSustain = true;
@@ -59,47 +68,49 @@ void initApp()
 uint8_t count = 0;
 void loopApp()
 {
-    osc.oscType = OSC_SINE;
-    delay(1000);
-    osc.frequency = NOTE_FREQ[_C3];
-    asr.on();
-    delay(1000);
-    osc.frequency = NOTE_FREQ[_D3];
-    asr.on();
+    M5.update();
 
-    osc.oscType = OSC_TRIANGLE;
-    delay(1000);
-    osc.frequency = NOTE_FREQ[_C3];
-    asr.on();
-    delay(1000);
-    osc.frequency = NOTE_FREQ[_D3];
-    asr.on();
+    // osc.oscType = OSC_SINE;
+    // delay(1000);
+    // osc.frequency = NOTE_FREQ[_C3];
+    // asr.on();
+    // delay(1000);
+    // osc.frequency = NOTE_FREQ[_D3];
+    // asr.on();
 
-    osc.oscType = OSC_SAW;
-    delay(1000);
-    osc.frequency = NOTE_FREQ[_C3];
-    asr.on();
-    delay(1000);
-    osc.frequency = NOTE_FREQ[_D3];
-    asr.on();
+    // osc.oscType = OSC_TRIANGLE;
+    // delay(1000);
+    // osc.frequency = NOTE_FREQ[_C3];
+    // asr.on();
+    // delay(1000);
+    // osc.frequency = NOTE_FREQ[_D3];
+    // asr.on();
 
-    osc.oscType = OSC_NOIZE;
-    delay(1000);
-    osc.frequency = NOTE_FREQ[_C3];
-    asr.on();
-    delay(1000);
-    osc.frequency = NOTE_FREQ[_D3];
-    asr.on();
+    // osc.oscType = OSC_SAW;
+    // delay(1000);
+    // osc.frequency = NOTE_FREQ[_C3];
+    // asr.on();
+    // delay(1000);
+    // osc.frequency = NOTE_FREQ[_D3];
+    // asr.on();
 
-    if (count > 10)
-    {
-        if (count == 11)
-        {
-            Serial.println("End making noise");
-        }
-        osc.amplitude = 0;
-    }
-    count++;
+    // osc.oscType = OSC_NOIZE;
+    // delay(1000);
+    // osc.frequency = NOTE_FREQ[_C3];
+    // asr.on();
+    // delay(1000);
+    // osc.frequency = NOTE_FREQ[_D3];
+    // asr.on();
+
+    // if (count > 10)
+    // {
+    //     if (count == 11)
+    //     {
+    //         Serial.println("End making noise");
+    //     }
+    //     osc.amplitude = 0;
+    // }
+    // count++;
 }
 
 #endif
