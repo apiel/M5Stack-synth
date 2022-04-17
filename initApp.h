@@ -3,14 +3,24 @@
 
 #include <BluetoothA2DPSource.h>
 #include <math.h>
+#include <M5Core2.h>
 
 #include "zic_note.h"
 #include "zic_osc.h"
+#include "ui/ui_key.h"
 #include "zic_mod_asr.h"
 
 BluetoothA2DPSource a2dp_source;
 Zic_Osc osc;
 Zic_Mod_Asr asr;
+
+#define KEYS_COUNT 7 * 5
+UI_Key keys[KEYS_COUNT] = {
+    {0, 0, _C6}, {45, 0, _D6}, {90, 0, _E6}, {135, 0, _F6}, {180, 0, _G6}, {225, 0, _A6}, {270, 0, _B6},
+    {0, 45, _C6}, {45, 45, _D6}, {90, 45, _E6}, {135, 45, _F6}, {180, 45, _G6}, {225, 45, _A6}, {270, 45, _B6},
+    {0, 90, _C6}, {45, 90, _D6}, {90, 90, _E6}, {135, 90, _F6}, {180, 90, _G6}, {225, 90, _A6}, {270, 90, _B6},
+    {0, 135, _C6}, {45, 135, _D6}, {90, 135, _E6}, {135, 135, _F6}, {180, 135, _G6}, {225, 135, _A6}, {270, 135, _B6},
+    {0, 180, _C6}, {45, 180, _D6}, {90, 180, _E6}, {135, 180, _F6}, {180, 180, _G6}, {225, 180, _A6}, {270, 180, _B6}};
 
 int32_t get_data_channels(Frame *frame, int32_t channel_len)
 {
@@ -25,10 +35,22 @@ int32_t get_data_channels(Frame *frame, int32_t channel_len)
     return channel_len;
 }
 
+void displayKeyboardRow(uint8_t y)
+{
+    for (uint8_t k = 0; k < KEYS_COUNT; k++)
+    {
+        keys[k].render();
+    }
+}
+
 void initApp()
 {
     Serial.begin(115200);
     Serial.println("Zic zic");
+
+    M5.begin();
+    M5.Lcd.fillScreen(BLACK);
+    displayKeyboardRow(20);
 
     a2dp_source.start("Geo Speaker", get_data_channels);
     asr.noSustain = true;
