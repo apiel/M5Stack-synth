@@ -31,7 +31,9 @@ public:
         if (isOn)
         {
             M5.Lcd.fillRect(x, y, w, h, UI_GREEN);
-        } else {
+        }
+        else
+        {
             M5.Lcd.fillRect(x, y, w, h, BLACK);
         }
         M5.Lcd.drawRect(x, y, w, h, UI_BLUE);
@@ -39,7 +41,7 @@ public:
 
     void update(Event &e)
     {
-        if (e.type != E_RELEASE && e.to.x > x && e.to.x < x + w && e.to.y > y && e.to.y < y + h)
+        if ((e.type == E_TOUCH || e.type == E_MOVE) && e.to.x > x && e.to.x < x + w && e.to.y > y && e.to.y < y + h)
         {
             if (!isOn)
             {
