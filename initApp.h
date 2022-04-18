@@ -81,9 +81,6 @@ void initApp()
     displayKeyboard(20);
 
     a2dp_source.start("Geo Speaker", get_data_channels);
-    // asr.noSustain = true;
-
-    // asr.on();
 }
 
 uint8_t count = 0;
