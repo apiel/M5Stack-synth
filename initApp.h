@@ -77,8 +77,10 @@ void initApp()
 
     asr.on();
 
-    lut_init();
+    Serial.printf("siiiiine %.6f %.6f\n", sin(45), fastSine(45));
     Serial.printf("siiiiine %.6f %.6f\n", sin(90), fastSine(90));
+    Serial.printf("siiiiine %.6f %.6f\n", sin(180), fastSine(180));
+    Serial.printf("siiiiine %.6f %.6f\n", sin(500), fastSine(500));
 }
 
 uint8_t count = 0;
