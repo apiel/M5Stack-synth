@@ -8,15 +8,16 @@
 class UI_Slider
 {
 protected:
-    const uint16_t w = 310;
+    const uint16_t w = 300;
     const uint8_t h = 20;
-    const uint8_t x = 5;
+    const uint8_t x = 10;
     const uint8_t circleRadius = h * 0.5;
     const char *name = NULL;
 
 public:
     uint16_t y = 10;
     const uint16_t *color;
+    float value = 0.5f;
 
     UI_Slider(uint16_t _y)
     {
@@ -38,7 +39,7 @@ public:
     void render()
     {
         M5.Lcd.fillRoundRect(x, y, w, h, 7, color[0]);
-        M5.Lcd.fillCircle(100, y + circleRadius, circleRadius, color[1]);
+        M5.Lcd.fillCircle(value * (w - circleRadius * 2) + (x + circleRadius), y + circleRadius, circleRadius - 1, color[1]);
 
         if (name)
         {
@@ -50,6 +51,15 @@ public:
 
     bool update(Event &e)
     {
+        // INFO might want to keep to respont to E_MOVE only if started to move slider in bar?
+        // but in another way it's nice feature of be able to move just by passing over
+        if ((e.type == E_TOUCH || e.type == E_MOVE) && e.to.x > x && e.to.x < x + w && e.to.y > y && e.to.y < y + h)
+        {
+            value = constrain((e.to.x - x - circleRadius) / (float)(w - circleRadius * 2), 0.0f, 1.0f);
+            Serial.println(value);
+            render();
+            return true;
+        }
         return false;
     }
 };

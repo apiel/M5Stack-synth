@@ -102,6 +102,13 @@ void eventHandler(Event &e)
             asr.off();
         }
     }
+    else if (mode == MODE_OSC)
+    {
+        for (uint8_t k = 0; k < OSC_COUNT; k++)
+        {
+            oscSliders[k].update(e);
+        }
+    }
 }
 
 void render()
