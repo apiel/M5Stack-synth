@@ -100,7 +100,7 @@ public:
 
     float m_phase = 0.0f;
 
-    uint8_t oscType = OSC_SINE;
+    uint8_t oscType = OSC_TRIANGLE;
 
     int16_t next()
     {
