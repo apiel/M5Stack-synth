@@ -41,7 +41,10 @@ void displayKeyboard(uint8_t y)
 
 void eventHandler(Event &e)
 {
-    Serial.printf("%s %3d,%3d\n", e.typeName(), e.to.x, e.to.y);
+    // Serial.printf("%s %3d,%3d\n", e.typeName(), e.to.x, e.to.y);
+
+    // TODO might need to find a better way, cause note on doesn't last
+    // either fix ASR or find better UI handler 
     bool isOn = false;
     bool isOff = false;
     for (uint8_t k = 0; k < KEYS_COUNT; k++)
