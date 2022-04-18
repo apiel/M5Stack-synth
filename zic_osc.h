@@ -17,6 +17,7 @@ enum
 };
 
 // https://github.com/audiowaves/simpleWavesGenerator
+// https://olehc.medium.com/basic-sound-waves-with-c-and-juce-50ec9f0bfe5c
 class Zic_Osc
 {
 protected:

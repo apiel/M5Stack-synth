@@ -83,52 +83,9 @@ void initApp()
     a2dp_source.start("Geo Speaker", get_data_channels);
 }
 
-uint8_t count = 0;
 void loopApp()
 {
     M5.update();
-
-    // osc.oscType = OSC_SINE;
-    // delay(1000);
-    // osc.frequency = NOTE_FREQ[_C3];
-    // asr.on();
-    // delay(1000);
-    // osc.frequency = NOTE_FREQ[_D3];
-    // asr.on();
-
-    // osc.oscType = OSC_TRIANGLE;
-    // delay(1000);
-    // osc.frequency = NOTE_FREQ[_C3];
-    // asr.on();
-    // delay(1000);
-    // osc.frequency = NOTE_FREQ[_D3];
-    // asr.on();
-
-    // // osc.oscType = OSC_SAW;
-    // // delay(1000);
-    // // osc.frequency = NOTE_FREQ[_C3];
-    // // asr.on();
-    // // delay(1000);
-    // // osc.frequency = NOTE_FREQ[_D3];
-    // // asr.on();
-
-    // osc.oscType = OSC_NOIZE;
-    // delay(1000);
-    // osc.frequency = NOTE_FREQ[_C3];
-    // asr.on();
-    // delay(1000);
-    // osc.frequency = NOTE_FREQ[_D3];
-    // asr.on();
-
-    // if (count > 5)
-    // {
-    //     if (count == 6)
-    //     {
-    //         Serial.println("End making noise");
-    //     }
-    //     osc.amplitude = 0;
-    // }
-    // count++;
 }
 
 #endif
