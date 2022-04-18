@@ -28,13 +28,13 @@ public:
     {
         if (isOn)
         {
-            M5.Lcd.fillRect(x, y, w, h, UI_GREEN);
+            M5.Lcd.fillRect(x, y, w, h, UI_THEME_BLUE[1]);
         }
         else
         {
-            M5.Lcd.fillRect(x, y, w, h, BLACK);
+            M5.Lcd.fillRect(x, y, w, h, UI_BACKGROUND);
         }
-        M5.Lcd.drawRect(x, y, w, h, UI_BLUE);
+        M5.Lcd.drawRect(x, y, w, h, UI_THEME_BLUE[0]);
     }
 
     bool update(Event &e)

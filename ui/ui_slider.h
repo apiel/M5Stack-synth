@@ -15,16 +15,23 @@ protected:
 
 public:
     uint16_t y = 10;
+    const uint16_t *color;
 
     UI_Slider(uint16_t _y)
     {
+        UI_Slider(_y, &UI_THEME_BLUE[0]);
+    }
+
+    UI_Slider(uint16_t _y, const uint16_t *_color)
+    {
         y = _y;
+        color = _color;
     }
 
     void render()
     {
-        M5.Lcd.fillRoundRect(x, y, w, h, 7, UI_BLUE);
-        M5.Lcd.fillCircle(100, y + circleRadius, circleRadius, UI_GREEN);
+        M5.Lcd.fillRoundRect(x, y, w, h, 7, color[0]);
+        M5.Lcd.fillCircle(100, y + circleRadius, circleRadius, color[1]);
     }
 
     bool update(Event &e)
