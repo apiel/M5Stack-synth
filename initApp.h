@@ -42,6 +42,8 @@ void displayKeyboard(uint8_t y)
 void eventHandler(Event &e)
 {
     Serial.printf("%s %3d,%3d\n", e.typeName(), e.to.x, e.to.y);
+    bool isOn = false;
+    bool isOff = false;
     for (uint8_t k = 0; k < KEYS_COUNT; k++)
     {
         if (keys[k].update(e))
@@ -50,13 +52,18 @@ void eventHandler(Event &e)
             {
                 osc.frequency = NOTE_FREQ[keys[k].midiNote];
                 asr.on();
+                isOn = true;
             }
             else
             {
-                // this should be only if there is not another not on
-                // asr.off();
+                isOff = true;
             }
         }
+    }
+    if (isOff && !isOn)
+    {
+        // only if there is not another note on
+        asr.off();
     }
 }
 
@@ -71,7 +78,7 @@ void initApp()
     displayKeyboard(20);
 
     a2dp_source.start("Geo Speaker", get_data_channels);
-    asr.noSustain = true;
+    // asr.noSustain = true;
 
     // asr.on();
 }

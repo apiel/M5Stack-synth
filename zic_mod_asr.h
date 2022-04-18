@@ -16,8 +16,8 @@ class Zic_Mod_Asr
 {
 protected:
     uint8_t phase = ATTACK_PHASE;
-    uint16_t attackMs = 100;
-    uint16_t releaseMs = 800;
+    uint16_t attackMs = 10;
+    uint16_t releaseMs = 500;
 
     float attackStep;
     float releaseStep;
