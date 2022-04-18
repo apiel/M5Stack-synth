@@ -18,10 +18,10 @@ float *makeLut(void)
 
 float *lut = makeLut();
 
+// https://www.flipcode.com/archives/Fast_Trigonometry_Functions_Using_Lookup_Tables.shtml
 float fastSine(float n)
 {
-    float f = n * LUT_TABLE_SIZE / M_PI_2;
-    int i = round(f);
+    int i = n * LUT_TABLE_SIZE * 0.5 * M_1_PI; // M_1_PI = 1/M_PI
     if (i < 0)
     {
         return lut[(-((-i) & (LUT_TABLE_SIZE - 1))) + LUT_TABLE_SIZE];
