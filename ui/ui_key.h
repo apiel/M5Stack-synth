@@ -4,16 +4,11 @@
 #include <M5Core2.h>
 
 #include "ui_color.h"
+#include "ui_area.h"
 
-class UI_Key
+class UI_Key : protected UI_Area
 {
-protected:
-    const uint8_t w = 45;
-    const uint8_t h = 45;
-
 public:
-    uint16_t x = 0;
-    uint16_t y = 0;
     bool isOn = false;
     uint8_t midiNote = 60;
 
@@ -21,6 +16,8 @@ public:
     {
         x = _x;
         y = _y;
+        w = 45;
+        h = 45;
         midiNote = _midiNote;
     }
 
@@ -41,7 +38,7 @@ public:
     {
         if (e.type == E_TOUCH || e.type == E_MOVE || e.type == E_RELEASE)
         {
-            if (e.type != E_RELEASE && e.to.x > x && e.to.x < x + w && e.to.y > y && e.to.y < y + h)
+            if (e.type != E_RELEASE && inArea(e))
             {
                 if (!isOn)
                 {
