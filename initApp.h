@@ -10,8 +10,6 @@
 #include "ui/ui_key.h"
 #include "zic_mod_asr.h"
 
-#include "zic_fastTrigo.h"
-
 BluetoothA2DPSource a2dp_source;
 Zic_Osc osc;
 Zic_Mod_Asr asr;
@@ -75,12 +73,7 @@ void initApp()
     a2dp_source.start("Geo Speaker", get_data_channels);
     asr.noSustain = true;
 
-    asr.on();
-
-    Serial.printf("siiiiine %.6f %.6f\n", sin(45), fastSine(45));
-    Serial.printf("siiiiine %.6f %.6f\n", sin(90), fastSine(90));
-    Serial.printf("siiiiine %.6f %.6f\n", sin(180), fastSine(180));
-    Serial.printf("siiiiine %.6f %.6f\n", sin(500), fastSine(500));
+    // asr.on();
 }
 
 uint8_t count = 0;
