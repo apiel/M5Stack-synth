@@ -15,7 +15,7 @@ enum
 class Zic_Mod_Asr
 {
 protected:
-    uint8_t phase = ATTACK_PHASE;
+    uint8_t phase = END_PHASE;
     uint16_t attackMs = 10;
     uint16_t releaseMs = 500;
 
