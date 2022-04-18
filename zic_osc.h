@@ -4,9 +4,7 @@
 #include <math.h>
 #include <stdint.h>
 
-#ifndef PI
-#define PI 3.141592653589793238
-#endif
+#include "zic_fastTrigo.h"
 
 enum
 {
@@ -25,12 +23,13 @@ protected:
     float m_amplitude = 32767.0f;
     double m_time = 0.0;
     double m_deltaTime = 1.0 / 44100.0;
-    double double_Pi = PI * 2.0;
-    double half_Pi = PI * 0.5;
 
     double sine(float *freq)
     {
-        return sin(double_Pi * (*freq) * m_time + m_phase);
+        // This use too much ressources
+        // return sin(M_PI_2 * (*freq) * m_time + m_phase);
+
+        return fastSine(M_PI_2 * (*freq) * m_time + m_phase);
     }
 
     double square(float *freq)
@@ -100,7 +99,8 @@ public:
 
     float m_phase = 0.0f;
 
-    uint8_t oscType = OSC_TRIANGLE;
+    // uint8_t oscType = OSC_TRIANGLE;
+    uint8_t oscType = OSC_SINE;
 
     int16_t next()
     {

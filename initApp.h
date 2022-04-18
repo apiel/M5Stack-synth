@@ -10,6 +10,8 @@
 #include "ui/ui_key.h"
 #include "zic_mod_asr.h"
 
+#include "zic_fastTrigo.h"
+
 BluetoothA2DPSource a2dp_source;
 Zic_Osc osc;
 Zic_Mod_Asr asr;
@@ -74,6 +76,9 @@ void initApp()
     asr.noSustain = true;
 
     asr.on();
+
+    lut_init();
+    Serial.printf("siiiiine %.6f %.6f\n", sin(90), fastSine(90));
 }
 
 uint8_t count = 0;
