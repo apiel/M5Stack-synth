@@ -3,8 +3,7 @@
 
 #include <M5Core2.h>
 
-#define UI_BLUE M5.Lcd.color565(39, 69, 94)
-#define UI_GREEN M5.Lcd.color565(73, 219, 158)
+#include "ui_color.h"
 
 class UI_Key
 {

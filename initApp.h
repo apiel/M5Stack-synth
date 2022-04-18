@@ -8,11 +8,21 @@
 #include "zic_note.h"
 #include "zic_osc.h"
 #include "ui/ui_key.h"
+#include "ui/ui_color.h"
 #include "zic_mod_asr.h"
 
 BluetoothA2DPSource a2dp_source;
 Zic_Osc osc;
 Zic_Mod_Asr asr;
+
+enum
+{
+    MODE_KEYBOARD,
+    MODE_OSC,
+    MODE_COUNT
+};
+
+uint8_t mode = MODE_KEYBOARD;
 
 #define KEYS_COUNT 7 * 5
 UI_Key keys[KEYS_COUNT] = {
@@ -31,42 +41,65 @@ int32_t get_data_channels(Frame *frame, int32_t channel_len)
     return channel_len;
 }
 
-void displayKeyboard(uint8_t y)
+void displayKeyboard()
 {
+    M5.Lcd.fillScreen(UI_BACKGROUND);
     for (uint8_t k = 0; k < KEYS_COUNT; k++)
     {
         keys[k].render();
     }
 }
 
+void displayOsc()
+{
+    M5.Lcd.fillScreen(UI_BACKGROUND);
+    M5.Lcd.fillRoundRect(5, 10, 310, 20, 7, UI_BLUE);
+    M5.Lcd.fillCircle(100, 20, 10, UI_GREEN);
+}
+
 void eventHandler(Event &e)
 {
     // Serial.printf("%s %3d,%3d\n", e.typeName(), e.to.x, e.to.y);
 
-    // TODO might need to find a better way, cause note on doesn't last
-    // either fix ASR or find better UI handler 
-    bool isOn = false;
-    bool isOff = false;
-    for (uint8_t k = 0; k < KEYS_COUNT; k++)
+    if (mode == MODE_KEYBOARD)
     {
-        if (keys[k].update(e))
+        // TODO might need to find a better way, cause note on doesn't last
+        // either fix ASR or find better UI handler
+        bool isOn = false;
+        bool isOff = false;
+        for (uint8_t k = 0; k < KEYS_COUNT; k++)
         {
-            if (keys[k].isOn)
+            if (keys[k].update(e))
             {
-                osc.frequency = NOTE_FREQ[keys[k].midiNote];
-                asr.on();
-                isOn = true;
-            }
-            else
-            {
-                isOff = true;
+                if (keys[k].isOn)
+                {
+                    osc.frequency = NOTE_FREQ[keys[k].midiNote];
+                    asr.on();
+                    isOn = true;
+                }
+                else
+                {
+                    isOff = true;
+                }
             }
         }
+        if (isOff && !isOn)
+        {
+            // only if there is not another note on
+            asr.off();
+        }
     }
-    if (isOff && !isOn)
+}
+
+void render()
+{
+    if (mode == MODE_OSC)
     {
-        // only if there is not another note on
-        asr.off();
+        displayOsc();
+    }
+    else
+    {
+        displayKeyboard();
     }
 }
 
@@ -76,9 +109,8 @@ void initApp()
     Serial.println("Zic zic");
 
     M5.begin();
-    M5.Lcd.fillScreen(BLACK);
     M5.background.addHandler(eventHandler, E_ALL);
-    displayKeyboard(20);
+    render();
 
     a2dp_source.start("Geo Speaker", get_data_channels);
 }
@@ -86,6 +118,19 @@ void initApp()
 void loopApp()
 {
     M5.update();
+    // TODO might want to have a screen to select mode
+    // long press display screen selector and select mode with dual touch
+    // or should it be a short press bringing to mode screen?
+    // ...
+    // what the point to do dual touch, as it will be anyway pressing screen twice
+    // once on screen mode selector, short press could also do something (go back) 
+    // as db press could do (toggle to prev screen)
+    // as long press could do (?)
+    if (M5.BtnA.wasPressed())
+    {
+        mode = (mode + 1) % MODE_COUNT;
+        render();
+    }
 }
 
 #endif
