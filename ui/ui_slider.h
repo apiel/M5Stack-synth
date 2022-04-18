@@ -4,18 +4,15 @@
 #include <M5Core2.h>
 
 #include "ui_color.h"
+#include "ui_area.h"
 
-class UI_Slider
+class UI_Slider : protected UI_Area
 {
 protected:
-    const uint16_t w = 300;
-    const uint8_t h = 20;
-    const uint8_t x = 10;
-    const uint8_t circleRadius = h * 0.5;
+    const uint8_t circleRadius = 10;
     const char *name = NULL;
 
 public:
-    uint16_t y = 10;
     const uint16_t *color;
     float value = 0.5f;
 
@@ -32,7 +29,10 @@ public:
     UI_Slider(uint16_t _y, const uint16_t *_color, const char *_name)
     {
         name = _name;
+        x = 10;
         y = _y;
+        w = 300;
+        h = circleRadius * 2;
         color = _color;
     }
 
@@ -53,7 +53,7 @@ public:
     {
         // INFO might want to keep to respont to E_MOVE only if started to move slider in bar?
         // but in another way it's nice feature of be able to move just by passing over
-        if ((e.type == E_TOUCH || e.type == E_MOVE) && e.to.x > x && e.to.x < x + w && e.to.y > y && e.to.y < y + h)
+        if ((e.type == E_TOUCH || e.type == E_MOVE) && inArea(e))
         {
             value = constrain((e.to.x - x - circleRadius) / (float)(w - circleRadius * 2), 0.0f, 1.0f);
             Serial.println(value);
