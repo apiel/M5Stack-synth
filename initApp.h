@@ -31,11 +31,11 @@ UI_Key keys[KEYS_COUNT] = {
 
 UI_Slider oscSliders[OSC_COUNT] = {
     // {10}, {55}, {100}, {145}, {190}};
-    {10, &UI_THEME_BLUE[0]},
-    {55, &UI_THEME_PURPLE[0]},
-    {100, &UI_THEME_GREEN[0]},
-    {145, &UI_THEME_RED[0]},
-    {190, &UI_THEME_ORANGE[0]}};
+    {10, &UI_THEME_BLUE[0], getOscName(OSC_SINE)},
+    {55, &UI_THEME_PURPLE[0], getOscName(OSC_SQUARE)},
+    {100, &UI_THEME_GREEN[0], getOscName(OSC_TRIANGLE)},
+    {145, &UI_THEME_RED[0], getOscName(OSC_SAW)},
+    {190, &UI_THEME_ORANGE[0], getOscName(OSC_NOIZE)}};
 
 int32_t get_data_channels(Frame *frame, int32_t channel_len)
 {

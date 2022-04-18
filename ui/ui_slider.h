@@ -12,6 +12,7 @@ protected:
     const uint8_t h = 20;
     const uint8_t x = 5;
     const uint8_t circleRadius = h * 0.5;
+    const char *name = NULL;
 
 public:
     uint16_t y = 10;
@@ -24,6 +25,12 @@ public:
 
     UI_Slider(uint16_t _y, const uint16_t *_color)
     {
+        UI_Slider(_y, _color, NULL);
+    }
+
+    UI_Slider(uint16_t _y, const uint16_t *_color, const char *_name)
+    {
+        name = _name;
         y = _y;
         color = _color;
     }
@@ -32,6 +39,13 @@ public:
     {
         M5.Lcd.fillRoundRect(x, y, w, h, 7, color[0]);
         M5.Lcd.fillCircle(100, y + circleRadius, circleRadius, color[1]);
+
+        if (name)
+        {
+            M5.Lcd.setCursor(w - 50, y + 3);
+            M5.Lcd.setTextColor(color[1], color[0]);
+            M5.Lcd.println(name);
+        }
     }
 
     bool update(Event &e)

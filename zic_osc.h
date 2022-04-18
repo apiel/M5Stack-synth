@@ -16,6 +16,24 @@ enum
     OSC_COUNT
 };
 
+const char *getOscName(uint8_t _oscType)
+{
+    switch (_oscType)
+    {
+    case OSC_SINE:
+        return "Sine";
+    case OSC_SQUARE:
+        return "Square";
+    case OSC_TRIANGLE:
+        return "Triangle";
+    case OSC_SAW:
+        return "Saw";
+    case OSC_NOIZE:
+        return "Noize";
+    }
+    return "Unknown";
+}
+
 // https://github.com/audiowaves/simpleWavesGenerator
 // https://olehc.medium.com/basic-sound-waves-with-c-and-juce-50ec9f0bfe5c
 class Zic_Osc
