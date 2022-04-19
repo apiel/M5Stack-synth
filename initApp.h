@@ -12,6 +12,8 @@
 #include "ui/ui_color.h"
 #include "ui/ui_slider.h"
 
+// #include "zic/zic_fastTrigo.h"
+
 BluetoothA2DPSource a2dp_source;
 Zic_Wave_Osc osc;
 Zic_Mod_Asr asr;
@@ -133,6 +135,10 @@ void initApp()
     render();
 
     a2dp_source.start("Geo Speaker", get_data_channels);
+
+    // for(int i=0; i < 255; i++) {
+    //     Serial.printf("%.6f, ",lut[i]);
+    // }
 }
 
 void loopApp()

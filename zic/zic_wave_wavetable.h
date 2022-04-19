@@ -3,13 +3,19 @@
 
 #include "zic_wave_base.h"
 
-class Zic_Wave_Wavetable: public Zic_Wave_Base
+#define WAVETABLE_SIZE 2048
+
+class Zic_Wave_Wavetable : public Zic_Wave_Base
 {
 protected:
     double sample(float *freq)
     {
-        return fastSine(M_PI_2 * (*freq) * m_time + m_phase);
+        int i = (M_PI * (*freq) * time + phase) * WAVETABLE_SIZE;
+        return table[i & (WAVETABLE_SIZE - 1)];
     }
+
+public:
+    float *table;
 };
 
 #endif
