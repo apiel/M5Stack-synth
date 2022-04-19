@@ -1,10 +1,11 @@
-#ifndef ZIC_OSC_H_
-#define ZIC_OSC_H_
+#ifndef ZIC_WAVE_OSC_H_
+#define ZIC_WAVE_OSC_H_
 
 #include <math.h>
 #include <stdint.h>
 
 #include "zic_fastTrigo.h"
+#include "zic_wave_base.h"
 
 enum
 {
@@ -36,33 +37,29 @@ const char *getOscName(uint8_t _oscType)
 
 // https://github.com/audiowaves/simpleWavesGenerator
 // https://olehc.medium.com/basic-sound-waves-with-c-and-juce-50ec9f0bfe5c
-class Zic_Osc
+class Zic_Wave_Osc: public Zic_Wave_Base
 {
 protected:
-    float m_amplitude = 32767.0f;
-    double m_time = 0.0;
-    double m_deltaTime = 1.0 / 44100.0;
-
     double sine(float *freq)
     {
         // This use too much ressources
-        // return sin(M_PI_2 * (*freq) * m_time + m_phase);
+        // return sin(M_PI_2 * (*freq) * time + phase);
 
-        return fastSine(M_PI_2 * (*freq) * m_time + m_phase);
+        return fastSine(M_PI_2 * (*freq) * time + phase);
     }
 
     double square(float *freq)
     {
         double fullPeriodTime = 1.0 / (*freq);
         double halfPeriodTime = fullPeriodTime * 0.5;
-        double localTime = fmod(m_time, fullPeriodTime);
+        double localTime = fmod(time, fullPeriodTime);
         return localTime < halfPeriodTime ? 1 : -1;
     }
 
     double triangle(float *freq)
     {
         double fullPeriodTime = 1.0 / (*freq);
-        double localTime = fmod(m_time, fullPeriodTime);
+        double localTime = fmod(time, fullPeriodTime);
 
         double value = localTime / fullPeriodTime;
 
@@ -80,7 +77,7 @@ protected:
     double saw(float *freq)
     {
         double fullPeriodTime = 1.0 / (*freq);
-        double localTime = fmod(m_time, fullPeriodTime);
+        double localTime = fmod(time, fullPeriodTime);
 
         return ((localTime / fullPeriodTime) * 2 - 1.0);
     }
@@ -109,27 +106,8 @@ protected:
     }
 
 public:
-    float frequency = 103.82617439443122f; // C3
-    float amplitude = 0.1f;
-    float amplitudeMod = 1.0f;
-
-    float pitch = 1.0f;
-    float pitchMod = 1.0f;
-
-    float m_phase = 0.0f;
-
     // uint8_t oscType = OSC_TRIANGLE;
     uint8_t oscType = OSC_SINE;
-
-    int16_t next()
-    {
-        float freq = frequency * pitch * pitchMod;
-        float amp = amplitudeMod * amplitude * m_amplitude;
-
-        m_time += m_deltaTime;
-
-        return amp * sample(&freq);
-    }
 };
 
 #endif

@@ -5,15 +5,15 @@
 #include <math.h>
 #include <M5Core2.h>
 
-#include "zic_note.h"
-#include "zic_osc.h"
+#include "zic/zic_note.h"
+#include "zic/zic_mod_asr.h"
+#include "zic/zic_wave_osc.h"
 #include "ui/ui_key.h"
 #include "ui/ui_color.h"
 #include "ui/ui_slider.h"
-#include "zic_mod_asr.h"
 
 BluetoothA2DPSource a2dp_source;
-Zic_Osc osc;
+Zic_Wave_Osc osc;
 Zic_Mod_Asr asr;
 
 enum
