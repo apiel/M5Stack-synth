@@ -6,7 +6,7 @@ function main() {
         if(i < WAVETABLE_SIZE / 2) {
             table.push(1);
         } else {
-            table.push(0);
+            table.push(-1);
         }
     }
     save(table, 'square');

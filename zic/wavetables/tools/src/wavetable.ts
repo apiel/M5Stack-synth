@@ -9,7 +9,7 @@ export function save(table: number[], name: string) {
 #define WAVETABLE_${name.toUpperCase()}_H_
 
 float wavetable${capName}[${WAVETABLE_SIZE}] = {${table
-        .map((val) => (val == 0 || val == 1 ? `${val}.0f` : `${val}f`))
+        .map((val) => (val === 0 || val === 1 || val === -1 ? `${val}.0f` : `${val}f`))
         .join(', ')},};
 
 #endif
