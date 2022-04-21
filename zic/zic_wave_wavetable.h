@@ -2,6 +2,7 @@
 #define ZIC_WAVE_WAVETABLE_H_
 
 #include "zic_wave_base.h"
+#include "wavetables/wavetable_sine.h"
 
 #define WAVETABLE_SIZE 2048
 
@@ -15,7 +16,7 @@ protected:
     }
 
 public:
-    float *table;
+    float *table = &wavetableSine[0];
 };
 
 #endif

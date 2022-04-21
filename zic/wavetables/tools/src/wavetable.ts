@@ -7,7 +7,7 @@ export function save(table: number[] | string[], name: string) {
 #ifndef WAVETABLE_${name.toUpperCase()}_H_
 #define WAVETABLE_${name.toUpperCase()}_H_
 
-float wavetableSine[${WAVETABLE_SIZE}] = {${table.join('f, ')}};
+float wavetableSine[${WAVETABLE_SIZE}] = {${table.join('f, ')}f,};
 
 #endif
 `;

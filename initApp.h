@@ -7,7 +7,10 @@
 
 #include "zic/zic_note.h"
 #include "zic/zic_mod_asr.h"
+
 #include "zic/zic_wave_osc.h"
+#include "zic/zic_wave_wavetable.h"
+
 #include "ui/ui_key.h"
 #include "ui/ui_color.h"
 #include "ui/ui_slider.h"
@@ -15,7 +18,8 @@
 #include "zic/zic_fastTrigo.h"
 
 BluetoothA2DPSource a2dp_source;
-Zic_Wave_Osc osc;
+// Zic_Wave_Osc wave;
+Zic_Wave_Wavetable wave;
 Zic_Mod_Asr asr;
 
 enum
@@ -43,9 +47,8 @@ int32_t get_data_channels(Frame *frame, int32_t channel_len)
 {
     for (int sample = 0; sample < channel_len; ++sample)
     {
-        osc.amplitudeMod = asr.next();
-
-        frame[sample].channel1 = osc.next();
+        wave.amplitudeMod = asr.next();
+        frame[sample].channel1 = wave.next();
         frame[sample].channel2 = frame[sample].channel1;
     }
 
@@ -88,7 +91,7 @@ void eventHandler(Event &e)
             {
                 if (keys[k].isOn)
                 {
-                    osc.frequency = NOTE_FREQ[keys[k].midiNote];
+                    wave.frequency = NOTE_FREQ[keys[k].midiNote];
                     asr.on();
                     isOn = true;
                 }
