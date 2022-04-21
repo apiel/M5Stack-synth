@@ -12,8 +12,10 @@ class Zic_Wave_DoubleWavetable : public Zic_Wave_Base
 protected:
     double sample(float *freq)
     {
-        int i = (M_PI * (*freq) * time + phase) * WAVETABLE_SIZE;
-        return table1[i & (WAVETABLE_SIZE - 1)] * crossfader + table2[i & (WAVETABLE_SIZE - 1)] * (1.0f - crossfader);
+        float pos = M_PI * time;
+        int i1 = pos * (*freq) * WAVETABLE_SIZE;
+        int i2 = (pos * (*freq + detune) + phase) * WAVETABLE_SIZE;
+        return table1[i1 & (WAVETABLE_SIZE - 1)] * crossfader + table2[i2 & (WAVETABLE_SIZE - 1)] * (1.0f - crossfader);
         // return table1[i & (WAVETABLE_SIZE - 1)] * table2[i & (WAVETABLE_SIZE - 1)];
     }
 
@@ -21,6 +23,7 @@ public:
     float *table1 = &wavetableSine[0];
     float *table2 = &wavetableSquare[0];
     float crossfader = 0.5f; // should be between 0.0 and 1.0
+    float detune = 0.0f;
 };
 
 #endif

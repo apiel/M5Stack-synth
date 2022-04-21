@@ -6,6 +6,7 @@
 #include "ui_color.h"
 #include "ui_area.h"
 
+// TODO option of sticky slider to middle or given position(s)
 class UI_Slider : protected UI_Area
 {
 protected:
