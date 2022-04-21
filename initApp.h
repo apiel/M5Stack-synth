@@ -10,6 +10,7 @@
 
 #include "zic/zic_wave_osc.h"
 #include "zic/zic_wave_wavetable.h"
+#include "zic/zic_wave_doubleWavetable.h"
 
 #include "ui/ui_key.h"
 #include "ui/ui_color.h"
@@ -19,7 +20,8 @@
 
 BluetoothA2DPSource a2dp_source;
 // Zic_Wave_Osc wave;
-Zic_Wave_Wavetable wave;
+// Zic_Wave_Wavetable wave;
+Zic_Wave_DoubleWavetable wave;
 Zic_Mod_Asr asr;
 
 enum
