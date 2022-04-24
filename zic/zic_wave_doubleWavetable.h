@@ -5,18 +5,15 @@
 #include "wavetables/wavetable_sine.h"
 #include "wavetables/wavetable_square.h"
 
-#define WAVETABLE_SIZE 2048
-
 class Zic_Wave_DoubleWavetable : public Zic_Wave_Base
 {
 protected:
     double sample(float *freq)
     {
         float pos = M_PI * time;
-        int i1 = pos * (*freq) * WAVETABLE_SIZE;
-        int i2 = (pos * (*freq + detune) + phase) * WAVETABLE_SIZE;
-        return table1[i1 & (WAVETABLE_SIZE - 1)] * crossfader + table2[i2 & (WAVETABLE_SIZE - 1)] * (1.0f - crossfader);
-        // return table1[i & (WAVETABLE_SIZE - 1)] * table2[i & (WAVETABLE_SIZE - 1)];
+        int i1 = pos * (*freq) * size;
+        int i2 = (pos * (*freq + detune) + phase) * size;
+        return table1[i1 & (size - 1)] * crossfader + table2[i2 & (size - 1)] * (1.0f - crossfader);
     }
 
 public:
@@ -24,6 +21,7 @@ public:
     float *table2 = &wavetableSquare[0];
     float crossfader = 0.5f; // should be between 0.0 and 1.0
     float detune = 0.0f;
+    uint16_t size = 2048;
 };
 
 #endif

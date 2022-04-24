@@ -11,6 +11,7 @@
 #include "zic/zic_wave_osc.h"
 #include "zic/zic_wave_wavetable.h"
 #include "zic/zic_wave_doubleWavetable.h"
+#include "zic/zic_wave_SDwavetableBank.h"
 
 #include "ui/ui_key.h"
 #include "ui/ui_color.h"
@@ -21,7 +22,7 @@
 BluetoothA2DPSource a2dp_source;
 // Zic_Wave_Osc wave;
 // Zic_Wave_Wavetable wave;
-Zic_Wave_DoubleWavetable wave;
+Zic_Wave_SDWavetableBank wave;
 Zic_Mod_Asr asr;
 
 enum
@@ -120,9 +121,11 @@ void eventHandler(Event &e)
     {
         for (uint8_t k = 0; k < OSC_SLIDER_COUNT; k++)
         {
-            if (oscSliders[k].update(e)) {
-                if (k == OSC_SLIDER_CROSSFADER) {
-                    wave.crossfader = oscSliders[k].value;
+            if (oscSliders[k].update(e))
+            {
+                if (k == OSC_SLIDER_CROSSFADER)
+                {
+                    // wave.crossfader = oscSliders[k].value;
                 }
             }
         }
@@ -147,15 +150,20 @@ void initApp()
     Serial.println("Zic zic");
 
     M5.begin();
+    SD.begin();
+
+    uint8_t ret = wave.load("/01.wav");
+     Serial.printf("Load file res %d\n", ret);
+
     M5.background.addHandler(eventHandler, E_ALL);
     render();
 
     a2dp_source.start("Geo Speaker", get_data_channels);
 
-    for (int i = 0; i < 255; i++)
-    {
-        Serial.printf("%.9f, ", lut[i]);
-    }
+    // for (int i = 0; i < 255; i++)
+    // {
+    //     Serial.printf("%.9f, ", lut[i]);
+    // }
 }
 
 void loopApp()

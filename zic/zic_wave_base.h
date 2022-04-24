@@ -1,12 +1,14 @@
 #ifndef ZIC_WAVE_BASE_H_
 #define ZIC_WAVE_BASE_H_
 
+#define SAMPLE_RATE 44100.0
+
 class Zic_Wave_Base
 {
 protected:
     float amplitudePeak = 32767.0f;
     double time = 0.0;
-    double deltaTime = 1.0 / 44100.0;
+    double deltaTime = 1.0 / SAMPLE_RATE;
 
     virtual double sample(float *freq);
 

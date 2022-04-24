@@ -1,0 +1,12 @@
+#ifndef ZIC_ERROR_H_
+#define ZIC_ERROR_H_
+
+enum
+{
+    SUCCESS,
+    ERROR_FAIL_OPEN_FILE,
+    ERROR_UNKNOWN_FORMAT,
+    ERROR_INVALID_CHANNEL_NUM
+};
+
+#endif

@@ -4,19 +4,18 @@
 #include "zic_wave_base.h"
 #include "wavetables/wavetable_sine.h"
 
-#define WAVETABLE_SIZE 2048
-
 class Zic_Wave_Wavetable : public Zic_Wave_Base
 {
 protected:
     double sample(float *freq)
     {
-        int i = (M_PI * (*freq) * time + phase) * WAVETABLE_SIZE;
-        return table[i & (WAVETABLE_SIZE - 1)];
+        int i = (M_PI * (*freq) * time + phase) * size;
+        return table[i & (size - 1)];
     }
 
 public:
     float *table = &wavetableSine[0];
+    uint16_t size = 2048;
 };
 
 #endif
