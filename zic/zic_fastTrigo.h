@@ -31,6 +31,14 @@ float fastSine(float x)
     return lut[i & (LUT_TABLE_SIZE - 1)];
 }
 
+float fastCos(float x)
+{
+    // return sqrt(1 - fastSine(x)^2);
+    float s = fastSine(x);
+    return sqrt(1 - s * s);
+    // return fastSine(90 - x);
+}
+
 // float fastSine(float x)
 // {
 //     int i = x * LUT_TABLE_SIZE * 0.5 * M_1_PI; // M_1_PI = 1/M_PI

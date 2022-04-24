@@ -34,7 +34,8 @@
         "streambuf": "cpp",
         "tmp": "c",
         "cmath": "cpp",
-        "*.tpp": "cpp"
+        "*.tpp": "cpp",
+        "complex": "cpp"
     },
     "emeraldwalk.runonsave": {
         "commands": [

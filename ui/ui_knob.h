@@ -6,6 +6,7 @@
 
 #include "ui_color.h"
 #include "ui_area.h"
+#include "../zic/zic_fastTrigo.h"
 
 class UI_Knob
 {
@@ -16,6 +17,9 @@ protected:
     uint16_t centerY = 0;
     UI_Area area;
 
+    uint16_t centerXpoint = 0;
+    uint16_t centerYpoint = 0;
+
     void calc(Event &e)
     {
         int8_t _x = (e.to.x - area.x) - (area.w * 0.5);
@@ -24,9 +28,18 @@ protected:
         // https://stackoverflow.com/questions/54280085/calculate-degrees-of-angle-using-x-y-coordinates
         value = (int16_t)((atan2(_y, _x) * 180.0f / M_PI) + 360 + 90) % 360;
 
-        M5.Lcd.fillRect(area.x + 5, area.y + 5, 180, 100, UI_BACKGROUND);
-        M5.Lcd.setCursor(area.x + 10, area.y + 10);
-        M5.Lcd.printf("%d x %d -> %d", _x, _y, value);
+        // M5.Lcd.fillRect(area.x + 5, area.y + 5, 180, 100, UI_BACKGROUND);
+        // M5.Lcd.setCursor(area.x + 10, area.y + 10);
+        // M5.Lcd.printf("%d x %d -> %d", _x, _y, value);
+
+        M5.Lcd.fillCircle(centerXpoint, centerYpoint, 3, UI_THEME_BLUE[0]);
+        float radians = M_PI_2 * (float)value / 360.0f;
+        uint8_t r2 = r - 10;
+        // centerXpoint = r2 * fastCos(radians) + area.x + r;
+        // centerYpoint = r2 * fastSine(radians) + area.y + r;
+        centerXpoint = r2 * cos(radians) + area.x + r;
+        centerYpoint = r2 * sin(radians) + area.y + r;
+        M5.Lcd.fillCircle(centerXpoint, centerYpoint, 3, UI_THEME_BLUE[1]);
     }
 
 public:
@@ -42,8 +55,9 @@ public:
 
     void render()
     {
-        M5.Lcd.drawRect(area.x, area.y, area.w, area.h, UI_THEME_BLUE[0]);
+        // M5.Lcd.drawRect(area.x, area.y, area.w, area.h, UI_THEME_BLUE[0]);
         M5.Lcd.fillCircle(centerX, centerY, r, UI_THEME_BLUE[0]);
+        M5.Lcd.drawCircle(centerX, centerY, r, UI_THEME_BLUE[1]);
     }
 
     bool update(Event &e)
