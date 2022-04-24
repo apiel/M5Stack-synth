@@ -16,6 +16,7 @@
 #include "ui/ui_key.h"
 #include "ui/ui_color.h"
 #include "ui/ui_slider.h"
+#include "ui/ui_knob.h"
 
 #include "zic/zic_fastTrigo.h"
 
@@ -53,6 +54,8 @@ UI_Slider oscSliders[OSC_SLIDER_COUNT] = {
     // {190, &UI_THEME_ORANGE[0], getOscName(OSC_NOIZE)},
 };
 
+UI_Knob knob(10, 10);
+
 int32_t get_data_channels(Frame *frame, int32_t channel_len)
 {
     for (int sample = 0; sample < channel_len; ++sample)
@@ -77,12 +80,11 @@ void displayKeyboard()
 void displayOsc()
 {
     M5.Lcd.fillScreen(UI_BACKGROUND);
-    // M5.Lcd.fillRoundRect(5, 10, 310, 20, 7, UI_BLUE);
-    // M5.Lcd.fillCircle(100, 20, 10, UI_GREEN);
-    for (uint8_t k = 0; k < OSC_SLIDER_COUNT; k++)
-    {
-        oscSliders[k].render();
-    }
+    // for (uint8_t k = 0; k < OSC_SLIDER_COUNT; k++)
+    // {
+    //     oscSliders[k].render();
+    // }
+    knob.render();
 }
 
 void eventHandler(Event &e)
@@ -119,16 +121,17 @@ void eventHandler(Event &e)
     }
     else if (mode == MODE_OSC)
     {
-        for (uint8_t k = 0; k < OSC_SLIDER_COUNT; k++)
-        {
-            if (oscSliders[k].update(e))
-            {
-                if (k == OSC_SLIDER_CROSSFADER)
-                {
-                    // wave.crossfader = oscSliders[k].value;
-                }
-            }
-        }
+        // for (uint8_t k = 0; k < OSC_SLIDER_COUNT; k++)
+        // {
+        //     if (oscSliders[k].update(e))
+        //     {
+        //         if (k == OSC_SLIDER_CROSSFADER)
+        //         {
+        //             // wave.crossfader = oscSliders[k].value;
+        //         }
+        //     }
+        // }
+        knob.update(e);
     }
 }
 
@@ -152,8 +155,8 @@ void initApp()
     M5.begin();
     SD.begin();
 
-    M5.Lcd.println("Load wavetable bank...");
-    uint8_t ret = wave.load("/01.wav");
+    // M5.Lcd.println("Load wavetable bank...");
+    // uint8_t ret = wave.load("/01.wav");
 
     M5.background.addHandler(eventHandler, E_ALL);
     render();
