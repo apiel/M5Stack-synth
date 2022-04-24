@@ -7,11 +7,12 @@
 #include "ui_area.h"
 
 // TODO option of sticky slider to middle or given position(s)
-class UI_Slider : protected UI_Area
+class UI_Slider
 {
 protected:
     const uint8_t circleRadius = 10;
     const char *name = NULL;
+    UI_Area area;
 
 public:
     const uint16_t *color;
@@ -30,21 +31,18 @@ public:
     UI_Slider(uint16_t _y, const uint16_t *_color, const char *_name)
     {
         name = _name;
-        x = 10;
-        y = _y;
-        w = 300;
-        h = circleRadius * 2;
+        area.set(10, _y, 300, circleRadius * 2);
         color = _color;
     }
 
     void render()
     {
-        M5.Lcd.fillRoundRect(x, y, w, h, 7, color[0]);
-        M5.Lcd.fillCircle(value * (w - circleRadius * 2) + (x + circleRadius), y + circleRadius, circleRadius - 1, color[1]);
+        M5.Lcd.fillRoundRect(area.x, area.y, area.w, area.h, 7, color[0]);
+        M5.Lcd.fillCircle(value * (area.w - circleRadius * 2) + (area.x + circleRadius), area.y + circleRadius, circleRadius - 1, color[1]);
 
         if (name)
         {
-            M5.Lcd.setCursor(w - 50, y + 3);
+            M5.Lcd.setCursor(area.w - 50, area.y + 3);
             M5.Lcd.setTextColor(color[1], color[0]);
             M5.Lcd.println(name);
         }
@@ -54,9 +52,9 @@ public:
     {
         // INFO might want to keep to respont to E_MOVE only if started to move slider in bar?
         // but in another way it's nice feature of be able to move just by passing over
-        if ((e.type == E_TOUCH || e.type == E_MOVE) && inArea(e))
+        if ((e.type == E_TOUCH || e.type == E_MOVE) && area.in(e))
         {
-            value = constrain((e.to.x - x - circleRadius) / (float)(w - circleRadius * 2), 0.0f, 1.0f);
+            value = constrain((e.to.x - area.x - circleRadius) / (float)(area.w - circleRadius * 2), 0.0f, 1.0f);
             Serial.println(value);
             render();
             return true;

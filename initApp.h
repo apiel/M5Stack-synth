@@ -54,7 +54,7 @@ UI_Slider oscSliders[OSC_SLIDER_COUNT] = {
     // {190, &UI_THEME_ORANGE[0], getOscName(OSC_NOIZE)},
 };
 
-UI_Knob knob(10, 10);
+UI_Knob knob(160, 120, 100);
 
 int32_t get_data_channels(Frame *frame, int32_t channel_len)
 {
