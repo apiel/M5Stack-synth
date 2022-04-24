@@ -40,12 +40,12 @@ protected:
 
     double sample(float *freq)
     {
-        int i = (M_PI * (*freq) * time + phase) * SD_WAVETABLE_SIZE;
-        return table[i & (SD_WAVETABLE_SIZE - 1)];
+        int i = (M_PI * (*freq) * time) * SD_WAVETABLE_SIZE;
+        return table[(i + pos) & (SD_WAVETABLE_SIZE - 1)];
     }
 
 public:
-    uint32_t pos = 0;
+    uint16_t pos = 0;
 
     uint8_t load(const char *filename)
     {
@@ -92,11 +92,11 @@ public:
             table[pos] = (float)bit / INT16_MAX;
             pos++;
         }
-        Serial.printf("Len %d\n", pos);
-        for (int i = 0; i < 255; i++)
-        {
-            Serial.printf("%.9f, ", table[i]);
-        }
+        // Serial.printf("Len %d\n", pos);
+        // for (int i = 0; i < 255; i++)
+        // {
+        //     Serial.printf("%.9f, ", table[i]);
+        // }
 
         pos = 0;
 

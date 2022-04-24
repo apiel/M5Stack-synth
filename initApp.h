@@ -152,8 +152,8 @@ void initApp()
     M5.begin();
     SD.begin();
 
+    M5.Lcd.println("Load wavetable bank...");
     uint8_t ret = wave.load("/01.wav");
-     Serial.printf("Load file res %d\n", ret);
 
     M5.background.addHandler(eventHandler, E_ALL);
     render();
