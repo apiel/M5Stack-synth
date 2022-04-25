@@ -1,17 +1,17 @@
-#ifndef UI_CIRCLE_H_
-#define UI_CIRCLE_H_
+#ifndef UI_AREA_CIRCLE_H_
+#define UI_AREA_CIRCLE_H_
 
 #include <M5Core2.h>
 
-class UI_Circle
+class UI_Area_Circle
 {
 public:
     uint8_t radius = 0;
     uint16_t x = 0;
     uint16_t y = 0;
 
-    UI_Circle() {}
-    UI_Circle(uint16_t _x, uint16_t _y, uint8_t _r)
+    UI_Area_Circle() {}
+    UI_Area_Circle(uint16_t _x, uint16_t _y, uint8_t _r)
     {
         set(_x, _y, _r);
     }

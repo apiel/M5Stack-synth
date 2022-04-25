@@ -4,7 +4,7 @@
 #include <M5Core2.h>
 
 #include "ui_color.h"
-#include "ui_area.h"
+#include "ui_area_rect.h"
 
 // TODO option of sticky slider to middle or given position(s)
 class UI_Slider
@@ -12,7 +12,7 @@ class UI_Slider
 protected:
     const uint8_t circleRadius = 10;
     const char *name = NULL;
-    UI_Area area;
+    UI_Area_Rect area;
 
 public:
     const uint16_t *color;
@@ -28,10 +28,9 @@ public:
         UI_Slider(_y, _color, NULL);
     }
 
-    UI_Slider(uint16_t _y, const uint16_t *_color, const char *_name)
+    UI_Slider(uint16_t _y, const uint16_t *_color, const char *_name) : area(10, _y, 300, circleRadius * 2)
     {
         name = _name;
-        area.set(10, _y, 300, circleRadius * 2);
         color = _color;
     }
 

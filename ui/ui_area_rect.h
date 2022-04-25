@@ -3,7 +3,7 @@
 
 #include <M5Core2.h>
 
-class UI_Area
+class UI_Area_Rect
 {
 public:
     uint16_t x = 0;
@@ -11,8 +11,8 @@ public:
     uint16_t w = 0;
     uint16_t h = 0;
 
-    UI_Area() {}
-    UI_Area(uint16_t _x, uint16_t _y, uint16_t _w, uint16_t _h)
+    UI_Area_Rect() {}
+    UI_Area_Rect(uint16_t _x, uint16_t _y, uint16_t _w, uint16_t _h)
     {
         set(_x, _y, _w, _h);
     }

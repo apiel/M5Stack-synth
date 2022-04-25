@@ -5,14 +5,14 @@
 #include <math.h>
 
 #include "ui_color.h"
-#include "ui_circle.h"
+#include "ui_area_circle.h"
 #include "../fastTrigo.h"
 
 class UI_Knob
 {
 protected:
     bool active = false;
-    UI_Circle circle;
+    UI_Area_Circle circle;
 
     uint16_t centerXpoint = 0;
     uint16_t centerYpoint = 0;
