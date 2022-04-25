@@ -24,11 +24,11 @@ public:
         M5.Lcd.fillRoundRect(area.x, area.y, area.w, area.h, 15, UI_THEME_BLUE[0]);
         if (isOn)
         {
-            M5.Lcd.fillCircle(area.x + area.w * 0.70, area.y + area.h * 0.5, area.h * 0.5 - 3, UI_THEME_BLUE[1]);
+            M5.Lcd.fillCircle(area.x + area.w * 0.72, area.y + area.h * 0.5, area.h * 0.5 - 3, UI_THEME_BLUE[1]);
         }
         else
         {
-            M5.Lcd.fillCircle(area.x + area.w * 0.30, area.y + area.h * 0.5, area.h * 0.5 - 3, UI_BACKGROUND);
+            M5.Lcd.fillCircle(area.x + area.w * 0.28, area.y + area.h * 0.5, area.h * 0.5 - 3, UI_BACKGROUND);
         }
     }
 
