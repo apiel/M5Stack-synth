@@ -37,7 +37,10 @@ protected:
 
     void renderKnobValue()
     {
-        M5.Lcd.fillCircle(centerXpoint, centerYpoint, 3, UI_THEME_BLUE[0]);
+        if (centerXpoint) {
+            M5.Lcd.fillCircle(centerXpoint, centerYpoint, 3, UI_THEME_BLUE[0]);
+        }
+        
         float radians = M_PI * 2 * (float)value / 360.0f;
         uint8_t r2 = r - 10;
         // centerXpoint = r2 * fastCos(radians) + area.x + r;
