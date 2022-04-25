@@ -26,12 +26,17 @@ protected:
         int8_t _y = (e.to.y - area.y) - (area.h * 0.5);
 
         // https://stackoverflow.com/questions/54280085/calculate-degrees-of-angle-using-x-y-coordinates
-        value = (int16_t)((atan2(_y, _x) * 180.0f / M_PI) + 360 + 90) % 360;
+        value = (int16_t)((atan2(_y, _x) * 180.0f / M_PI) + 360) % 360;
 
         // M5.Lcd.fillRect(area.x + 5, area.y + 5, 180, 100, UI_BACKGROUND);
         // M5.Lcd.setCursor(area.x + 10, area.y + 10);
         // M5.Lcd.printf("%d x %d -> %d", _x, _y, value);
 
+        renderKnobValue();
+    }
+
+    void renderKnobValue()
+    {
         M5.Lcd.fillCircle(centerXpoint, centerYpoint, 3, UI_THEME_BLUE[0]);
         float radians = M_PI * 2 * (float)value / 360.0f;
         uint8_t r2 = r - 10;
@@ -58,6 +63,8 @@ public:
         // M5.Lcd.drawRect(area.x, area.y, area.w, area.h, UI_THEME_BLUE[0]);
         M5.Lcd.fillCircle(centerX, centerY, r, UI_THEME_BLUE[0]);
         M5.Lcd.drawCircle(centerX, centerY, r, UI_THEME_BLUE[1]);
+
+        renderKnobValue();
     }
 
     bool update(Event &e)
