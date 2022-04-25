@@ -17,6 +17,7 @@
 #include "ui/ui_color.h"
 #include "ui/ui_slider.h"
 #include "ui/ui_knob.h"
+#include "ui/ui_toggle.h"
 
 #include "zic/zic_fastTrigo.h"
 #include "fastTrigo.h"
@@ -56,6 +57,7 @@ UI_Slider oscSliders[OSC_SLIDER_COUNT] = {
 };
 
 UI_Knob knob(160, 120, 100);
+UI_Toggle toggle(10, 10);
 
 int32_t get_data_channels(Frame *frame, int32_t channel_len)
 {
@@ -86,6 +88,7 @@ void displayOsc()
     //     oscSliders[k].render();
     // }
     knob.render();
+    toggle.render();
 }
 
 void eventHandler(Event &e)
@@ -133,6 +136,7 @@ void eventHandler(Event &e)
         //     }
         // }
         knob.update(e);
+        toggle.update(e);
     }
 }
 
