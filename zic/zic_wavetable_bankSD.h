@@ -1,7 +1,7 @@
-#ifndef ZIC_WAVE_SD_WAVETABLE_BANK_H_
-#define ZIC_WAVE_SD_WAVETABLE_BANK_H_
+#ifndef ZIC_WAVETABLE_BANK_SD_H_
+#define ZIC_WAVETABLE_BANK_SD_H_
 
-#include "zic_wave_base.h"
+#include "zic_wavetable_base.h"
 #include "zic_error.h"
 
 // To generate a watble bank use:
@@ -11,9 +11,9 @@
 // Reading wav file
 // https://github.com/mhroth/tinywav
 
-#define SD_WAVETABLE_SIZE 256
+#define SD_WAVETABLES_SAMPLE_COUNT 256
 #define SD_WAVETABLES_COUNT 64
-#define SD_WAVETABLES_SIZE SD_WAVETABLE_SIZE *SD_WAVETABLES_COUNT
+#define SD_WAVETABLES_SIZE SD_WAVETABLES_SAMPLE_COUNT *SD_WAVETABLES_COUNT
 
 typedef struct WavHeader
 {
@@ -32,20 +32,17 @@ typedef struct WavHeader
     uint32_t Subchunk2Size;
 } WavHeader;
 
-class Zic_Wave_SDWavetableBank : public Zic_Wave_Base
+class Zic_Wavetable_BankSD : public Zic_Wavetable_Base
 {
 protected:
-    WavHeader header;
-    float table[SD_WAVETABLES_SIZE];
-
-    double sample(float *freq)
-    {
-        int i = (M_PI * (*freq) * time) * SD_WAVETABLE_SIZE;
-        return table[((i & (SD_WAVETABLE_SIZE - 1)) + pos) & (SD_WAVETABLES_SIZE - 1)];
-    }
+    float _table[SD_WAVETABLES_SIZE];
 
 public:
-    uint16_t pos = 0;
+    WavHeader header;
+
+    Zic_Wavetable_BankSD() : Zic_Wavetable_Base(&_table[0], SD_WAVETABLES_SAMPLE_COUNT, SD_WAVETABLES_SIZE)
+    {
+    }
 
     uint8_t load(const char *filename)
     {
@@ -84,12 +81,11 @@ public:
         }
 
         int16_t bit;
-        pos = 0;
+        int16_t pos = 0;
         while (file.available())
         {
-            // Serial.write(file.read());
             file.read((uint8_t *)&bit, sizeof(int16_t));
-            table[pos] = (float)bit / INT16_MAX;
+            _table[pos] = (float)bit / INT16_MAX;
             pos++;
         }
         // Serial.printf("Len %d\n", pos);
@@ -97,8 +93,6 @@ public:
         // {
         //     Serial.printf("%.9f, ", table[i]);
         // }
-
-        pos = 0;
 
         file.close();
         return SUCCESS;

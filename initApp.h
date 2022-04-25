@@ -11,7 +11,7 @@
 #include "zic/zic_wave_osc.h"
 #include "zic/zic_wave_wavetable.h"
 #include "zic/zic_wave_doubleWavetable.h"
-#include "zic/zic_wave_SDwavetableBank.h"
+#include "zic/zic_wavetable_bankSD.h"
 
 #include "ui/ui_key.h"
 #include "ui/ui_color.h"
@@ -24,8 +24,9 @@
 
 BluetoothA2DPSource a2dp_source;
 // Zic_Wave_Osc wave;
-// Zic_Wave_Wavetable wave;
-Zic_Wave_SDWavetableBank wave;
+Zic_Wave_Wavetable wave;
+// Zic_Wave_SDWavetableBank wave;
+Zic_Wavetable_BankSD wavetable;
 Zic_Mod_Asr asr;
 
 enum
@@ -193,7 +194,12 @@ void initApp()
     // maybe there should be some default banks
     // cause it's soooooooooo slow!!!!
     M5.Lcd.println("Load wavetable bank...");
-    uint8_t ret = wave.load("/01.wav");
+    uint8_t ret = wavetable.load("/01.wav");
+    Serial.printf("Load wavetable %d\n", ret);
+    // wave.table = &wavetable.table[0];
+    // wave.size = wavetable.size;
+    // wave.sampleCount = wavetable.sampleCount;
+    wave.set(&wavetable);
 
     M5.background.addHandler(eventHandler, E_ALL);
     render();
