@@ -6,7 +6,7 @@
 
 #include "ui_color.h"
 #include "ui_area.h"
-#include "../zic/zic_fastTrigo.h"
+#include "../fastTrigo.h"
 
 class UI_Knob
 {
@@ -40,13 +40,14 @@ protected:
         if (centerXpoint) {
             M5.Lcd.fillCircle(centerXpoint, centerYpoint, 3, UI_THEME_BLUE[0]);
         }
-        
-        float radians = M_PI * 2 * (float)value / 360.0f;
+
+        float radian = M_PI * 2 * (float)value / 360.0f;
+        // Serial.printf("radian %.6f\n", radian);
         uint8_t r2 = r - 10;
-        // centerXpoint = r2 * fastCos(radians) + area.x + r;
-        // centerYpoint = r2 * fastSine(radians) + area.y + r;
-        centerXpoint = r2 * cos(radians) + area.x + r;
-        centerYpoint = r2 * sin(radians) + area.y + r;
+        centerXpoint = r2 * fastCos(radian) + area.x + r;
+        centerYpoint = r2 * fastSine(radian) + area.y + r;
+        // centerXpoint = r2 * cos(radian) + area.x + r;
+        // centerYpoint = r2 * sin(radian) + area.y + r;
         M5.Lcd.fillCircle(centerXpoint, centerYpoint, 3, UI_THEME_BLUE[1]);
     }
 

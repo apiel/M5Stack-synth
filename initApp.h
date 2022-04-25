@@ -19,6 +19,7 @@
 #include "ui/ui_knob.h"
 
 #include "zic/zic_fastTrigo.h"
+#include "fastTrigo.h"
 
 BluetoothA2DPSource a2dp_source;
 // Zic_Wave_Osc wave;
@@ -167,6 +168,8 @@ void initApp()
     // {
     //     Serial.printf("%.9f, ", lut[i]);
     // }
+
+    // demoYo();
 }
 
 void loopApp()

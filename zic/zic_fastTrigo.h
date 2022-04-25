@@ -7,7 +7,7 @@
 #define LUT_TABLE_SIZE (1 << LUT_TABLE_BITS)
 #define LUT_STEP_SIZE (M_PI_2 / LUT_TABLE_SIZE - 1)
 
-float *makeLut(void)
+float *makeLut2(void)
 {
     static float _lut[LUT_TABLE_SIZE + 1];
     for (uint16_t i = 0; i < LUT_TABLE_SIZE + 1; i++)
@@ -18,26 +18,26 @@ float *makeLut(void)
     return _lut;
 }
 
-float *lut = makeLut();
+float *lut2 = makeLut2();
 
 // https://www.flipcode.com/archives/Fast_Trigonometry_Functions_Using_Lookup_Tables.shtml
-float fastSine(float x)
+float fastSine2(float x)
 {
     int i = x * LUT_TABLE_SIZE * 0.5 * M_1_PI; // M_1_PI = 1/M_PI
     if (i < 0)
     {
-        return lut[(-((-i) & (LUT_TABLE_SIZE - 1))) + LUT_TABLE_SIZE];
+        return lut2[(-((-i) & (LUT_TABLE_SIZE - 1))) + LUT_TABLE_SIZE];
     }
-    return lut[i & (LUT_TABLE_SIZE - 1)];
+    return lut2[i & (LUT_TABLE_SIZE - 1)];
 }
 
-float fastCos(float x)
-{
-    // return sqrt(1 - fastSine(x)^2);
-    float s = fastSine(x);
-    return sqrt(1 - s * s);
-    // return fastSine(90 - x);
-}
+// float fastCos2(float x)
+// {
+//     // return sqrt(1 - fastSine(x)^2);
+//     float s = fastSine(x);
+//     return sqrt(1 - s * s);
+//     // return fastSine(90 - x);
+// }
 
 // float fastSine(float x)
 // {
