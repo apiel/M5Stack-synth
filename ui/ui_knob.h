@@ -11,7 +11,6 @@
 class UI_Knob
 {
 protected:
-    bool active = false;
     UI_Area_Circle circle;
 
     uint16_t centerXpoint = 0;
@@ -22,12 +21,34 @@ protected:
         int8_t _x = e.to.x - circle.x;
         int8_t _y = e.to.y - circle.y;
 
+        prevValue = value;
         // https://stackoverflow.com/questions/54280085/calculate-degrees-of-angle-using-x-y-coordinates
         value = (int16_t)((atan2(_y, _x) * 180.0f / M_PI) + 360) % 360;
 
-        Serial.printf("%d x %d -> %d\n", _x, _y, value);
+        // Serial.printf("%d x %d -> %d\n", _x, _y, value);
+        calcDirection();
 
         renderKnobValue();
+    }
+
+    void calcDirection()
+    {
+        if (prevValue > 350 && value < 10)
+        {
+            direction = (360 - prevValue) + value;
+            return;
+        }
+        if (prevValue < 10 && value > 350)
+        {
+            direction = -((360 - value) + prevValue);
+            return;
+        }
+        if (prevValue < value)
+        {
+            direction = value - prevValue;
+            return;
+        }
+        direction = -(prevValue - value);
     }
 
     void renderKnobValue()
@@ -47,7 +68,10 @@ protected:
     }
 
 public:
+    int16_t prevValue = 0;
     int16_t value = 0;
+    int8_t direction = 0;
+    bool active = false;
 
     UI_Knob(uint16_t _x, uint16_t _y, uint8_t _radius) : circle(_x, _y, _radius)
     {

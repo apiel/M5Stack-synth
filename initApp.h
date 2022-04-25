@@ -24,8 +24,8 @@
 
 BluetoothA2DPSource a2dp_source;
 // Zic_Wave_Osc wave;
-// Zic_Wave_Wavetable wave;
-Zic_Wave_SDWavetableBank wave;
+Zic_Wave_Wavetable wave;
+// Zic_Wave_SDWavetableBank wave;
 Zic_Mod_Asr asr;
 
 enum
@@ -110,6 +110,7 @@ void eventHandler(Event &e)
                     wave.frequency = NOTE_FREQ[keys[k].midiNote];
                     asr.on();
                     isOn = true;
+                    // Serial.printf("Play note %d\n", keys[k].midiNote);
                 }
                 else
                 {
@@ -135,8 +136,37 @@ void eventHandler(Event &e)
         //         }
         //     }
         // }
-        knob.update(e);
-        toggle.update(e);
+        if (knob.update(e))
+        {
+            wave.phase = knob.value;
+            Serial.printf("knob value %d direction %d\n", knob.value, knob.direction);
+            // for testing
+            if (!toggle.isOn)
+            {
+                if (knob.active)
+                {
+                    if (!asr.isOn())
+                    {
+                        asr.on();
+                    }
+                }
+                else
+                {
+                    asr.off();
+                }
+            }
+        }
+        if (toggle.update(e))
+        {
+            if (toggle.isOn)
+            {
+                asr.on();
+            }
+            else
+            {
+                asr.off();
+            }
+        }
     }
 }
 
@@ -160,6 +190,8 @@ void initApp()
     M5.begin();
     SD.begin();
 
+    // maybe there should be some default banks
+    // cause it's soooooooooo slow!!!!
     // M5.Lcd.println("Load wavetable bank...");
     // uint8_t ret = wave.load("/01.wav");
 

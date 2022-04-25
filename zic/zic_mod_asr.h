@@ -33,6 +33,11 @@ public:
         setRelease(releaseMs);
     }
 
+    bool isOn()
+    {
+        return phase != END_PHASE;
+    }
+
     void setAttack(uint16_t ms)
     {
         // TODO set kind of randomly 50, try to find out
