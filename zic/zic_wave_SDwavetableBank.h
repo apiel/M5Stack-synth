@@ -41,7 +41,7 @@ protected:
     double sample(float *freq)
     {
         int i = (M_PI * (*freq) * time) * SD_WAVETABLE_SIZE;
-        return table[(i + pos) & (SD_WAVETABLE_SIZE - 1)];
+        return table[((i & (SD_WAVETABLE_SIZE - 1)) + pos) & (SD_WAVETABLES_SIZE - 1)];
     }
 
 public:

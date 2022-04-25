@@ -16,6 +16,7 @@ protected:
 public:
     float *table = &wavetableSine[0];
     uint16_t size = 2048;
+    uint16_t pos = 0;
 };
 
 #endif

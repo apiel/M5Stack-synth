@@ -20,7 +20,7 @@ public:
     float pitch = 1.0f;
     float pitchMod = 1.0f;
 
-    float phase = 0.0f;
+    float phase = 0.0f; // 0.0f to 360.0f
 
     int16_t next()
     {

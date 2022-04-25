@@ -24,8 +24,8 @@
 
 BluetoothA2DPSource a2dp_source;
 // Zic_Wave_Osc wave;
-Zic_Wave_Wavetable wave;
-// Zic_Wave_SDWavetableBank wave;
+// Zic_Wave_Wavetable wave;
+Zic_Wave_SDWavetableBank wave;
 Zic_Mod_Asr asr;
 
 enum
@@ -138,7 +138,7 @@ void eventHandler(Event &e)
         // }
         if (knob.update(e))
         {
-            wave.phase = knob.value;
+            wave.pos += knob.direction;
             Serial.printf("knob value %d direction %d\n", knob.value, knob.direction);
             // for testing
             if (!toggle.isOn)
@@ -192,8 +192,8 @@ void initApp()
 
     // maybe there should be some default banks
     // cause it's soooooooooo slow!!!!
-    // M5.Lcd.println("Load wavetable bank...");
-    // uint8_t ret = wave.load("/01.wav");
+    M5.Lcd.println("Load wavetable bank...");
+    uint8_t ret = wave.load("/01.wav");
 
     M5.background.addHandler(eventHandler, E_ALL);
     render();
