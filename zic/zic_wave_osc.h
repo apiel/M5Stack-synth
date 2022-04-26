@@ -4,7 +4,7 @@
 #include <math.h>
 #include <stdint.h>
 
-#include "zic_fastTrigo.h"
+#include "../fastTrigo.h"
 #include "zic_wave_base.h"
 
 enum
@@ -45,8 +45,7 @@ protected:
         // This use too much ressources
         // return sin(M_PI_2 * (*freq) * time + phase);
 
-        // TODO use other fastSine
-        return fastSine2(M_PI_2 * (*freq) * time + phase);
+        return fastSine(M_PI_2 * (*freq) * time + phase);
     }
 
     double square(float *freq)

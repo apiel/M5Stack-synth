@@ -5,6 +5,9 @@
 #include "wavetables/wavetable_sine.h"
 #include "wavetables/wavetable_square.h"
 
+// TODO load table in constructor
+// be able to use wavetable bank...
+
 class Zic_Wave_DoubleWavetable : public Zic_Wave_Base
 {
 protected:

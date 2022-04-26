@@ -3,7 +3,6 @@
 
 #include "zic_wave_base.h"
 #include "zic_wavetable_base.h"
-#include "wavetables/wavetable_sine.h"
 
 class Zic_Wave_Wavetable : public Zic_Wave_Base
 {
@@ -23,7 +22,12 @@ public:
 
     Zic_Wave_Wavetable()
     {
-        set(&wavetableSine);
+        // This might be dangerous!!
+    }
+
+    Zic_Wave_Wavetable(Zic_Wavetable_Base *wavetable)
+    {
+        set(wavetable);
     }
 
     void set(Zic_Wavetable_Base *wavetable)
