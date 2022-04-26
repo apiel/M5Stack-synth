@@ -1,21 +1,31 @@
 #include "tinywav.h"
 
 #include <assert.h>
+#include <string.h>
 
 #define NUM_CHANNELS 1
 #define SAMPLE_RATE 44100
 #define BLOCK_SIZE 256
 
+#define BUF_SIZE 1024
+
+int getSize(char* string, char c) {
+    char *e = strrchr(string, c);
+    if (e == NULL) {
+        return -1;
+    }
+    return (int)(e - string) + 1;
+}
+
 int main(int argc, char *argv[])
 {
-    char *outputPath = "new_table.h";
-
-    if (argc < 2)
+    if (argc < 3)
     {
-        printf("Please provide in put file");
+        printf("Please provide input wav file and target name: ./wav2h bank.wav BankDemo");
         return -1;
     }
     const char *inputPath = argv[1];
+    const char *name = argv[2];
 
     TinyWav twReader;
     tinywav_open_read(&twReader, inputPath, TW_INLINE);
@@ -28,7 +38,19 @@ int main(int argc, char *argv[])
     int totalNumSamples = twReader.numFramesInHeader;
     printf("Size %d, sampleCount %d, count of wavetable %d\n", totalNumSamples, BLOCK_SIZE, totalNumSamples / BLOCK_SIZE);
 
-    FILE *file = fopen(argc > 2 ? argv[2] : outputPath, "w");
+    char buffer[BUF_SIZE];
+    snprintf(buffer, BUF_SIZE, "../wavetable_%s.h", name);
+    FILE *file = fopen(buffer, "w");
+
+    snprintf(buffer, BUF_SIZE, "#ifndef WAVETABLE_%s_H_\n\
+#define WAVETABLE_%s_H_\n\n\
+#include \"../zic_wavetable_base.h\"\n\n\
+class Wavetable_%s : public Zic_Wavetable_Base\n\
+{\n\
+protected:\n\
+    float _table[%d] = {",
+             name, name, name, totalNumSamples);
+    fwrite(buffer , sizeof(char), getSize(buffer, '{'), file);
 
     // int samplesProcessed = 0;
     // while (samplesProcessed < totalNumSamples)

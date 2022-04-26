@@ -1,7 +1,7 @@
 all: build run
 
 build:
-	gcc main.c tinywav.c -o main
+	gcc wav2h.c tinywav.c -o wav2h
 
 run:
-	./main bank.wav
+	./wav2h bank.wav Bank
