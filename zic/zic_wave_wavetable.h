@@ -16,12 +16,17 @@ protected:
     }
 
 public:
-    float *table = &wavetableSine[0];
-    uint16_t sampleCount = 2048;
-    uint16_t size = 2048;
+    float *table = NULL;
+    uint16_t sampleCount = 0;
+    uint16_t size = 0;
     uint16_t pos = 0;
 
-    void set(Zic_Wavetable_Base * wavetable)
+    Zic_Wave_Wavetable()
+    {
+        set(&wavetableSine);
+    }
+
+    void set(Zic_Wavetable_Base *wavetable)
     {
         table = wavetable->table;
         size = wavetable->size;

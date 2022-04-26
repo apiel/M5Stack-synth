@@ -17,8 +17,8 @@ protected:
     }
 
 public:
-    float *table1 = &wavetableSine[0];
-    float *table2 = &wavetableSquare[0];
+    float *table1 = wavetableSine.table;
+    float *table2 = wavetableSquare.table;
     float crossfader = 0.5f; // should be between 0.0 and 1.0
     float detune = 0.0f;
     uint16_t size = 2048;

@@ -191,15 +191,12 @@ void initApp()
     M5.begin();
     SD.begin();
 
-    // maybe there should be some default banks
-    // cause it's soooooooooo slow!!!!
-    M5.Lcd.println("Load wavetable bank...");
-    uint8_t ret = wavetable.load("/01.wav");
-    Serial.printf("Load wavetable %d\n", ret);
-    // wave.table = &wavetable.table[0];
-    // wave.size = wavetable.size;
-    // wave.sampleCount = wavetable.sampleCount;
-    wave.set(&wavetable);
+    // // maybe there should be some default banks
+    // // cause it's soooooooooo slow!!!!
+    // M5.Lcd.println("Load wavetable bank...");
+    // uint8_t ret = wavetable.load("/01.wav");
+    // Serial.printf("Load wavetable %d\n", ret);
+    // wave.set(&wavetable);
 
     M5.background.addHandler(eventHandler, E_ALL);
     render();

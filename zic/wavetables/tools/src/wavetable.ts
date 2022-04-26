@@ -8,9 +8,21 @@ export function save(table: number[], name: string) {
 #ifndef WAVETABLE_${name.toUpperCase()}_H_
 #define WAVETABLE_${name.toUpperCase()}_H_
 
-float wavetable${capName}[${WAVETABLE_SIZE}] = {${table
+#include "../zic_wavetable_base.h"
+
+class Wavetable_${capName} : public Zic_Wavetable_Base
+{
+protected:
+    float _table[${WAVETABLE_SIZE}] = {${table
         .map((val) => (val === 0 || val === 1 || val === -1 ? `${val}.0f` : `${val}f`))
         .join(', ')},};
+public:
+    Wavetable_${capName}() : Zic_Wavetable_Base(&_table[0], ${WAVETABLE_SIZE}, ${WAVETABLE_SIZE})
+    {
+    }
+};
+
+Wavetable_${capName} wavetable${capName};
 
 #endif
 `;
