@@ -7,13 +7,11 @@
 class Zic_Wave_Wavetable : public Zic_Wave_Base
 {
 protected:
+    // FIXME still out of tune
     double sample(float *freq)
     {
         int i = (M_PI * (*freq) * time + phase) * sampleCount;
-        // return table[i & (sampleCount - 1)];
         // return table[i % sampleCount];
-        // return table[((i & (sampleCount - 1)) + pos) & (size - 1)];
-
         return table[((i % sampleCount) + pos) % size];
     }
 

@@ -7,6 +7,8 @@
 
 // TODO load table in constructor
 // be able to use wavetable bank...
+//
+// might just use the bank and oscil between 2 positions
 
 class Zic_Wave_DoubleWavetable : public Zic_Wave_Base
 {
@@ -16,7 +18,7 @@ protected:
         float pos = M_PI * time;
         int i1 = pos * (*freq) * size;
         int i2 = (pos * (*freq + detune) + phase) * size;
-        return table1[i1 & (size - 1)] * crossfader + table2[i2 & (size - 1)] * (1.0f - crossfader);
+        return table1[i1 % size] * crossfader + table2[i2 % size] * (1.0f - crossfader);
     }
 
 public:

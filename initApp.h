@@ -197,13 +197,6 @@ void initApp()
     render();
 
     a2dp_source.start("Geo Speaker", get_data_channels);
-
-    // for (int i = 0; i < 255; i++)
-    // {
-    //     Serial.printf("%.9f, ", lut[i]);
-    // }
-
-    // demoYo();
 }
 
 void loopApp()

@@ -8,18 +8,7 @@
 int16_t getPos(float radian)
 {
     int16_t i = radian * FAST_TRIGO_TABLE_SIZE * 0.5 * M_1_PI; // M_1_PI = 1/M_PI
-    return i & (FAST_TRIGO_TABLE_SIZE - 1);
-}
-
-void demoYo()
-{
-    for (uint16_t i = 0; i < FAST_TRIGO_TABLE_SIZE; i++)
-    {
-        float radian = i * 2 * M_PI / (float)FAST_TRIGO_TABLE_SIZE; 
-        float s = sin(radian);
-        float c = cos(radian);
-        Serial.printf("(%d) radian %.6f s %.6f c %.6f\n", i, radian, s, c);
-    }
+    return i % FAST_TRIGO_TABLE_SIZE;
 }
 
 float *makeLutSine(void)
