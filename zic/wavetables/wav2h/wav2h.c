@@ -9,9 +9,11 @@
 
 #define BUF_SIZE 1024
 
-int getSize(char* string, char c) {
+int getSize(char *string, char c)
+{
     char *e = strrchr(string, c);
-    if (e == NULL) {
+    if (e == NULL)
+    {
         return -1;
     }
     return (int)(e - string) + 1;
@@ -47,30 +49,39 @@ int main(int argc, char *argv[])
 #include \"../zic_wavetable_base.h\"\n\n\
 class Wavetable_%s : public Zic_Wavetable_Base\n\
 {\n\
+public:\n\
+    Wavetable_%s() : Zic_Wavetable_Base(&_table[0], %d, %d)\n\
+    {\n\
+    }\n\n\
 protected:\n\
-    float _table[%d] = {",
-             name, name, name, totalNumSamples);
-    fwrite(buffer , sizeof(char), getSize(buffer, '{'), file);
+    float _table[%d] = {\n",
+             name, name, name, name, totalNumSamples, BLOCK_SIZE, totalNumSamples);
+    fwrite(buffer, sizeof(char), getSize(buffer, '\n'), file);
 
-    // int samplesProcessed = 0;
-    // while (samplesProcessed < totalNumSamples)
-    // {
-    //     float buffer[NUM_CHANNELS * BLOCK_SIZE];
+    int samplesProcessed = 0;
+    while (samplesProcessed < totalNumSamples)
+    {
+        float data[NUM_CHANNELS * BLOCK_SIZE];
 
-    //     int samplesRead = tinywav_read_f(&twReader, buffer, BLOCK_SIZE);
-    //     assert(samplesRead > 0 && " Could not read from file!");
+        int samplesRead = tinywav_read_f(&twReader, data, BLOCK_SIZE);
+        assert(samplesRead > 0 && " Could not read from file!");
 
-    //     // printf("\nsamplesRead %d:\n", samplesRead);
-    //     // for (int p = 0; p < samplesRead; p++)
-    //     // {
-    //     //   printf("%.6f,", buffer[p]);
-    //     // }
+        printf(".");
+        for (int p = 0; p < samplesRead; p++)
+        {
+            snprintf(buffer, BUF_SIZE, "        %.30ff,\n", data[p]);
+            fwrite(buffer, sizeof(char), getSize(buffer, '\n'), file);
+        }
 
-    //     int samplesWritten = tinywav_write_f(&twWriter, buffer, samplesRead);
-    //     assert(samplesWritten > 0 && "Could not write to file!");
+        samplesProcessed += samplesRead * NUM_CHANNELS;
+    }
 
-    //     samplesProcessed += samplesRead * NUM_CHANNELS;
-    // }
+    snprintf(buffer, BUF_SIZE, "    };\n\
+};\n\n\
+Wavetable_%s wavetable_%s;\n\n\
+#endif",
+             name, name);
+    fwrite(buffer, sizeof(char), getSize(buffer, 'f'), file);
 
     fclose(file);
     tinywav_close_read(&twReader);
