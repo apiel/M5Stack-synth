@@ -21,13 +21,13 @@ int getSize(char *string, char c)
 
 int main(int argc, char *argv[])
 {
-    if (argc < 3)
+    if (argc < 2)
     {
-        printf("Please provide input wav file and target name: ./wav2h bank.wav BankDemo");
+        printf("Please provide input wav file and target name: ./wav2h bank.wav Bank");
         return -1;
     }
     const char *inputPath = argv[1];
-    const char *name = argv[2];
+    const char *name = argc > 2 ? argv[2] : "Bank";
 
     TinyWav twReader;
     tinywav_open_read(&twReader, inputPath, TW_INLINE);

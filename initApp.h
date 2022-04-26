@@ -186,10 +186,10 @@ void initApp()
     M5.begin();
     SD.begin();
 
-    // loading from SD is soooooooooo slow!!!!
-    M5.Lcd.println("Load wavetable bank...");
-    uint8_t ret = loadWavetableFromSD(&wavetable_Bank, "/01.wav");
-    Serial.printf("Load wavetable %d\n", ret);
+    // // loading from SD is soooooooooo slow!!!!
+    // M5.Lcd.println("Load wavetable bank...");
+    // uint8_t ret = loadWavetableFromSD(&wavetable_Bank, "/01.wav");
+    // Serial.printf("Load wavetable %d\n", ret);
 
     M5.background.addHandler(eventHandler, E_ALL);
     render();
