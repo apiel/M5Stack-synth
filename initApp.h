@@ -78,6 +78,13 @@ void displayKeyboard()
     }
 }
 
+void renderKnobValue()
+{
+    M5.Lcd.fillRect(260, 0, 100, 30, UI_BACKGROUND);
+    M5.Lcd.setCursor(270, 10);
+    M5.Lcd.println((float)wave.pos / (float)wave.sampleCount);
+}
+
 void displayOsc()
 {
     M5.Lcd.fillScreen(UI_BACKGROUND);
@@ -87,6 +94,7 @@ void displayOsc()
     // }
     knob.render();
     toggle.render();
+    renderKnobValue();
 }
 
 void eventHandler(Event &e)
@@ -153,6 +161,7 @@ void eventHandler(Event &e)
                     asr.off();
                 }
             }
+            renderKnobValue();
         }
         if (toggle.update(e))
         {
