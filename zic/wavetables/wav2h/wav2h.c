@@ -55,7 +55,7 @@ public:\n\
     }\n\n\
 protected:\n\
     float _table[%d] = {\n",
-             name, name, name, name, totalNumSamples, BLOCK_SIZE, totalNumSamples);
+             name, name, name, name, BLOCK_SIZE, totalNumSamples, totalNumSamples);
     fwrite(buffer, sizeof(char), getSize(buffer, '\n'), file);
 
     int samplesProcessed = 0;

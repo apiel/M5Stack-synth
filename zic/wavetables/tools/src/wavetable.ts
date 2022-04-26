@@ -12,17 +12,17 @@ export function save(table: number[], name: string) {
 
 class Wavetable_${capName} : public Zic_Wavetable_Base
 {
-protected:
-    float _table[${WAVETABLE_SIZE}] = {${table
-        .map((val) => (val === 0 || val === 1 || val === -1 ? `${val}.0f` : `${val}f`))
-        .join(', ')},};
 public:
     Wavetable_${capName}() : Zic_Wavetable_Base(&_table[0], ${WAVETABLE_SIZE}, ${WAVETABLE_SIZE})
     {
     }
+protected:
+    float _table[${WAVETABLE_SIZE}] = {${table
+        .map((val) => (val === 0 || val === 1 || val === -1 ? `${val}.0f` : `${val}f`))
+        .join(', ')},};
 };
 
-Wavetable_${capName} wavetable${capName};
+Wavetable_${capName} wavetable_${capName};
 
 #endif
 `;

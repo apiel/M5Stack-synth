@@ -14,6 +14,6 @@ public:
     }
 };
 
-Wavetable_Square wavetableSquare;
+Wavetable_Square wavetable_Square;
 
 #endif

@@ -6,7 +6,7 @@
 class Wavetable_Bank : public Zic_Wavetable_Base
 {
 public:
-    Wavetable_Bank() : Zic_Wavetable_Base(&_table[0], 16384, 256)
+    Wavetable_Bank() : Zic_Wavetable_Base(&_table[0], 256, 16384)
     {
     }
 

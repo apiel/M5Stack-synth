@@ -11,6 +11,7 @@
 #include "zic/zic_wave_wavetable.h"
 #include "zic/zic_wavetable_SD.h"
 #include "zic/wavetables/wavetable_Bank.h"
+#include "zic/wavetables/wavetable_sine.h"
 
 #include "ui/ui_key.h"
 #include "ui/ui_color.h"
@@ -22,6 +23,7 @@
 
 BluetoothA2DPSource a2dp_source;
 Zic_Wave_Wavetable wave(&wavetable_Bank);
+// Zic_Wave_Wavetable wave(&wavetable_Sine);
 Zic_Mod_Asr asr;
 
 enum

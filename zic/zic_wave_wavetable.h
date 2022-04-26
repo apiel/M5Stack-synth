@@ -10,7 +10,8 @@ protected:
     double sample(float *freq)
     {
         int i = (M_PI * (*freq) * time + phase) * sampleCount;
-        return table[i & (sampleCount - 1)];
+        // return table[i & (sampleCount - 1)];
+        return table[i % sampleCount];
         // return table[((i & (sampleCount - 1)) + pos) & (size - 1)];
     }
 
