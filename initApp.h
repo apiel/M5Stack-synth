@@ -6,7 +6,7 @@
 #include <M5Core2.h>
 
 #include "zic/zic_note.h"
-#include "zic/zic_mod_asr.h"
+#include "zic/zic_mod_asrNext.h"
 
 #include "zic/zic_wave_wavetable.h"
 #include "zic/zic_wavetable_SD.h"
@@ -24,7 +24,7 @@
 BluetoothA2DPSource a2dp_source;
 Zic_Wave_Wavetable wave(&wavetable_Bank);
 // Zic_Wave_Wavetable wave(&wavetable_Sine);
-Zic_Mod_Asr asr;
+Zic_Mod_AsrNext asr;
 
 enum
 {
@@ -83,6 +83,8 @@ void renderKnobValue()
     M5.Lcd.fillRect(260, 0, 100, 30, UI_BACKGROUND);
     M5.Lcd.setCursor(270, 10);
     M5.Lcd.println((float)wave.pos / (float)wave.sampleCount);
+
+    // TODO display table ?
 }
 
 void displayOsc()
@@ -198,6 +200,7 @@ void initApp()
     SD.begin();
 
     // // loading from SD is soooooooooo slow!!!!
+    // // TODO see if we can load the wavetable in another thread
     // M5.Lcd.println("Load wavetable bank...");
     // uint8_t ret = loadWavetableFromSD(&wavetable_Bank, "/01.wav");
     // Serial.printf("Load wavetable %d\n", ret);
