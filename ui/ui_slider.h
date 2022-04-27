@@ -7,7 +7,7 @@
 #include "ui_area_rect.h"
 
 // TODO option of sticky slider to middle or given position(s)
-class UI_Slider
+class UI_Slider : public UI_Base
 {
 protected:
     const uint8_t circleRadius = 10;

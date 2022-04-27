@@ -7,10 +7,11 @@
 #include "zic/zic_wave_base.h"
 #include "zic/zic_mod_asrNext.h"
 
+#include "ui/ui_base.h"
 #include "ui/ui_color.h"
 #include "ui/ui_key.h"
 
-class App_KeyboardView
+class App_KeyboardView : public UI_Base
 {
 protected:
     Zic_Wave_Base *wave;
@@ -37,7 +38,7 @@ public:
         }
     }
 
-    void update(Event &e)
+    bool update(Event &e)
     {
         // TODO might need to find a better way, cause note on doesn't last
         // either fix ASR or find better UI handler
@@ -65,6 +66,7 @@ public:
             // only if there is not another note on
             asr->off();
         }
+        return false;
     }
 };
 

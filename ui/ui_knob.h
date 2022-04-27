@@ -8,7 +8,7 @@
 #include "ui_area_circle.h"
 #include "../fastTrigo.h"
 
-class UI_Knob
+class UI_Knob : public UI_Base
 {
 protected:
     UI_Area_Circle circle;

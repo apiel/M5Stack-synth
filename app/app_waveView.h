@@ -6,11 +6,12 @@
 #include "zic/zic_wave_wavetable.h"
 #include "zic/zic_mod_asrNext.h"
 
+#include "ui/ui_base.h"
 #include "ui/ui_color.h"
 #include "ui/ui_knob.h"
 #include "ui/ui_toggle.h"
 
-class App_WaveView
+class App_WaveView : public UI_Base
 {
 protected:
     Zic_Wave_Wavetable *wave;
@@ -54,7 +55,7 @@ public:
         renderKnobValue();
     }
 
-    void update(Event &e)
+    bool update(Event &e)
     {
         if (knob.update(e))
         {
@@ -100,6 +101,7 @@ public:
             }
         }
         toggleMorph.update(e);
+        return false;
     }
 };
 

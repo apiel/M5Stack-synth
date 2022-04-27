@@ -6,7 +6,7 @@
 #include "ui_color.h"
 #include "ui_area_rect.h"
 
-class UI_Toggle
+class UI_Toggle : public UI_Base
 {
 protected:
     UI_Area_Rect area;

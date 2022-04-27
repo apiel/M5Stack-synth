@@ -5,8 +5,9 @@
 
 #include "ui_color.h"
 #include "ui_area_rect.h"
+#include "ui_base.h"
 
-class UI_Key
+class UI_Key : public UI_Base
 {
 protected:
     UI_Area_Rect area;
@@ -15,7 +16,7 @@ public:
     bool isOn = false;
     uint8_t midiNote = 60;
 
-    UI_Key(uint16_t _x, uint16_t _y, uint8_t _midiNote): area(_x, _y, 45, 45)
+    UI_Key(uint16_t _x, uint16_t _y, uint8_t _midiNote) : area(_x, _y, 45, 45)
     {
         midiNote = _midiNote;
     }
