@@ -7,11 +7,11 @@
 #include "zic/zic_wave_base.h"
 #include "zic/zic_mod_asrNext.h"
 
-#include "ui/ui_base.h"
+#include "ui/ui_component.h"
 #include "ui/ui_color.h"
 #include "ui/ui_key.h"
 
-class App_KeyboardView : public UI_Base
+class App_KeyboardView : public UI_Component
 {
 protected:
     Zic_Wave_Base *wave;

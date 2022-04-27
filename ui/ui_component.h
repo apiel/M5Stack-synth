@@ -1,7 +1,7 @@
-#ifndef UI_BASE_H_
-#define UI_BASE_H_
+#ifndef UI_COMPONENT_H_
+#define UI_COMPONENT_H_
 
-class UI_Base
+class UI_Component
 {
 public:
     virtual void render() = 0;

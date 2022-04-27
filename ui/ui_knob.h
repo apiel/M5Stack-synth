@@ -4,11 +4,12 @@
 #include <M5Core2.h>
 #include <math.h>
 
+#include "ui_component.h"
 #include "ui_color.h"
 #include "ui_area_circle.h"
 #include "../fastTrigo.h"
 
-class UI_Knob : public UI_Base
+class UI_Knob : public UI_Component
 {
 protected:
     UI_Area_Circle circle;

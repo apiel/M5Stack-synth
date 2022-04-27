@@ -6,12 +6,12 @@
 #include "zic/zic_wave_wavetable.h"
 #include "zic/zic_mod_asrNext.h"
 
-#include "ui/ui_base.h"
+#include "ui/ui_component.h"
 #include "ui/ui_color.h"
 #include "ui/ui_knob.h"
 #include "ui/ui_toggle.h"
 
-class App_WaveView : public UI_Base
+class App_WaveView : public UI_Component
 {
 protected:
     Zic_Wave_Wavetable *wave;

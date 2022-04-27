@@ -5,9 +5,10 @@
 
 #include "ui_color.h"
 #include "ui_area_rect.h"
+#include "ui_component.h"
 
 // TODO option of sticky slider to middle or given position(s)
-class UI_Slider : public UI_Base
+class UI_Slider : public UI_Component
 {
 protected:
     const uint8_t circleRadius = 10;
