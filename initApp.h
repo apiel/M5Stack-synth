@@ -82,7 +82,9 @@ void renderKnobValue()
 {
     M5.Lcd.fillRect(260, 0, 100, 30, UI_BACKGROUND);
     M5.Lcd.setCursor(270, 10);
-    M5.Lcd.println((float)wave.pos / (float)wave.sampleCount);
+    // more or less the same as ((float)wave.pos / (float)wave.sampleCount * 100) % 64
+    // but not allowed by C++ 
+    M5.Lcd.println(((int16_t)((float)wave.pos / (float)wave.sampleCount * 100) % 6400)*0.01);
 
     // TODO display table ?
 }
