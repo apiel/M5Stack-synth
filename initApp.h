@@ -28,12 +28,6 @@ App_WaveView waveView(&wave, &asr);
 
 enum
 {
-    OSC_SLIDER_CROSSFADER,
-    OSC_SLIDER_COUNT
-};
-
-enum
-{
     MODE_KEYBOARD,
     MODE_WAVE,
     MODE_COUNT
