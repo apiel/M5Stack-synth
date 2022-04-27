@@ -5,7 +5,6 @@
 #include <math.h>
 #include <M5Core2.h>
 
-#include "zic/zic_note.h"
 #include "zic/zic_mod_asrNext.h"
 
 #include "zic/zic_wave_wavetable.h"
@@ -13,18 +12,21 @@
 #include "zic/wavetables/wavetable_Bank.h"
 #include "zic/wavetables/wavetable_sine.h"
 
-#include "ui/ui_key.h"
 #include "ui/ui_color.h"
-#include "ui/ui_slider.h"
 #include "ui/ui_knob.h"
 #include "ui/ui_toggle.h"
+
+#include "app/app_keyboardView.h"
 
 #include "fastTrigo.h"
 
 BluetoothA2DPSource a2dp_source;
+
 Zic_Wave_Wavetable wave(&wavetable_Bank);
 // Zic_Wave_Wavetable wave(&wavetable_Sine);
 Zic_Mod_AsrNext asr;
+
+App_Keyboard keyboard(&wave, &asr);
 
 enum
 {
@@ -41,19 +43,6 @@ enum
 
 uint8_t mode = MODE_KEYBOARD;
 
-#define KEYS_COUNT 7 * 5
-UI_Key keys[KEYS_COUNT] = {
-    {0, 0, _C6}, {45, 0, _D6}, {90, 0, _E6}, {135, 0, _F6}, {180, 0, _G6}, {225, 0, _A6}, {270, 0, _B6}, {0, 45, _C5}, {45, 45, _D5}, {90, 45, _E5}, {135, 45, _F5}, {180, 45, _G5}, {225, 45, _A5}, {270, 45, _B5}, {0, 90, _C4}, {45, 90, _D4}, {90, 90, _E4}, {135, 90, _F4}, {180, 90, _G4}, {225, 90, _A4}, {270, 90, _B4}, {0, 135, _C3}, {45, 135, _D3}, {90, 135, _E3}, {135, 135, _F3}, {180, 135, _G3}, {225, 135, _A3}, {270, 135, _B3}, {0, 180, _C2}, {45, 180, _D2}, {90, 180, _E2}, {135, 180, _F2}, {180, 180, _G2}, {225, 180, _A2}, {270, 180, _B2}};
-
-UI_Slider oscSliders[OSC_SLIDER_COUNT] = {
-    // {10, &UI_THEME_BLUE[0], getOscName(OSC_SINE)},
-    // {55, &UI_THEME_PURPLE[0], getOscName(OSC_SQUARE)},
-    // {100, &UI_THEME_GREEN[0], getOscName(OSC_TRIANGLE)},
-    {100, &UI_THEME_GREEN[0], "Crossfader"},
-    // {145, &UI_THEME_RED[0], getOscName(OSC_SAW)},
-    // {190, &UI_THEME_ORANGE[0], getOscName(OSC_NOIZE)},
-};
-
 UI_Knob knob(160, 120, 100);
 UI_Toggle togglePlay(10, 10);
 UI_Toggle toggleMorph(10, 190);
@@ -69,15 +58,6 @@ int32_t get_data_channels(Frame *frame, int32_t channel_len)
     }
 
     return channel_len;
-}
-
-void displayKeyboard()
-{
-    M5.Lcd.fillScreen(UI_BACKGROUND);
-    for (uint8_t k = 0; k < KEYS_COUNT; k++)
-    {
-        keys[k].render();
-    }
 }
 
 void renderKnobValue()
@@ -117,32 +97,7 @@ void eventHandler(Event &e)
 
     if (mode == MODE_KEYBOARD)
     {
-        // TODO might need to find a better way, cause note on doesn't last
-        // either fix ASR or find better UI handler
-        bool isOn = false;
-        bool isOff = false;
-        for (uint8_t k = 0; k < KEYS_COUNT; k++)
-        {
-            if (keys[k].update(e))
-            {
-                if (keys[k].isOn)
-                {
-                    wave.frequency = NOTE_FREQ[keys[k].midiNote];
-                    asr.on();
-                    isOn = true;
-                    // Serial.printf("Play note %d\n", keys[k].midiNote);
-                }
-                else
-                {
-                    isOff = true;
-                }
-            }
-        }
-        if (isOff && !isOn)
-        {
-            // only if there is not another note on
-            asr.off();
-        }
+        keyboard.update(e);
     }
     else if (mode == MODE_OSC)
     {
@@ -211,7 +166,7 @@ void render()
     }
     else
     {
-        displayKeyboard();
+        keyboard.render();
     }
 }
 
