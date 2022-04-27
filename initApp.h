@@ -55,8 +55,10 @@ UI_Slider oscSliders[OSC_SLIDER_COUNT] = {
 };
 
 UI_Knob knob(160, 120, 100);
-UI_Toggle toggle(10, 10);
+UI_Toggle togglePlay(10, 10);
+UI_Toggle toggleMorph(10, 190);
 
+// TODO play sound from internal speaker
 int32_t get_data_channels(Frame *frame, int32_t channel_len)
 {
     for (int sample = 0; sample < channel_len; ++sample)
@@ -83,8 +85,8 @@ void renderKnobValue()
     M5.Lcd.fillRect(260, 0, 100, 30, UI_BACKGROUND);
     M5.Lcd.setCursor(270, 10);
     // more or less the same as ((float)wave.pos / (float)wave.sampleCount * 100) % 64
-    // but not allowed by C++ 
-    M5.Lcd.println(((int16_t)((float)wave.pos / (float)wave.sampleCount * 100) % 6400)*0.01);
+    // but not allowed by C++
+    M5.Lcd.println(((int16_t)(wave.pos / (float)wave.sampleCount * 100) % 6400) * 0.01);
 
     // TODO display table ?
 }
@@ -97,7 +99,15 @@ void displayOsc()
     //     oscSliders[k].render();
     // }
     knob.render();
-    toggle.render();
+
+    M5.Lcd.setCursor(25, 50);
+    M5.Lcd.println("Play");
+    togglePlay.render();
+
+    M5.Lcd.setCursor(25, 177);
+    M5.Lcd.println("Morph");
+    toggleMorph.render();
+
     renderKnobValue();
 }
 
@@ -148,10 +158,21 @@ void eventHandler(Event &e)
         // }
         if (knob.update(e))
         {
-            wave.pos += knob.direction;
-            Serial.printf("knob value %d direction %d\n", knob.value, knob.direction);
+            if (toggleMorph.isOn)
+            {
+                wave.pos += knob.direction;
+            }
+            else if (knob.step)
+            {
+                // TODO dont use 64 but wavetableCount
+                // wave.pos = uint8_t(knob.value / 360.0f * 64) * wave.sampleCount;
+                uint8_t pos = (uint16_t)(wave.pos / (float)wave.sampleCount) % 64;
+                pos = (pos + knob.step) % 64;
+                wave.pos = pos * wave.sampleCount;
+            }
+            // Serial.printf("knob value %d direction %d\n", knob.value, knob.direction);
             // for testing
-            if (!toggle.isOn)
+            if (!togglePlay.isOn)
             {
                 if (knob.active)
                 {
@@ -167,9 +188,9 @@ void eventHandler(Event &e)
             }
             renderKnobValue();
         }
-        if (toggle.update(e))
+        if (togglePlay.update(e))
         {
-            if (toggle.isOn)
+            if (togglePlay.isOn)
             {
                 asr.on();
             }
@@ -178,6 +199,7 @@ void eventHandler(Event &e)
                 asr.off();
             }
         }
+        toggleMorph.update(e);
     }
 }
 

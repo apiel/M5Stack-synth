@@ -16,6 +16,8 @@ protected:
     uint16_t centerXpoint = 0;
     uint16_t centerYpoint = 0;
 
+    int8_t stepCounter = 0;
+
     void calc(Event &e)
     {
         int8_t _x = e.to.x - circle.x;
@@ -27,6 +29,7 @@ protected:
 
         // Serial.printf("%d x %d -> %d\n", _x, _y, value);
         calcDirection();
+        calcStep();
 
         renderKnobValue();
     }
@@ -51,6 +54,26 @@ protected:
         direction = -(prevValue - value);
     }
 
+    void calcStep()
+    {
+        stepCounter += direction;
+        if (stepCounter >= stepGoal)
+        {
+            stepCounter = 0;
+            step = 1;
+        }
+        else if (-stepCounter >= stepGoal)
+        {
+            stepCounter = 0;
+            step = -1;
+        }
+        else
+        {
+            step = 0;
+        }
+        // Serial.printf("stepCounter %d, direction %d, step %d\n", stepCounter, direction, step);
+    }
+
     void renderKnobValue()
     {
         if (centerXpoint)
@@ -71,6 +94,9 @@ public:
     int16_t prevValue = 0;
     int16_t value = 0;
     int8_t direction = 0;
+    // divide direction in bigger step so every 30° we get +1 or -1 step
+    int8_t stepGoal = 30;
+    int8_t step = 0;
     bool active = false;
 
     UI_Knob(uint16_t _x, uint16_t _y, uint8_t _radius) : circle(_x, _y, _radius)
