@@ -12,10 +12,15 @@
 #include "zic/wavetables/wavetable_Bank.h"
 #include "zic/wavetables/wavetable_sine.h"
 
+#include "app/app_def.h"
 #include "app/app_keyboardView.h"
 #include "app/app_waveView.h"
+#include "app/app_menuView.h"
 
 #include "fastTrigo.h"
+
+uint8_t previousMode = MODE_KEYBOARD;
+uint8_t mode = MODE_KEYBOARD;
 
 BluetoothA2DPSource a2dp_source;
 
@@ -25,15 +30,7 @@ Zic_Mod_AsrNext asr;
 
 App_KeyboardView keyboardView(&wave, &asr);
 App_WaveView waveView(&wave, &asr);
-
-enum
-{
-    MODE_KEYBOARD,
-    MODE_WAVE,
-    MODE_COUNT
-};
-
-uint8_t mode = MODE_KEYBOARD;
+App_MenuView menuView(&mode);
 
 // TODO play sound from internal speaker
 int32_t get_data_channels(Frame *frame, int32_t channel_len)
@@ -48,28 +45,38 @@ int32_t get_data_channels(Frame *frame, int32_t channel_len)
     return channel_len;
 }
 
+void render()
+{
+    if (mode == MODE_KEYBOARD)
+    {
+        keyboardView.render();
+    }
+    else if (mode == MODE_WAVE)
+    {
+        waveView.render();
+    }
+    else
+    {
+        menuView.render();
+    }
+}
+
 void eventHandler(Event &e)
 {
     // Serial.printf("%s %3d,%3d\n", e.typeName(), e.to.x, e.to.y);
-    if (mode == MODE_KEYBOARD)
+    if (mode == MODE_MENU)
+    {
+        if (menuView.update(e)) {
+            render();
+        }
+    }
+    else if (mode == MODE_KEYBOARD)
     {
         keyboardView.update(e);
     }
     else if (mode == MODE_WAVE)
     {
         waveView.update(e);
-    }
-}
-
-void render()
-{
-    if (mode == MODE_WAVE)
-    {
-        waveView.render();
-    }
-    else
-    {
-        keyboardView.render();
     }
 }
 
@@ -80,6 +87,8 @@ void initApp()
 
     M5.begin();
     SD.begin();
+
+    Serial.println(M5.Lcd.width()); 
 
     // // loading from SD is soooooooooo slow!!!!
     // // TODO see if we can load the wavetable in another thread
@@ -106,7 +115,15 @@ void loopApp()
     // as long press could do (?)
     if (M5.BtnA.wasPressed())
     {
-        mode = (mode + 1) % MODE_COUNT;
+        if (mode == MODE_MENU)
+        {
+            mode = previousMode;
+        }
+        else
+        {
+            previousMode = mode;
+            mode = MODE_MENU;
+        }
         render();
     }
 }

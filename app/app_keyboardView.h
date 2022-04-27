@@ -50,10 +50,10 @@ public:
             {
                 if (keys[k].isOn)
                 {
-                    wave->frequency = NOTE_FREQ[keys[k].midiNote];
+                    wave->frequency = NOTE_FREQ[keys[k].value];
                     asr->on();
                     isOn = true;
-                    // Serial.printf("Play note %d\n", keys[k].midiNote);
+                    // Serial.printf("Play note %d\n", keys[k].value);
                 }
                 else
                 {
