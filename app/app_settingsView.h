@@ -11,10 +11,9 @@
 
 class App_SettingsView : public UI_Component
 {
-protected:
+public:
     UI_Slider volume;
 
-public:
     App_SettingsView() : volume(10, &UI_THEME_GREEN[0], "Volume")
     {
     }

@@ -40,7 +40,7 @@ int32_t get_data_channels(Frame *frame, int32_t channel_len)
     for (int sample = 0; sample < channel_len; ++sample)
     {
         wave.amplitudeMod = asr.next();
-        frame[sample].channel1 = wave.next();
+        frame[sample].channel1 = wave.next() * settingsView.volume.value;
         frame[sample].channel2 = frame[sample].channel1;
     }
 
