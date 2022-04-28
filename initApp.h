@@ -21,6 +21,7 @@
 #include "fastTrigo.h"
 
 uint8_t previousMode = MODE_KEYBOARD;
+uint8_t currentMode = MODE_KEYBOARD;
 uint8_t mode = MODE_KEYBOARD;
 
 BluetoothA2DPSource a2dp_source;
@@ -74,6 +75,7 @@ void eventHandler(Event &e)
     {
         if (menuView.update(e))
         {
+            previousMode = currentMode;
             render();
         }
     }
@@ -129,10 +131,11 @@ void loopApp()
         if (mode == MODE_MENU)
         {
             mode = previousMode;
+            previousMode = currentMode;
         }
         else
         {
-            previousMode = mode;
+            currentMode = mode;
             mode = MODE_MENU;
         }
         render();
