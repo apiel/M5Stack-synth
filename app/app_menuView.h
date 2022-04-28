@@ -33,7 +33,7 @@ protected:
         {0, KEY_H * 2, KEY_W, KEY_H, 8, UI_THEME_PURPLE},
         {KEY_W, KEY_H * 2, KEY_W, KEY_H, 9, UI_THEME_PURPLE},
         {KEY_W * 2, KEY_H * 2, KEY_W, KEY_H, 10, UI_THEME_PURPLE},
-        {KEY_W * 3, KEY_H * 2, KEY_W, KEY_H, 11, UI_THEME_PURPLE}};
+        {KEY_W * 3, KEY_H * 2, KEY_W, KEY_H, MODE_SETTINGS, UI_THEME_PURPLE, "Settings"}};
 
 public:
     uint8_t *mode;

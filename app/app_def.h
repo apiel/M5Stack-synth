@@ -6,6 +6,7 @@ enum
     MODE_MENU,
     MODE_KEYBOARD,
     MODE_WAVE,
+    MODE_SETTINGS,
     MODE_COUNT
 };
 

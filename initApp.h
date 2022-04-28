@@ -16,6 +16,7 @@
 #include "app/app_keyboardView.h"
 #include "app/app_waveView.h"
 #include "app/app_menuView.h"
+#include "app/app_settingsView.h"
 
 #include "fastTrigo.h"
 
@@ -31,6 +32,7 @@ Zic_Mod_AsrNext asr;
 App_KeyboardView keyboardView(&wave, &asr);
 App_WaveView waveView(&wave, &asr);
 App_MenuView menuView(&mode);
+App_SettingsView settingsView;
 
 // TODO play sound from internal speaker
 int32_t get_data_channels(Frame *frame, int32_t channel_len)
@@ -55,6 +57,10 @@ void render()
     {
         waveView.render();
     }
+    else if (mode == MODE_SETTINGS)
+    {
+        settingsView.render();
+    }
     else
     {
         menuView.render();
@@ -66,7 +72,8 @@ void eventHandler(Event &e)
     // Serial.printf("%s %3d,%3d\n", e.typeName(), e.to.x, e.to.y);
     if (mode == MODE_MENU)
     {
-        if (menuView.update(e)) {
+        if (menuView.update(e))
+        {
             render();
         }
     }
@@ -78,6 +85,10 @@ void eventHandler(Event &e)
     {
         waveView.update(e);
     }
+    else if (mode == MODE_SETTINGS)
+    {
+        settingsView.update(e);
+    }
 }
 
 void initApp()
@@ -88,7 +99,7 @@ void initApp()
     M5.begin();
     SD.begin();
 
-    Serial.println(M5.Lcd.width()); 
+    Serial.println(M5.Lcd.width());
 
     // // loading from SD is soooooooooo slow!!!!
     // // TODO see if we can load the wavetable in another thread
