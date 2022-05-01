@@ -5,6 +5,8 @@
 #include <math.h>
 #include <M5Core2.h>
 
+#include "initAudio.h"
+
 #include "zic/zic_mod_asrNext.h"
 
 #include "zic/zic_wave_wavetable.h"
@@ -111,6 +113,12 @@ void initApp()
 
     M5.background.addHandler(eventHandler, E_ALL);
     render();
+
+    M5.Axp.SetSpkEnable(true);
+    InitI2SSpeakOrMic(MODE_SPK);
+    size_t bytes_written = 0;
+    i2s_write(Speak_I2S_NUMBER, bibiSig, 8820, &bytes_written,
+              portMAX_DELAY);
 
     a2dp_source.start("Geo Speaker", get_data_channels);
 }
