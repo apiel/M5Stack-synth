@@ -65,10 +65,11 @@ void playSpeaker()
 {
     if (!a2dp_source.is_connected())
     {
-        int16_t samples[1024];
-        getSamples(&samples[0], 1024, 10);
+        uint16_t len = 2048;
+        int16_t samples[len];
+        getSamples(&samples[0], len, 10);
         size_t bytes_written = 0;
-        i2s_write(Speak_I2S_NUMBER, samples, 1024, &bytes_written, portMAX_DELAY);
+        i2s_write(Speak_I2S_NUMBER, samples, len, &bytes_written, portMAX_DELAY);
     }
 }
 
