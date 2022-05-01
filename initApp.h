@@ -43,22 +43,22 @@ int16_t getSample()
     return wave.next() * settingsView.volume.value;
 }
 
-void getSamples(int16_t *samples, uint32_t len)
+void getSamples(int16_t *samples, uint32_t len, uint8_t gain = 1)
 {
     for (int i = 0; i < len; ++i)
     {
-        samples[i] = getSample();
+        samples[i] = getSample() * gain;
     }
 }
 
-int32_t getStereoSamples(Frame *frame, int32_t channel_len)
+int32_t getStereoSamples(Frame *frame, int32_t len)
 {
-    for (int sample = 0; sample < channel_len; ++sample)
+    for (int sample = 0; sample < len; ++sample)
     {
         frame[sample].channel1 = getSample();
         frame[sample].channel2 = frame[sample].channel1;
     }
-    return channel_len;
+    return len;
 }
 
 void playSpeaker()
@@ -66,7 +66,7 @@ void playSpeaker()
     if (!a2dp_source.is_connected())
     {
         int16_t samples[1024];
-        getSamples(&samples[0], 1024);
+        getSamples(&samples[0], 1024, 10);
         size_t bytes_written = 0;
         i2s_write(Speak_I2S_NUMBER, samples, 1024, &bytes_written, portMAX_DELAY);
     }
