@@ -61,6 +61,7 @@ int32_t getStereoSamples(Frame *frame, int32_t len)
     return len;
 }
 
+// FIXME still not good sound
 void playSpeaker()
 {
     if (!a2dp_source.is_connected())
