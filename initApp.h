@@ -6,6 +6,7 @@
 #include <M5Core2.h>
 
 #include "initAudio.h"
+#include "patterns.h"
 
 #include "zic/zic_mod_asrNext.h"
 
@@ -14,6 +15,7 @@
 #include "zic/wavetables/wavetable_Bank.h"
 #include "zic/wavetables/wavetable_sine.h"
 #include "zic/zic_seq_tempo.h"
+#include "zic/zic_seq_loop.h"
 
 #include "app/app_def.h"
 #include "app/app_keyboardView.h"
@@ -33,6 +35,7 @@ Zic_Wave_Wavetable wave(&wavetable_Bank);
 // Zic_Wave_Wavetable wave(&wavetable_Sine);
 Zic_Mod_AsrNext asr;
 Zic_Seq_Tempo<> tempo;
+Zic_Seq_Loop looper(&patterns[2]);
 
 App_KeyboardView keyboardView(&wave, &asr);
 App_WaveView waveView(&wave, &asr);
@@ -96,6 +99,25 @@ void render()
     }
 }
 
+void sequencer()
+{
+    if (tempo.next(millis()))
+    {
+        looper.next();
+        Zic_Seq_Step *stepOff = looper.getNoteOff();
+        Zic_Seq_Step *stepOn = looper.getNoteOn();
+        if (stepOff)
+        {
+            asr.off();
+        }
+        if (stepOn)
+        {
+            wave.frequency = NOTE_FREQ[stepOn->note];
+            asr.on();
+        }
+    }
+}
+
 void eventHandler(Event &e)
 {
     // Serial.printf("%s %3d,%3d\n", e.typeName(), e.to.x, e.to.y);
@@ -144,6 +166,9 @@ void initApp()
     InitI2SSpeakOrMic(MODE_SPK);
 
     a2dp_source.start("Geo Speaker", getStereoSamples);
+
+    // looper.setLoopMode(true);
+    // looper.noteOn(_C3, 100);
 }
 
 void loopApp()
@@ -172,10 +197,7 @@ void loopApp()
         render();
     }
 
-    if (tempo.next(millis()))
-    {
-        // Serial.println("tick");
-    }
+    sequencer();
     playSpeaker();
 }
 

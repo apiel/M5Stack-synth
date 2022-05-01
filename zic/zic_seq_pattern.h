@@ -15,7 +15,7 @@ public:
     uint8_t velocity = 127;
     bool slide = false;
 
-    Step() {}
+    Zic_Seq_Step() {}
 
     Zic_Seq_Step(uint8_t _note, bool _slide)
     {

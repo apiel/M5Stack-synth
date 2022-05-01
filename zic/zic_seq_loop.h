@@ -17,20 +17,6 @@ protected:
 
     uint8_t nextToPlay = 0;
 
-    void activateSingleLoopMode(bool value = true)
-    {
-        loopOn = value;
-        if (loopOn)
-        {
-            nextToPlay = previousLoopNote;
-        }
-        else
-        {
-            previousLoopNote = nextToPlay;
-            nextToPlay = 0;
-        }
-    }
-
     virtual void setNextToPlay()
     {
         play = nextToPlay ? nextToPlay : 0;
@@ -92,6 +78,7 @@ public:
         }
     }
 
+    // TODO velo optional?
     void noteOn(uint8_t note, uint8_t _velocity)
     {
         nextVelocity = _velocity;
@@ -106,7 +93,21 @@ public:
         }
     }
 
-    void toggleMode() { activateSingleLoopMode(!loopOn); }
+    void toggleLoopMode() { setLoopMode(!loopOn); }
+
+    void setLoopMode(bool value = true)
+    {
+        loopOn = value;
+        if (loopOn)
+        {
+            nextToPlay = previousLoopNote;
+        }
+        else
+        {
+            previousLoopNote = nextToPlay;
+            nextToPlay = 0;
+        }
+    }
 };
 
 #endif
