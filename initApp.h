@@ -37,40 +37,38 @@ App_WaveView waveView(&wave, &asr);
 App_MenuView menuView(&mode);
 App_SettingsView settingsView;
 
-// void getSamples(int16_t *samples, uint32_t len)
-// {
-//     for (int i = 0; i < len; ++i)
-//     {
-//         wave.amplitudeMod = asr.next();
-//         samples[i] = wave.next() * settingsView.volume.value;
-//     }
-// }
+int16_t getSample()
+{
+    wave.amplitudeMod = asr.next();
+    return wave.next() * settingsView.volume.value;
+}
 
-// TODO play sound from internal speaker
-int32_t get_data_channels(Frame *frame, int32_t channel_len)
+void getSamples(int16_t *samples, uint32_t len)
+{
+    for (int i = 0; i < len; ++i)
+    {
+        samples[i] = getSample();
+    }
+}
+
+int32_t getStereoSamples(Frame *frame, int32_t channel_len)
 {
     for (int sample = 0; sample < channel_len; ++sample)
     {
-        wave.amplitudeMod = asr.next();
-        frame[sample].channel1 = wave.next() * settingsView.volume.value;
+        frame[sample].channel1 = getSample();
         frame[sample].channel2 = frame[sample].channel1;
     }
-
     return channel_len;
 }
 
-void playOnSpeaker()
+void playSpeaker()
 {
     if (!a2dp_source.is_connected())
     {
-        uint8_t data[1024];
-        for (uint16_t i = 0; i < 1024; i++)
-        {
-            wave.amplitudeMod = asr.next();
-            data[i] = wave.next();
-        }
+        int16_t samples[1024];
+        getSamples(&samples[0], 1024);
         size_t bytes_written = 0;
-        i2s_write(Speak_I2S_NUMBER, data, 1024, &bytes_written, portMAX_DELAY);
+        i2s_write(Speak_I2S_NUMBER, samples, 1024, &bytes_written, portMAX_DELAY);
     }
 }
 
@@ -141,7 +139,7 @@ void initApp()
     M5.Axp.SetSpkEnable(true);
     InitI2SSpeakOrMic(MODE_SPK);
 
-    a2dp_source.start("Geo Speaker", get_data_channels);
+    a2dp_source.start("Geo Speaker", getStereoSamples);
 }
 
 void loopApp()
@@ -170,7 +168,7 @@ void loopApp()
         render();
     }
 
-    playOnSpeaker();
+    playSpeaker();
 }
 
 #endif
