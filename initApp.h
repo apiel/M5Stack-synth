@@ -37,6 +37,15 @@ App_WaveView waveView(&wave, &asr);
 App_MenuView menuView(&mode);
 App_SettingsView settingsView;
 
+// void getSamples(int16_t *samples, uint32_t len)
+// {
+//     for (int i = 0; i < len; ++i)
+//     {
+//         wave.amplitudeMod = asr.next();
+//         samples[i] = wave.next() * settingsView.volume.value;
+//     }
+// }
+
 // TODO play sound from internal speaker
 int32_t get_data_channels(Frame *frame, int32_t channel_len)
 {
@@ -48,6 +57,21 @@ int32_t get_data_channels(Frame *frame, int32_t channel_len)
     }
 
     return channel_len;
+}
+
+void playOnSpeaker()
+{
+    if (!a2dp_source.is_connected())
+    {
+        uint8_t data[1024];
+        for (uint16_t i = 0; i < 1024; i++)
+        {
+            wave.amplitudeMod = asr.next();
+            data[i] = wave.next();
+        }
+        size_t bytes_written = 0;
+        i2s_write(Speak_I2S_NUMBER, data, 1024, &bytes_written, portMAX_DELAY);
+    }
 }
 
 void render()
@@ -116,9 +140,6 @@ void initApp()
 
     M5.Axp.SetSpkEnable(true);
     InitI2SSpeakOrMic(MODE_SPK);
-    size_t bytes_written = 0;
-    i2s_write(Speak_I2S_NUMBER, bibiSig, 8820, &bytes_written,
-              portMAX_DELAY);
 
     a2dp_source.start("Geo Speaker", get_data_channels);
 }
@@ -148,6 +169,8 @@ void loopApp()
         }
         render();
     }
+
+    playOnSpeaker();
 }
 
 #endif
