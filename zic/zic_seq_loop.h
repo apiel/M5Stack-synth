@@ -1,5 +1,5 @@
-#ifndef ZIC_LOOP_H_
-#define ZIC_LOOP_H_
+#ifndef ZIC_SEQ_LOOP_H_
+#define ZIC_SEQ_LOOP_H_
 
 #include "zic/zic_note.h"
 #include "zic/zic_seq_pattern.h"
