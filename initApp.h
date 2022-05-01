@@ -168,7 +168,7 @@ void initApp()
     a2dp_source.start("Geo Speaker", getStereoSamples);
 
     // looper.setLoopMode(true);
-    // looper.noteOn(_C3, 100);
+    // looper.noteOn(_C3);
 }
 
 void loopApp()

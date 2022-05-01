@@ -6,14 +6,18 @@
 
 #define REF_NOTE _C4
 
+#ifndef SEQ_LOOP_DEFAULT_VELOCITY
+#define SEQ_LOOP_DEFAULT_VELOCITY 100
+#endif
+
 class Zic_Seq_Loop
 {
 protected:
     uint8_t currentStep = 0;
     Zic_Seq_Step stepOn;
     Zic_Seq_Step stepOff;
-    uint8_t velocity = 100;
-    uint8_t nextVelocity = 100;
+    uint8_t velocity = SEQ_LOOP_DEFAULT_VELOCITY;
+    uint8_t nextVelocity = SEQ_LOOP_DEFAULT_VELOCITY;
 
     uint8_t nextToPlay = 0;
 
@@ -78,8 +82,7 @@ public:
         }
     }
 
-    // TODO velo optional?
-    void noteOn(uint8_t note, uint8_t _velocity)
+    void noteOn(uint8_t note, uint8_t _velocity = SEQ_LOOP_DEFAULT_VELOCITY)
     {
         nextVelocity = _velocity;
         nextToPlay = note;
