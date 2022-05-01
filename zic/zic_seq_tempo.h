@@ -6,7 +6,7 @@ template <uint8_t STEP_PER_BEAT = 4>
 class Zic_Seq_Tempo
 {
 protected:
-    unsigned long previous;
+    unsigned long previous = 0;
     uint16_t tempo;
     uint16_t bpm;
 
@@ -24,12 +24,6 @@ public:
 
     bool next(unsigned long now)
     {
-        if (interval_millis == 0)
-        {
-            previous = now;
-            return true;
-        }
-
         if ((now - previous) >= tempo)
         {
             previous = now;

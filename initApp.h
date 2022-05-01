@@ -13,6 +13,7 @@
 #include "zic/zic_wavetable_SD.h"
 #include "zic/wavetables/wavetable_Bank.h"
 #include "zic/wavetables/wavetable_sine.h"
+#include "zic/zic_seq_tempo.h"
 
 #include "app/app_def.h"
 #include "app/app_keyboardView.h"
@@ -31,6 +32,7 @@ BluetoothA2DPSource a2dp_source;
 Zic_Wave_Wavetable wave(&wavetable_Bank);
 // Zic_Wave_Wavetable wave(&wavetable_Sine);
 Zic_Mod_AsrNext asr;
+Zic_Seq_Tempo<> tempo;
 
 App_KeyboardView keyboardView(&wave, &asr);
 App_WaveView waveView(&wave, &asr);
@@ -170,6 +172,10 @@ void loopApp()
         render();
     }
 
+    if (tempo.next(millis()))
+    {
+        // Serial.println("tick");
+    }
     playSpeaker();
 }
 
