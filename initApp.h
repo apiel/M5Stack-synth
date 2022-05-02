@@ -115,11 +115,13 @@ void sequencer()
         if (stepOff)
         {
             asr.off();
+            Serial.printf("Note off %d\n", stepOff->note);
         }
         if (stepOn)
         {
             wave.frequency = NOTE_FREQ[stepOn->note];
             asr.on();
+            Serial.printf("Note on %d\n", stepOn->note);
         }
     }
 }

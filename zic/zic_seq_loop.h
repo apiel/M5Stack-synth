@@ -21,11 +21,6 @@ protected:
 
     uint8_t nextToPlay = 0;
 
-    virtual void setNextToPlay()
-    {
-        play = nextToPlay ? nextToPlay : 0;
-    }
-
 public:
     bool loopOn = false;
     uint8_t play = 0;
@@ -61,6 +56,7 @@ public:
         {
             // To avoid repeating this again, let set slide to true
             stepOff.slide = true;
+            return &stepOff;
         }
         return NULL;
     }
@@ -71,13 +67,15 @@ public:
         {
             stepOff.set(&stepOn);
             stepOn.set(&pattern->steps[currentStep]);
+            stepOn.note += (int)play - (int)REF_NOTE;
+            stepOn.velocity = velocity;
             currentStep = (currentStep + 1) % pattern->stepCount;
         }
 
         if (currentStep == 0)
         {
             pattern = nextPattern;
-            setNextToPlay();
+            play = nextToPlay ? nextToPlay : 0;
             velocity = nextVelocity;
         }
     }
