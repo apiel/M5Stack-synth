@@ -24,6 +24,8 @@ protected:
 
     float value = 0.0f;
 
+    uint8_t note = 0;
+
 public:
     bool noSustain = false;
 
@@ -84,14 +86,20 @@ public:
         return value;
     }
 
-    void on()
+    void on(uint8_t _note = 0)
     {
+        note = _note;
         value = 0.0f;
         phase = ATTACK_PHASE;
     }
 
-    void off()
+    void off(uint8_t _note = 0)
     {
+        if (_note && _note != note)
+        {
+            return;
+        }
+
         phase = RELEASE_PHASE;
     }
 };

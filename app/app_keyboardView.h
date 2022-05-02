@@ -40,10 +40,6 @@ public:
 
     bool update(Event &e)
     {
-        // TODO might need to find a better way, cause note on doesn't last
-        // either fix ASR or find better UI handler
-        bool isOn = false;
-        bool isOff = false;
         for (uint8_t k = 0; k < KEYS_COUNT; k++)
         {
             if (keys[k].update(e))
@@ -51,20 +47,14 @@ public:
                 if (keys[k].isOn)
                 {
                     wave->frequency = NOTE_FREQ[keys[k].value];
-                    asr->on();
-                    isOn = true;
+                    asr->on(keys[k].value);
                     // Serial.printf("Play note %d\n", keys[k].value);
                 }
                 else
                 {
-                    isOff = true;
+                    asr->off(keys[k].value);
                 }
             }
-        }
-        if (isOff && !isOn)
-        {
-            // only if there is not another note on
-            asr->off();
         }
         return false;
     }

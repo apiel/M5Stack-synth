@@ -30,6 +30,8 @@ protected:
 
     float value = 0.0f;
 
+    uint8_t note = 0;
+
 public:
     bool noSustain = false;
 
@@ -91,18 +93,27 @@ public:
         return value;
     }
 
-    void on()
+    void on(uint8_t _note = 0)
     {
+        note = _note;
         value = 0.0f;
         nextPhase = noSustain ? RELEASE_PHASE : SUSTAIN_PHASE;
         phase = ATTACK_PHASE;
     }
 
-    void off()
+    void off(uint8_t _note = 0)
     {
-        if (nextPhase != END_PHASE) {
+        if (_note && _note != note)
+        {
+            return;
+        }
+
+        if (nextPhase != END_PHASE)
+        {
             nextPhase = RELEASE_PHASE;
-        } else {
+        }
+        else
+        {
             phase = RELEASE_PHASE;
         }
     }

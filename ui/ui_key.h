@@ -24,6 +24,7 @@ protected:
 public:
     bool isOn = false;
     uint8_t value = 0;
+    uint16_t background = UI_BACKGROUND;
 
     UI_Key(uint16_t _x, uint16_t _y, uint8_t _value = 0,
            const uint16_t *_color = &UI_THEME_BLUE[0], const char *_name = NULL) : area(_x, _y, 45, 45)
@@ -45,13 +46,13 @@ public:
         }
         else
         {
-            M5.Lcd.fillRect(area.x, area.y, area.w, area.h, UI_BACKGROUND);
+            M5.Lcd.fillRect(area.x, area.y, area.w, area.h, background);
         }
         M5.Lcd.drawRect(area.x, area.y, area.w, area.h, color[0]);
         if (name)
         {
             M5.Lcd.setCursor(area.x + 5, area.y + 5);
-            M5.Lcd.setTextColor(color[1], UI_BACKGROUND);
+            M5.Lcd.setTextColor(color[1], background);
             M5.Lcd.println(name);
         }
     }

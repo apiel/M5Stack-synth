@@ -4,6 +4,7 @@
 enum
 {
     MODE_MENU,
+    MODE_LOOPER,
     MODE_KEYBOARD,
     MODE_WAVE,
     MODE_SETTINGS,

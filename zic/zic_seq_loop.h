@@ -82,13 +82,13 @@ public:
         }
     }
 
-    void noteOn(uint8_t note, uint8_t _velocity = SEQ_LOOP_DEFAULT_VELOCITY)
+    void on(uint8_t note, uint8_t _velocity = SEQ_LOOP_DEFAULT_VELOCITY)
     {
         nextVelocity = _velocity;
         nextToPlay = note;
     }
 
-    void noteOff(uint8_t note)
+    void off(uint8_t note)
     {
         if (!loopOn && note == nextToPlay)
         {

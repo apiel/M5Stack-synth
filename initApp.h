@@ -22,12 +22,13 @@
 #include "app/app_waveView.h"
 #include "app/app_menuView.h"
 #include "app/app_settingsView.h"
+#include "app/app_looperView.h"
 
 #include "fastTrigo.h"
 
-uint8_t previousMode = MODE_KEYBOARD;
-uint8_t currentMode = MODE_KEYBOARD;
-uint8_t mode = MODE_KEYBOARD;
+uint8_t previousMode = MODE_LOOPER;
+uint8_t currentMode = MODE_LOOPER;
+uint8_t mode = MODE_LOOPER;
 
 BluetoothA2DPSource a2dp_source;
 
@@ -41,6 +42,7 @@ App_KeyboardView keyboardView(&wave, &asr);
 App_WaveView waveView(&wave, &asr);
 App_MenuView menuView(&mode);
 App_SettingsView settingsView;
+App_LooperView looperView(&looper);
 
 int16_t getSample()
 {
@@ -84,6 +86,10 @@ void render()
     if (mode == MODE_KEYBOARD)
     {
         keyboardView.render();
+    }
+    else if (mode == MODE_LOOPER)
+    {
+        looperView.render();
     }
     else if (mode == MODE_WAVE)
     {
@@ -133,6 +139,10 @@ void eventHandler(Event &e)
     {
         keyboardView.update(e);
     }
+    else if (mode == MODE_LOOPER)
+    {
+        looperView.update(e);
+    }
     else if (mode == MODE_WAVE)
     {
         waveView.update(e);
@@ -155,6 +165,7 @@ void initApp()
 
     // // loading from SD is soooooooooo slow!!!!
     // // TODO see if we can load the wavetable in another thread
+    // // or maybe we could just read the wavetable live from the file
     // M5.Lcd.println("Load wavetable bank...");
     // uint8_t ret = loadWavetableFromSD(&wavetable_Bank, "/01.wav");
     // Serial.printf("Load wavetable %d\n", ret);
@@ -174,14 +185,6 @@ void initApp()
 void loopApp()
 {
     M5.update();
-    // TODO might want to have a screen to select mode
-    // long press display screen selector and select mode with dual touch
-    // or should it be a short press bringing to mode screen?
-    // ...
-    // what the point to do dual touch, as it will be anyway pressing screen twice
-    // once on screen mode selector, short press could also do something (go back)
-    // as db press could do (toggle to prev screen)
-    // as long press could do (?)
     if (M5.BtnA.wasPressed())
     {
         if (mode == MODE_MENU)

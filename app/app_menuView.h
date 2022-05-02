@@ -22,9 +22,9 @@ protected:
     // https://unicode-table.com/fr/1F3B9/
 
     UI_Key keys[KEYS_COUNT] = {
-        {0, 0, KEY_W, KEY_H, MODE_KEYBOARD, UI_THEME_PURPLE, "Keyboard"},
+        {0, 0, KEY_W, KEY_H, MODE_LOOPER, UI_THEME_PURPLE, "Looper"},
         {KEY_W, 0, KEY_W, KEY_H, MODE_WAVE, UI_THEME_PURPLE, "Wave"},
-        {KEY_W * 2, 0, KEY_W, KEY_H, 2, UI_THEME_PURPLE},
+        {KEY_W * 2, 0, KEY_W, KEY_H, MODE_KEYBOARD, UI_THEME_PURPLE, "Keyboard"},
         {KEY_W * 3, 0, KEY_W, KEY_H, 3, UI_THEME_PURPLE},
         {0, KEY_H, KEY_W, KEY_H, 4, UI_THEME_PURPLE},
         {KEY_W, KEY_H, KEY_W, KEY_H, 5, UI_THEME_PURPLE},
