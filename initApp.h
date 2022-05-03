@@ -120,7 +120,6 @@ void sequencer()
         {
             wave.frequency = NOTE_FREQ[stepOn->note];
             asr.on();
-            Serial.printf("Note on %d\n", stepOn->note);
         }
     }
 }

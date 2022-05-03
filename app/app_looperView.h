@@ -27,6 +27,8 @@ protected:
     UI_Key keys[KEYS_COUNT] = {
         {0, 90, _C4}, {45, 90, _D4}, {90, 90, _E4}, {135, 90, _F4}, {180, 90, _G4}, {225, 90, _A4}, {270, 90, _B4}, {0, 135, _C3}, {45, 135, _D3}, {90, 135, _E3}, {135, 135, _F3}, {180, 135, _G3}, {225, 135, _A3}, {270, 135, _B3}, {0, 180, _C2}, {45, 180, _D2}, {90, 180, _E2}, {135, 180, _F2}, {180, 180, _G2}, {225, 180, _A2}, {270, 180, _B2}};
 
+    uint8_t lastKeyOn = 0;
+
 public:
     App_LooperView(Zic_Seq_Loop *_looper)
     {
@@ -36,6 +38,7 @@ public:
     void render()
     {
         M5.Lcd.fillScreen(UI_BACKGROUND);
+        Serial.printf("nextToPlay %d\n", looper->nextToPlay);
         for (uint8_t k = 0; k < KEYS_COUNT; k++)
         {
             keys[k].render();
@@ -55,6 +58,13 @@ public:
             {
                 if (keys[k].isOn)
                 {
+                    // FIXME NOT perfect but somehow work
+                    keys[lastKeyOn].background = UI_BACKGROUND;
+                    keys[lastKeyOn].render();
+                    keys[k].background = UI_THEME_RED[0];
+                    keys[k].render();
+                    lastKeyOn = k;
+
                     looper->on(keys[k].value);
                 }
                 else

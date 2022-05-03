@@ -19,12 +19,11 @@ protected:
     uint8_t velocity = SEQ_LOOP_DEFAULT_VELOCITY;
     uint8_t nextVelocity = SEQ_LOOP_DEFAULT_VELOCITY;
 
-    uint8_t nextToPlay = 0;
-
 public:
     bool loopOn = false;
     uint8_t play = 0;
     uint8_t previousLoopNote = 0;
+    uint8_t nextToPlay = 0;
 
     Zic_Seq_Pattern *nextPattern = NULL;
     Zic_Seq_Pattern *pattern = NULL;
