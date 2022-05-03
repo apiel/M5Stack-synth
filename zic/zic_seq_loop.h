@@ -63,7 +63,7 @@ public:
 
     void next()
     {
-        if (pattern)
+        if (play && pattern)
         {
             stepOff.set(&stepOn);
             stepOn.set(&pattern->steps[currentStep]);

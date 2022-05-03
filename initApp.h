@@ -115,7 +115,6 @@ void sequencer()
         if (stepOff)
         {
             asr.off();
-            Serial.printf("Note off %d\n", stepOff->note);
         }
         if (stepOn)
         {

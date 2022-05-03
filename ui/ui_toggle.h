@@ -14,7 +14,6 @@ protected:
 
 public:
     bool isOn = false;
-    uint8_t midiNote = 60;
 
     UI_Toggle(uint16_t _x, uint16_t _y) : area(_x, _y, 60, 35)
     {
