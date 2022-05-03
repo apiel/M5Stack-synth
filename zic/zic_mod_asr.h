@@ -12,6 +12,9 @@ enum
     PHASE_COUNT
 };
 
+/**
+ * @brief ASR envelop
+ */
 class Zic_Mod_Asr
 {
 protected:
