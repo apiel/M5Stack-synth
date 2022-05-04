@@ -3,15 +3,6 @@
 
 #include <stdint.h>
 
-enum
-{
-    ATTACK_PHASE,
-    SUSTAIN_PHASE,
-    RELEASE_PHASE,
-    END_PHASE,
-    PHASE_COUNT
-};
-
 /**
  * Because using ASR with a touchscreen does work so well no play the full note,
  * Let's the Attack phase force to finish before to switch to another phase
@@ -32,11 +23,24 @@ protected:
 
     uint8_t note = 0;
 
+    enum
+    {
+        ATTACK_PHASE,
+        SUSTAIN_PHASE,
+        RELEASE_PHASE,
+        END_PHASE,
+        PHASE_COUNT
+    };
+
 public:
+    /**
+     * @brief set to true to skip substain phase
+     */
     bool noSustain = false;
 
-    Zic_Mod_AsrNext()
+    Zic_Mod_AsrNext(bool _noSustain = false)
     {
+        noSustain = _noSustain;
         setAttack(attackMs);
         setRelease(releaseMs);
     }
@@ -48,12 +52,14 @@ public:
 
     void setAttack(uint16_t ms)
     {
+        attackMs = ms;
         // TODO set kind of randomly 50, try to find out
         attackStep = 1.0f / (ms * 50);
     }
 
     void setRelease(uint16_t ms)
     {
+        releaseMs = ms;
         releaseStep = 1.0f / (ms * 50);
     }
 

@@ -3,15 +3,6 @@
 
 #include <stdint.h>
 
-enum
-{
-    ATTACK_PHASE,
-    SUSTAIN_PHASE,
-    RELEASE_PHASE,
-    END_PHASE,
-    PHASE_COUNT
-};
-
 /**
  * @brief ASR envelop
  */
@@ -29,31 +20,67 @@ protected:
 
     uint8_t note = 0;
 
+    enum
+    {
+        ATTACK_PHASE,
+        SUSTAIN_PHASE,
+        RELEASE_PHASE,
+        END_PHASE,
+        PHASE_COUNT
+    };
+
 public:
+    /**
+     * @brief set to true to skip substain phase
+     */
     bool noSustain = false;
 
-    Zic_Mod_Asr()
+    Zic_Mod_Asr(bool _noSustain = false)
     {
+        noSustain = _noSustain;
         setAttack(attackMs);
         setRelease(releaseMs);
     }
 
+    /**
+     * @brief return if the envelop is currently playing.
+     *
+     * @return true
+     * @return false
+     */
     bool isOn()
     {
         return phase != END_PHASE;
     }
 
+    /**
+     * @brief Set the Attack time in ms
+     *
+     * @param ms
+     */
     void setAttack(uint16_t ms)
     {
+        attackMs = ms;
         // TODO set kind of randomly 50, try to find out
         attackStep = 1.0f / (ms * 50);
     }
 
+    /**
+     * @brief Set the Release time in ms
+     *
+     * @param ms
+     */
     void setRelease(uint16_t ms)
     {
+        releaseMs = ms;
         releaseStep = 1.0f / (ms * 50);
     }
 
+    /**
+     * @brief to be called to update the phase
+     *
+     * @return float
+     */
     float next()
     {
         switch (phase)
@@ -89,6 +116,11 @@ public:
         return value;
     }
 
+    /**
+     * @brief trigger the envelop to start
+     *
+     * @param _note
+     */
     void on(uint8_t _note = 0)
     {
         note = _note;
@@ -96,6 +128,11 @@ public:
         phase = ATTACK_PHASE;
     }
 
+    /**
+     * @brief trigger the envelop to release
+     *
+     * @param _note
+     */
     void off(uint8_t _note = 0)
     {
         if (_note && _note != note)
