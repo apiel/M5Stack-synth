@@ -73,7 +73,7 @@ public:
             }
             // Serial.printf("knob value %d direction %d\n", knob.value, knob.direction);
             // for testing
-            if (!togglePlay.isOn)
+            if (togglePlay.isOn)
             {
                 if (knob.active)
                 {
@@ -89,17 +89,7 @@ public:
             }
             renderKnobValue();
         }
-        if (togglePlay.update(e))
-        {
-            if (togglePlay.isOn)
-            {
-                asr->on();
-            }
-            else
-            {
-                asr->off();
-            }
-        }
+        togglePlay.update(e);
         toggleMorph.update(e);
         return false;
     }
