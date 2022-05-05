@@ -43,6 +43,7 @@ public:
     {
         M5.Lcd.fillScreen(UI_BACKGROUND);
         knob.render();
+        // TODO use wave->pos to set knob.value
 
         M5.Lcd.setCursor(25, 50);
         M5.Lcd.println("Play");
