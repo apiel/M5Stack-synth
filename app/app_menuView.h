@@ -25,7 +25,7 @@ protected:
         {0, 0, KEY_W, KEY_H, MODE_LOOPER, UI_THEME_PURPLE, "Looper"},
         {KEY_W, 0, KEY_W, KEY_H, MODE_WAVE, UI_THEME_PURPLE, "Wave"},
         {KEY_W * 2, 0, KEY_W, KEY_H, MODE_KEYBOARD, UI_THEME_PURPLE, "Keyboard"},
-        {KEY_W * 3, 0, KEY_W, KEY_H, 3, UI_THEME_PURPLE},
+        {KEY_W * 3, 0, KEY_W, KEY_H, MODE_TRACK, UI_THEME_PURPLE, "Tracks"},
         {0, KEY_H, KEY_W, KEY_H, 4, UI_THEME_PURPLE},
         {KEY_W, KEY_H, KEY_W, KEY_H, 5, UI_THEME_PURPLE},
         {KEY_W * 2, KEY_H, KEY_W, KEY_H, 6, UI_THEME_PURPLE},

@@ -34,6 +34,9 @@ float *makeLutCos(void)
 float *lutSine = makeLutSine();
 float *lutCos = makeLutCos();
 
+// some other solution than lookup table could be:
+// https://github.com/korginc/logue-sdk/blob/master/platform/nutekt-digital/inc/utils/float_math.h#L498
+
 float fastSine(float radian) // 0 to 2PI (6.28)
 {
     return lutSine[getPos(radian)];

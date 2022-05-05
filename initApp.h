@@ -21,6 +21,7 @@
 #include "app/app_keyboardView.h"
 #include "app/app_waveView.h"
 #include "app/app_menuView.h"
+#include "app/app_trackView.h"
 #include "app/app_settingsView.h"
 #include "app/app_looperView.h"
 
@@ -29,6 +30,7 @@
 uint8_t previousMode = MODE_LOOPER;
 uint8_t currentMode = MODE_LOOPER;
 uint8_t mode = MODE_LOOPER;
+uint8_t track = TRACK_1;
 
 BluetoothA2DPSource a2dp_source;
 
@@ -43,6 +45,7 @@ App_WaveView waveView(&wave, &asr);
 App_MenuView menuView(&mode);
 App_SettingsView settingsView;
 App_LooperView looperView(&looper);
+App_TrackView trackView(&track);
 
 int16_t getSample()
 {
@@ -95,6 +98,10 @@ void render()
     {
         waveView.render();
     }
+    else if (mode == MODE_TRACK)
+    {
+        trackView.render();
+    }
     else if (mode == MODE_SETTINGS)
     {
         settingsView.render();
@@ -124,6 +131,15 @@ void sequencer()
     }
 }
 
+void renderPreviousMode()
+{
+    if (currentMode != MODE_TRACK)
+    {
+        previousMode = currentMode;
+    }
+    render();
+}
+
 void eventHandler(Event &e)
 {
     // Serial.printf("%s %3d,%3d\n", e.typeName(), e.to.x, e.to.y);
@@ -131,8 +147,7 @@ void eventHandler(Event &e)
     {
         if (menuView.update(e))
         {
-            previousMode = currentMode;
-            render();
+            renderPreviousMode();
         }
     }
     else if (mode == MODE_KEYBOARD)
@@ -146,6 +161,14 @@ void eventHandler(Event &e)
     else if (mode == MODE_WAVE)
     {
         waveView.update(e);
+    }
+    else if (mode == MODE_TRACK)
+    {
+        if (trackView.update(e))
+        {
+            mode = previousMode;
+            render();
+        }
     }
     else if (mode == MODE_SETTINGS)
     {
