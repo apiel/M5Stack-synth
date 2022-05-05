@@ -8,9 +8,7 @@
 #include "initAudio.h"
 #include "patterns.h"
 
-#include "zic/zic_mod_asrNext.h"
-
-#include "zic/zic_wave_wavetable.h"
+#include "zic/zic_wavetable_synth.h"
 #include "zic/zic_wavetable_SD.h"
 #include "zic/wavetables/wavetable_Bank.h"
 #include "zic/zic_seq_tempo.h"
@@ -33,14 +31,13 @@ uint8_t track = TRACK_1;
 
 BluetoothA2DPSource a2dp_source;
 
-Zic_Wave_Wavetable wave0(&wavetable_Bank), wave1(&wavetable_Bank), wave2(&wavetable_Bank), wave3(&wavetable_Bank);
-Zic_Wave_Wavetable *waves[TRACK_COUNT] = {&wave0, &wave1, &wave2, &wave3};
-Zic_Mod_AsrNext asr;
+Zic_Wavetable_Synth synth0(&wavetable_Bank), synth1(&wavetable_Bank), synth2(&wavetable_Bank), synth3(&wavetable_Bank);
+Zic_Wavetable_Synth *synths[TRACK_COUNT] = {&synth0, &synth1, &synth2, &synth3};
 Zic_Seq_Tempo<> tempo;
 Zic_Seq_Loop looper(&patterns[2]);
 
-App_KeyboardView keyboardView(waves[track], &asr);
-App_WaveView waveView(waves[track], &asr);
+App_KeyboardView keyboardView(synths[track]);
+App_WaveView waveView(synths[track]);
 App_MenuView menuView(&mode);
 App_SettingsView settingsView;
 App_LooperView looperView(&looper);
@@ -48,8 +45,7 @@ App_TrackView trackView(&track);
 
 int16_t getSample()
 {
-    wave0.amplitudeMod = asr.next();
-    return wave0.next() * settingsView.volume.value;
+    return synth0.next() * settingsView.volume.value;
 }
 
 void getSamples(int16_t *samples, uint32_t len, uint8_t gain = 1)
@@ -120,12 +116,12 @@ void sequencer()
         Zic_Seq_Step *stepOn = looper.getNoteOn();
         if (stepOff)
         {
-            asr.off();
+            synths[0]->asr.off();
         }
         if (stepOn)
         {
-            wave0.frequency = NOTE_FREQ[stepOn->note];
-            asr.on();
+            synths[0]->wave.frequency = NOTE_FREQ[stepOn->note];
+            synths[0]->asr.on();
         }
     }
 }

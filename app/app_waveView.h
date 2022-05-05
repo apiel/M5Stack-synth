@@ -3,8 +3,7 @@
 
 #include <M5Core2.h>
 
-#include "zic/zic_wave_wavetable.h"
-#include "zic/zic_mod_asrNext.h"
+#include "zic/zic_wavetable_synth.h"
 
 #include "ui/ui_component.h"
 #include "ui/ui_color.h"
@@ -14,8 +13,7 @@
 class App_WaveView : public UI_Component
 {
 protected:
-    Zic_Wave_Wavetable *wave;
-    Zic_Mod_AsrNext *asr;
+    Zic_Wavetable_Synth *synth;
 
     UI_Knob knob;
     UI_Toggle togglePlay;
@@ -27,16 +25,15 @@ protected:
         M5.Lcd.setCursor(270, 10);
         // more or less the same as ((float)wave->pos / (float)wave->sampleCount * 100) % 64
         // but not allowed by C++
-        M5.Lcd.println(((int16_t)(wave->pos / (float)wave->sampleCount * 100) % 6400) * 0.01);
+        M5.Lcd.println(((int16_t)(synth->wave.pos / (float)synth->wave.sampleCount * 100) % 6400) * 0.01);
 
         // TODO display table ?
     }
 
 public:
-    App_WaveView(Zic_Wave_Wavetable *_wave, Zic_Mod_AsrNext *_asr) : knob(160, 120, 100), togglePlay(10, 10), toggleMorph(10, 190)
+    App_WaveView(Zic_Wavetable_Synth *_synth) : knob(160, 120, 100), togglePlay(10, 10), toggleMorph(10, 190)
     {
-        wave = _wave;
-        asr = _asr;
+        synth = _synth;
     }
 
     void render()
@@ -62,15 +59,15 @@ public:
         {
             if (toggleMorph.isOn)
             {
-                wave->pos += knob.direction;
+                synth->wave.pos += knob.direction;
             }
             else if (knob.step)
             {
                 // TODO dont use 64 but wavetableCount
                 // wave->pos = uint8_t(knob.value / 360.0f * 64) * wave->sampleCount;
-                uint8_t pos = (uint16_t)(wave->pos / (float)wave->sampleCount) % 64;
+                uint8_t pos = (uint16_t)(synth->wave.pos / (float)synth->wave.sampleCount) % 64;
                 pos = (pos + knob.step) % 64;
-                wave->pos = pos * wave->sampleCount;
+                synth->wave.pos = pos * synth->wave.sampleCount;
             }
             // Serial.printf("knob value %d direction %d\n", knob.value, knob.direction);
             // for testing
@@ -78,14 +75,14 @@ public:
             {
                 if (knob.active)
                 {
-                    if (!asr->isOn())
+                    if (!synth->asr.isOn())
                     {
-                        asr->on();
+                        synth->asr.on();
                     }
                 }
                 else
                 {
-                    asr->off();
+                    synth->asr.off();
                 }
             }
             renderKnobValue();
