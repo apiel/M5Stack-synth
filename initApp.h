@@ -6,11 +6,8 @@
 #include <M5Core2.h>
 
 #include "initAudio.h"
-#include "patterns.h"
 
-#include "zic/zic_wavetable_synth.h"
 #include "zic/zic_wavetable_SD.h"
-#include "zic/wavetables/wavetable_Bank.h"
 #include "zic/zic_seq_tempo.h"
 #include "zic/zic_seq_loop.h"
 
@@ -22,6 +19,8 @@
 #include "app/app_view_settings.h"
 #include "app/app_view_looper.h"
 
+#include "app/app_audio_track.h"
+
 #include "fastTrigo.h"
 
 uint8_t previousMode = MODE_LOOPER;
@@ -31,21 +30,20 @@ uint8_t track = TRACK_1;
 
 BluetoothA2DPSource a2dp_source;
 
-Zic_Wavetable_Synth synth0(&wavetable_Bank), synth1(&wavetable_Bank), synth2(&wavetable_Bank), synth3(&wavetable_Bank);
-Zic_Wavetable_Synth *synths[TRACK_COUNT] = {&synth0, &synth1, &synth2, &synth3};
+App_Audio_Track track0, track1, track2, track3;
+App_Audio_Track *tracks[TRACK_COUNT] = {&track0, &track1, &track2, &track3};
 Zic_Seq_Tempo<> tempo;
-Zic_Seq_Loop looper(&patterns[2]);
 
-App_View_Keyboard keyboardView(synths[track]);
-App_View_Wave waveView(synths[track]);
+App_View_Keyboard keyboardView(&tracks[track]->synth);
+App_View_Wave waveView(&tracks[track]->synth);
 App_View_Menu menuView(&mode);
 App_View_Settings settingsView;
-App_View_Looper looperView(&looper);
+App_View_Looper looperView(&tracks[track]->looper);
 App_View_Track trackView(&track);
 
 int16_t getSample()
 {
-    return synth0.next() * settingsView.volume.value;
+    return track0.synth.next() * settingsView.volume.value;
 }
 
 void getSamples(int16_t *samples, uint32_t len, uint8_t gain = 1)
@@ -111,17 +109,17 @@ void sequencer()
 {
     if (tempo.next(millis()))
     {
-        looper.next();
-        Zic_Seq_Step *stepOff = looper.getNoteOff();
-        Zic_Seq_Step *stepOn = looper.getNoteOn();
+        tracks[0]->looper.next();
+        Zic_Seq_Step *stepOff = tracks[0]->looper.getNoteOff();
+        Zic_Seq_Step *stepOn = tracks[0]->looper.getNoteOn();
         if (stepOff)
         {
-            synths[0]->asr.off();
+            tracks[0]->synth.asr.off();
         }
         if (stepOn)
         {
-            synths[0]->wave.frequency = NOTE_FREQ[stepOn->note];
-            synths[0]->asr.on();
+            tracks[0]->synth.wave.frequency = NOTE_FREQ[stepOn->note];
+            tracks[0]->synth.asr.on();
         }
     }
 }
