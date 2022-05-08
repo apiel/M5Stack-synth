@@ -1,5 +1,5 @@
-#ifndef APP_MENU_VIEW_H_
-#define APP_MENU_VIEW_H_
+#ifndef APP_VIEW_MENU_H_
+#define APP_VIEW_MENU_H_
 
 #include <M5Core2.h>
 
@@ -9,7 +9,7 @@
 #include "ui/ui_color.h"
 #include "ui/ui_key.h"
 
-class App_MenuView : public UI_Component
+class App_View_Menu : public UI_Component
 {
 protected:
     static const uint8_t KEY_W = 80;
@@ -38,7 +38,7 @@ protected:
 public:
     uint8_t *mode;
 
-    App_MenuView(uint8_t *_mode)
+    App_View_Menu(uint8_t *_mode)
     {
         mode = _mode;
     }

@@ -1,5 +1,5 @@
-#ifndef APP_WAVE_VIEW_H_
-#define APP_WAVE_VIEW_H_
+#ifndef APP_VIEW_WAVE_H_
+#define APP_VIEW_WAVE_H_
 
 #include <M5Core2.h>
 
@@ -10,7 +10,7 @@
 #include "ui/ui_knob.h"
 #include "ui/ui_toggle.h"
 
-class App_WaveView : public UI_Component
+class App_View_Wave : public UI_Component
 {
 protected:
     Zic_Wavetable_Synth *synth;
@@ -31,7 +31,7 @@ protected:
     }
 
 public:
-    App_WaveView(Zic_Wavetable_Synth *_synth) : knob(160, 120, 100), togglePlay(10, 10), toggleMorph(10, 190)
+    App_View_Wave(Zic_Wavetable_Synth *_synth) : knob(160, 120, 100), togglePlay(10, 10), toggleMorph(10, 190)
     {
         synth = _synth;
     }

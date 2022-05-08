@@ -1,5 +1,5 @@
-#ifndef APP_SETTINGS_VIEW_H_
-#define APP_SETTINGS_VIEW_H_
+#ifndef APP_VIEW_SETTINGS_H_
+#define APP_VIEW_SETTINGS_H_
 
 #include <M5Core2.h>
 
@@ -9,12 +9,12 @@
 #include "ui/ui_color.h"
 #include "ui/ui_slider.h"
 
-class App_SettingsView : public UI_Component
+class App_View_Settings : public UI_Component
 {
 public:
     UI_Slider volume;
 
-    App_SettingsView() : volume(10, &UI_THEME_GREEN[0], "Volume")
+    App_View_Settings() : volume(10, &UI_THEME_GREEN[0], "Volume")
     {
     }
 

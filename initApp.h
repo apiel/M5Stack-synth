@@ -15,12 +15,12 @@
 #include "zic/zic_seq_loop.h"
 
 #include "app/app_def.h"
-#include "app/app_keyboardView.h"
-#include "app/app_waveView.h"
-#include "app/app_menuView.h"
-#include "app/app_trackView.h"
-#include "app/app_settingsView.h"
-#include "app/app_looperView.h"
+#include "app/app_view_keyboard.h"
+#include "app/app_view_wave.h"
+#include "app/app_view_menu.h"
+#include "app/app_view_track.h"
+#include "app/app_view_settings.h"
+#include "app/app_view_looper.h"
 
 #include "fastTrigo.h"
 
@@ -36,12 +36,12 @@ Zic_Wavetable_Synth *synths[TRACK_COUNT] = {&synth0, &synth1, &synth2, &synth3};
 Zic_Seq_Tempo<> tempo;
 Zic_Seq_Loop looper(&patterns[2]);
 
-App_KeyboardView keyboardView(synths[track]);
-App_WaveView waveView(synths[track]);
-App_MenuView menuView(&mode);
-App_SettingsView settingsView;
-App_LooperView looperView(&looper);
-App_TrackView trackView(&track);
+App_View_Keyboard keyboardView(synths[track]);
+App_View_Wave waveView(synths[track]);
+App_View_Menu menuView(&mode);
+App_View_Settings settingsView;
+App_View_Looper looperView(&looper);
+App_View_Track trackView(&track);
 
 int16_t getSample()
 {

@@ -1,5 +1,5 @@
-#ifndef APP_LOOPER_VIEW_H_
-#define APP_LOOPER_VIEW_H_
+#ifndef APP_VIEW_LOOPER_H_
+#define APP_VIEW_LOOPER_H_
 
 #include <M5Core2.h>
 
@@ -11,7 +11,7 @@
 #include "ui/ui_key.h"
 #include "ui/ui_toggleLoop.h"
 
-class App_LooperView : public UI_Component
+class App_View_Looper : public UI_Component
 {
 protected:
     Zic_Seq_Loop *looper;
@@ -30,7 +30,7 @@ protected:
     uint8_t lastKeyOn = 0;
 
 public:
-    App_LooperView(Zic_Seq_Loop *_looper)
+    App_View_Looper(Zic_Seq_Loop *_looper)
     {
         looper = _looper;
     }
