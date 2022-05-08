@@ -5,6 +5,7 @@
 
 #include "zic/wavetables/wavetable_Bank.h"
 #include "zic/zic_wavetable_synth.h"
+#include "zic/zic_seq_loop.h"
 
 class App_Audio_Track
 {

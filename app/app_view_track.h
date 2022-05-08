@@ -9,7 +9,7 @@
 #include "ui/ui_color.h"
 #include "ui/ui_key.h"
 
-// #include "app/app_audio_track.h"
+#include "app/app_tracks.h"
 
 class App_View_Track : public UI_Component
 {
@@ -25,16 +25,12 @@ protected:
         {KEY_W, KEY_H, KEY_W, KEY_H, TRACK_4, UI_THEME_GREEN, "Track 4"}};
 
 public:
-    // App_Audio_Track *track;
-    // App_Audio_Track *tracks;
+    App_Tracks *tracks;
 
-    // App_View_Track(App_Audio_Track *_tracks, App_Audio_Track *_track)
-    // {
-    //     track = _track;
-    //     tracks = _tracks;
-    // }
-
-    uint8_t key = TRACK_1;
+    App_View_Track(App_Tracks *_tracks)
+    {
+        tracks = _tracks;
+    }
 
     void render()
     {
@@ -52,8 +48,7 @@ public:
             if (keys[k].update(e))
             {
                 keys[k].isOn = false;
-                // *track = tracks[keys[k].value];
-                key = keys[k].value;
+                tracks->select(keys[k].value);
                 return true;
             }
         }

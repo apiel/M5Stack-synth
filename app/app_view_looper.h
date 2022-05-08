@@ -11,10 +11,12 @@
 #include "ui/ui_key.h"
 #include "ui/ui_toggleLoop.h"
 
+#include "app/app_tracks.h"
+
 class App_View_Looper : public UI_Component
 {
 protected:
-    App_Audio_Track *track;
+    App_Tracks *tracks;
 
     static const uint8_t KEYS_COUNT = 7 * 3;
     static const uint8_t TOGGLE_COUNT = 4;
@@ -30,15 +32,15 @@ protected:
     uint8_t lastKeyOn = 0;
 
 public:
-    App_View_Looper(App_Audio_Track *_track)
+    App_View_Looper(App_Tracks *_tracks)
     {
-        track = _track;
+        tracks = _tracks;
     }
 
     void render()
     {
         M5.Lcd.fillScreen(UI_BACKGROUND);
-        // Serial.printf("nextToPlay %d\n", track->looper.nextToPlay);
+        // Serial.printf("nextToPlay %d\n", tracks->looper->nextToPlay);
         for (uint8_t k = 0; k < KEYS_COUNT; k++)
         {
             keys[k].render();
@@ -65,11 +67,11 @@ public:
                     keys[k].render();
                     lastKeyOn = k;
 
-                    track->looper.on(keys[k].value);
+                    tracks->looper->on(keys[k].value);
                 }
                 else
                 {
-                    track->looper.off(keys[k].value);
+                    tracks->looper->off(keys[k].value);
                 }
             }
         }
@@ -79,7 +81,7 @@ public:
             {
                 if (k == 0)
                 {
-                    track->looper.setLoopMode(toggles[k].isOn);
+                    tracks->looper->setLoopMode(toggles[k].isOn);
                 }
             }
         }

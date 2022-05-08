@@ -18,8 +18,7 @@
 #include "app/app_view_track.h"
 #include "app/app_view_settings.h"
 #include "app/app_view_looper.h"
-
-#include "app/app_audio_track.h"
+#include "app/app_tracks.h"
 
 #include "fastTrigo.h"
 
@@ -29,23 +28,19 @@ uint8_t mode = MODE_LOOPER;
 
 BluetoothA2DPSource a2dp_source;
 
-App_Audio_Track track0(TRACK_1), track1(TRACK_2), track2(TRACK_3), track3(TRACK_4);
-App_Audio_Track *tracks[TRACK_COUNT] = {&track0, &track1, &track2, &track3};
-App_Audio_Track *track = &track0;
-
 Zic_Seq_Tempo<> tempo;
 
-App_View_Keyboard keyboardView(track);
-App_View_Wave waveView(track);
+App_Tracks tracks;
+App_View_Keyboard keyboardView(&tracks);
+App_View_Wave waveView(&tracks);
 App_View_Menu menuView(&mode);
 App_View_Settings settingsView;
-App_View_Looper looperView(track);
-// App_View_Track trackView(tracks[0], track);
-App_View_Track trackView;
+App_View_Looper looperView(&tracks);
+App_View_Track trackView(&tracks);
 
 int16_t getSample()
 {
-    return (track0.synth.next() + track1.synth.next() + track2.synth.next() + track3.synth.next()) * settingsView.volume.value;
+    return tracks.sample() * settingsView.volume.value;
 }
 
 void getSamples(int16_t *samples, uint32_t len, uint8_t gain = 1)
@@ -111,10 +106,7 @@ void sequencer()
 {
     if (tempo.next(millis()))
     {
-        for (uint8_t t = 0; t < TRACK_COUNT; t++)
-        {
-            tracks[t]->next();
-        }
+        tracks.next();
     }
 }
 
@@ -153,7 +145,7 @@ void eventHandler(Event &e)
     {
         if (trackView.update(e))
         {
-            track = tracks[trackView.key];
+            Serial.printf("Select track %d\n", tracks.track->id);
             mode = previousMode;
             render();
         }
