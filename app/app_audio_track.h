@@ -9,11 +9,14 @@
 class App_Audio_Track
 {
 public:
+    uint8_t id = 0;
+
     Zic_Wavetable_Synth synth;
     Zic_Seq_Loop looper;
 
-    App_Audio_Track() : synth(&wavetable_Bank), looper(&patterns[2])
+    App_Audio_Track(uint8_t _id = 0) : synth(&wavetable_Bank), looper(&patterns[2])
     {
+        id = _id;
     }
 
     void next()

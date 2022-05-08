@@ -38,7 +38,7 @@ public:
     void render()
     {
         M5.Lcd.fillScreen(UI_BACKGROUND);
-        Serial.printf("nextToPlay %d\n", track->looper.nextToPlay);
+        // Serial.printf("nextToPlay %d\n", track->looper.nextToPlay);
         for (uint8_t k = 0; k < KEYS_COUNT; k++)
         {
             keys[k].render();

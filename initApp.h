@@ -29,7 +29,7 @@ uint8_t mode = MODE_LOOPER;
 
 BluetoothA2DPSource a2dp_source;
 
-App_Audio_Track track0, track1, track2, track3;
+App_Audio_Track track0(TRACK_1), track1(TRACK_2), track2(TRACK_3), track3(TRACK_4);
 App_Audio_Track *tracks[TRACK_COUNT] = {&track0, &track1, &track2, &track3};
 App_Audio_Track *track = &track0;
 
