@@ -109,18 +109,7 @@ void sequencer()
 {
     if (tempo.next(millis()))
     {
-        tracks[0]->looper.next();
-        Zic_Seq_Step *stepOff = tracks[0]->looper.getNoteOff();
-        Zic_Seq_Step *stepOn = tracks[0]->looper.getNoteOn();
-        if (stepOff)
-        {
-            tracks[0]->synth.asr.off();
-        }
-        if (stepOn)
-        {
-            tracks[0]->synth.wave.frequency = NOTE_FREQ[stepOn->note];
-            tracks[0]->synth.asr.on();
-        }
+        tracks[0]->next();
     }
 }
 
