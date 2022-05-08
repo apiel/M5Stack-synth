@@ -26,24 +26,26 @@
 uint8_t previousMode = MODE_LOOPER;
 uint8_t currentMode = MODE_LOOPER;
 uint8_t mode = MODE_LOOPER;
-uint8_t track = TRACK_1;
 
 BluetoothA2DPSource a2dp_source;
 
 App_Audio_Track track0, track1, track2, track3;
 App_Audio_Track *tracks[TRACK_COUNT] = {&track0, &track1, &track2, &track3};
+App_Audio_Track *track = &track0;
+
 Zic_Seq_Tempo<> tempo;
 
-App_View_Keyboard keyboardView(&tracks[track]->synth);
-App_View_Wave waveView(&tracks[track]->synth);
+App_View_Keyboard keyboardView(track);
+App_View_Wave waveView(track);
 App_View_Menu menuView(&mode);
 App_View_Settings settingsView;
-App_View_Looper looperView(&tracks[track]->looper);
-App_View_Track trackView(&track);
+App_View_Looper looperView(track);
+// App_View_Track trackView(tracks[0], track);
+App_View_Track trackView;
 
 int16_t getSample()
 {
-    return track0.synth.next() * settingsView.volume.value;
+    return (track0.synth.next() + track1.synth.next() + track2.synth.next() + track3.synth.next()) * settingsView.volume.value;
 }
 
 void getSamples(int16_t *samples, uint32_t len, uint8_t gain = 1)
@@ -109,7 +111,10 @@ void sequencer()
 {
     if (tempo.next(millis()))
     {
-        tracks[0]->next();
+        for (uint8_t t = 0; t < TRACK_COUNT; t++)
+        {
+            tracks[t]->next();
+        }
     }
 }
 
@@ -148,6 +153,7 @@ void eventHandler(Event &e)
     {
         if (trackView.update(e))
         {
+            track = tracks[trackView.key];
             mode = previousMode;
             render();
         }

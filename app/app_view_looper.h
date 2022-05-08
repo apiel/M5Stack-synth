@@ -14,7 +14,7 @@
 class App_View_Looper : public UI_Component
 {
 protected:
-    Zic_Seq_Loop *looper;
+    App_Audio_Track *track;
 
     static const uint8_t KEYS_COUNT = 7 * 3;
     static const uint8_t TOGGLE_COUNT = 4;
@@ -30,15 +30,15 @@ protected:
     uint8_t lastKeyOn = 0;
 
 public:
-    App_View_Looper(Zic_Seq_Loop *_looper)
+    App_View_Looper(App_Audio_Track *_track)
     {
-        looper = _looper;
+        track = _track;
     }
 
     void render()
     {
         M5.Lcd.fillScreen(UI_BACKGROUND);
-        Serial.printf("nextToPlay %d\n", looper->nextToPlay);
+        Serial.printf("nextToPlay %d\n", track->looper.nextToPlay);
         for (uint8_t k = 0; k < KEYS_COUNT; k++)
         {
             keys[k].render();
@@ -65,11 +65,11 @@ public:
                     keys[k].render();
                     lastKeyOn = k;
 
-                    looper->on(keys[k].value);
+                    track->looper.on(keys[k].value);
                 }
                 else
                 {
-                    looper->off(keys[k].value);
+                    track->looper.off(keys[k].value);
                 }
             }
         }
@@ -79,7 +79,7 @@ public:
             {
                 if (k == 0)
                 {
-                    looper->setLoopMode(toggles[k].isOn);
+                    track->looper.setLoopMode(toggles[k].isOn);
                 }
             }
         }
