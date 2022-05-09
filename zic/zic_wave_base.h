@@ -13,10 +13,6 @@
 #define MAX_FREQUENCY SAMPLE_RATE * 0.25
 #endif
 
-#ifndef AMPLITUDE_PEAK
-#define AMPLITUDE_PEAK 32767
-#endif
-
 #ifndef between
 #define between(x, a, b) (((a) <= (x)) && ((x) <= (b)))
 #endif
@@ -40,10 +36,11 @@ class Zic_Wave_Base
 protected:
     float time = 0.0;
 
-    virtual float sample(uint32_t *freq);
+    virtual int16_t sample(uint32_t *freq);
 
     uint32_t frequency = 103.82617439443122f * FREQ_MULT; // C3
-    uint16_t amplitude = AMPLITUDE_PEAK * 0.1;
+    // FIXME might use bitwise to divide?
+    uint16_t amplitude = 1; //100;
     // float pitch = 1.0f;
 
     // Pre-calculation
@@ -95,21 +92,11 @@ public:
     /**
      * @brief Set the Amplitude of the wave
      *
-     * @param value between 0 and 32767
+     * @param value between 0 and 100
      */
     void setAmplitude(uint16_t value)
     {
-        amplitude = between(value, 0, AMPLITUDE_PEAK);
-    }
-
-    /**
-     * @brief Set the Amplitude of the wave using percentage
-     *
-     * @param value between 0.0f and 1.0f
-     */
-    void setAmplitudePct(float value)
-    {
-        amplitude = between(value, 0.0f, 1.0f) * AMPLITUDE_PEAK;
+        amplitude = between(value, 0, 100);
     }
 
     /**
@@ -120,16 +107,6 @@ public:
     uint16_t getAmplitude()
     {
         return amplitude;
-    }
-
-    /**
-     * @brief Get the Amplitude Pct of the wave in percentage
-     *
-     * @return float
-     */
-    float getAmplitudePct()
-    {
-        return (float)amplitude / (float)AMPLITUDE_PEAK;
     }
 
     /**

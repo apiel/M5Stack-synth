@@ -54,7 +54,7 @@ public:\n\
     {\n\
     }\n\n\
 protected:\n\
-    float _table[%d] = {\n",
+    int16_t _table[%d] = {\n",
              name, name, name, name, BLOCK_SIZE, totalNumSamples, totalNumSamples);
     fwrite(buffer, sizeof(char), getSize(buffer, '\n'), file);
 
@@ -69,7 +69,7 @@ protected:\n\
         printf(".");
         for (int p = 0; p < samplesRead; p++)
         {
-            snprintf(buffer, BUF_SIZE, "        %.30ff,\n", data[p]);
+            snprintf(buffer, BUF_SIZE, "        %d,\n", (int)(data[p] * 1000));
             fwrite(buffer, sizeof(char), getSize(buffer, '\n'), file);
         }
 
