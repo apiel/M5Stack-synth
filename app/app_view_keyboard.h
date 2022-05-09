@@ -44,7 +44,7 @@ public:
             {
                 if (keys[k].isOn)
                 {
-                    tracks->synth->wave.frequency = NOTE_FREQ[keys[k].value];
+                    tracks->synth->wave.setFrequency(NOTE_FREQ[keys[k].value]);
                     tracks->synth->asr.on(keys[k].value);
                     Serial.printf("Play note %d on track %d\n", keys[k].value, tracks->track->id);
                 }

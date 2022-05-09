@@ -31,7 +31,7 @@ public:
         }
         if (stepOn)
         {
-            synth.wave.frequency = NOTE_FREQ[stepOn->note];
+            synth.wave.setFrequency(NOTE_FREQ[stepOn->note]);
             synth.asr.on();
         }
     }
