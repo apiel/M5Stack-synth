@@ -5,6 +5,7 @@
 #include "wavetables/wavetable_sine.h"
 #include "wavetables/wavetable_square.h"
 
+// WIP
 // TODO load table in constructor
 // be able to use wavetable bank...
 //
