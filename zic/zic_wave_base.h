@@ -5,6 +5,10 @@
 #define SAMPLE_RATE 44100
 #endif
 
+#ifndef DELTA_TIME
+#define DELTA_TIME 1.0f / 44100
+#endif
+
 #ifndef MAX_FREQUENCY
 #define MAX_FREQUENCY SAMPLE_RATE * 0.25
 #endif
@@ -22,7 +26,7 @@
 #endif
 
 #ifndef FREQ_DIV
-#define FREQ_DIV 1 / FREQ_MULT
+#define FREQ_DIV 1.0f / FREQ_MULT
 #endif
 
 #ifndef FREQ_PI
@@ -35,9 +39,8 @@ class Zic_Wave_Base
 {
 protected:
     float time = 0.0;
-    float deltaTime = 1.0 / SAMPLE_RATE;
 
-    virtual double sample(uint32_t *freq);
+    virtual float sample(uint32_t *freq);
 
     uint32_t frequency = 103.82617439443122f * FREQ_MULT; // C3
     uint16_t amplitude = AMPLITUDE_PEAK * 0.1;
@@ -63,7 +66,7 @@ public:
     {
         uint32_t _freq = freq; // need to do something with picth modulation: pitchMod;
         uint16_t _amp = amplitudeMod * amplitude;
-        time += deltaTime;
+        time += DELTA_TIME;
 
         return _amp * sample(&_freq);
     }
