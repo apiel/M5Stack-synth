@@ -39,7 +39,8 @@ protected:
     virtual int16_t sample(uint32_t *freq);
 
     uint32_t frequency = 103.82617439443122f * FREQ_MULT; // C3
-    // FIXME might use bitwise to divide?
+    // FIXME might use bitwise to divide? >> 4
+    // and even multiply wavetable by 10000 instead 1000
     uint16_t amplitude = 1; //100;
     // float pitch = 1.0f;
 
