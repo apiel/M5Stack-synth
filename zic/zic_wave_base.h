@@ -68,6 +68,7 @@ public:
         uint16_t _amp = amplitudeMod * amplitude;
         time += DELTA_TIME;
 
+        // might divide AMPLITUDE_PEAK by 1000 and then multiply wavetable by 1000?
         return _amp * sample(&_freq);
     }
 
