@@ -93,7 +93,7 @@ public:
         case SUSTAIN_PHASE:
             break;
         case RELEASE_PHASE:
-            if (value > 0)
+            if (value > releaseStep)
             {
                 value -= releaseStep;
             }
