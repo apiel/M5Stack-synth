@@ -35,6 +35,10 @@ const char *getOscName(uint8_t _oscType)
     return "Unknown";
 }
 
+// FIXME switch to int16 instead of double and bloat
+// however, i would argue to use wavetable in general
+// unless those wave can be edited
+
 // https://github.com/audiowaves/simpleWavesGenerator
 // https://olehc.medium.com/basic-sound-waves-with-c-and-juce-50ec9f0bfe5c
 class Zic_Wave_Osc: public Zic_Wave_Base

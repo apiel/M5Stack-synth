@@ -1,8 +1,9 @@
 #ifndef ZIC_MOD_ASR_NEXT_H_
 #define ZIC_MOD_ASR_NEXT_H_
 
-#include <stdint.h>
+#include "zic/zic_wave_base.h"
 
+// FIXME maybe this should not be solved here but in the keyboard!
 /**
  * Because using ASR with a touchscreen does work so well no play the full note,
  * Let's the Attack phase force to finish before to switch to another phase
@@ -53,14 +54,13 @@ public:
     void setAttack(uint16_t ms)
     {
         attackMs = ms;
-        // TODO set kind of randomly 50, try to find out
-        attackStep = 1.0f / (ms * 50);
+        attackStep = 1.0f / ((float)ms * SAMPLE_PER_MS);
     }
 
     void setRelease(uint16_t ms)
     {
         releaseMs = ms;
-        releaseStep = 1.0f / (ms * 50);
+        releaseStep = 1.0f / ((float)ms * SAMPLE_PER_MS);
     }
 
     float next()

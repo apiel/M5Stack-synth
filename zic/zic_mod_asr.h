@@ -1,7 +1,7 @@
 #ifndef ZIC_MOD_ASR_H_
 #define ZIC_MOD_ASR_H_
 
-#include <stdint.h>
+#include "zic/zic_wave_base.h"
 
 /**
  * @brief ASR envelop
@@ -61,8 +61,7 @@ public:
     void setAttack(uint16_t ms)
     {
         attackMs = ms;
-        // TODO set kind of randomly 50, try to find out
-        attackStep = 1.0f / (ms * 50);
+        attackStep = 1.0f / ((float)ms * SAMPLE_PER_MS);
     }
 
     /**
@@ -73,7 +72,13 @@ public:
     void setRelease(uint16_t ms)
     {
         releaseMs = ms;
-        releaseStep = 1.0f / (ms * 50);
+        releaseStep = 1.0f / ((float)ms * SAMPLE_PER_MS);
+    }
+
+    void debug()
+    {
+        Serial.printf("attack %d step %.6f\n", attackMs, attackStep);
+        Serial.printf("release %d step %.6f\n", releaseMs, releaseStep);
     }
 
     /**
@@ -88,10 +93,11 @@ public:
         case ATTACK_PHASE:
             if (value < 1.0f)
             {
-                value += attackStep;
+                value = value + attackStep;
             }
             else
             {
+                // Serial.println("end ATTACK_PHASE");
                 value = 1.0f;
                 phase = noSustain ? RELEASE_PHASE : SUSTAIN_PHASE;
             }
@@ -101,10 +107,11 @@ public:
         case RELEASE_PHASE:
             if (value > 0.0f)
             {
-                value -= releaseStep;
+                value = value - releaseStep;
             }
             else
             {
+                // Serial.println("end RELEASE_PHASE");
                 value = 0.0f;
                 phase = END_PHASE;
             }
@@ -125,6 +132,7 @@ public:
     {
         note = _note;
         value = 0.0f;
+        // Serial.println("start ATTACK_PHASE");
         phase = ATTACK_PHASE;
     }
 
@@ -140,6 +148,7 @@ public:
             return;
         }
 
+        // Serial.println("start RELEASE_PHASE");
         phase = RELEASE_PHASE;
     }
 };
