@@ -183,8 +183,6 @@ void initApp()
 
     // looper.setLoopMode(true);
     // looper.noteOn(_C3);
-
-    tracks.track0.synth.asr.debug();
 }
 
 void loopApp()

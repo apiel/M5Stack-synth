@@ -50,7 +50,7 @@ public:
                 }
                 else
                 {
-                    tracks->synth->asr.off(keys[k].value);
+                    tracks->synth->asr.nextOff(keys[k].value);
                 }
             }
         }
