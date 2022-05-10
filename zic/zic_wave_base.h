@@ -61,19 +61,17 @@ protected:
 
 public:
     // TODO dont use float for that
-    float amplitudeMod = 1.0f;
     // float pitchMod = 1.0f;
 
     int16_t next()
     {
         uint32_t _freq = freq; // need to do something with picth modulation: pitchMod;
-        uint16_t _amp = amplitudeMod * amplitude;
         time += DELTA_TIME;
 
         // use bitwise >> 8 to reduce amplitude (division by 256)
         // we could have a higher quality wavetable to int32 using a higher bitwise value
         // but is it really necessary? int16 make a gain on firmware size!
-        return (_amp * sample(&_freq)) >> 8;
+        return (amplitude * sample(&_freq)) >> 8;
     }
 
     /**
