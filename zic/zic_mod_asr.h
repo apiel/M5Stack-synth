@@ -1,7 +1,12 @@
 #ifndef ZIC_MOD_ASR_H_
 #define ZIC_MOD_ASR_H_
 
+#include <math.h>
+
 #include "zic/zic_wave_base.h"
+
+#define ASR_STEP_POWER 15
+#define ASR_STEP_TARGET  (uint16_t)pow(2, ASR_STEP_POWER)// (uint16_t)65535 // pow(2, ASR_STEP_POWER)
 
 // FIXME still make a cutting noise
 class Zic_Mod_Asr
@@ -12,10 +17,10 @@ protected:
     uint16_t attackMs = 10;
     uint16_t releaseMs = 500;
 
-    float attackStep;
-    float releaseStep;
+    uint16_t attackStep;
+    uint16_t releaseStep;
 
-    float value = 0.0f;
+    uint16_t value = 0;
 
     uint8_t note = 0;
 
@@ -49,27 +54,34 @@ public:
     void setAttack(uint16_t ms)
     {
         attackMs = ms;
-        attackStep = 1.0f / ((float)ms * SAMPLE_PER_MS);
+        attackStep = (float)ASR_STEP_TARGET / ((float)ms * SAMPLE_PER_MS);
     }
 
     void setRelease(uint16_t ms)
     {
         releaseMs = ms;
-        releaseStep = 1.0f / ((float)ms * SAMPLE_PER_MS);
+        releaseStep = (float)ASR_STEP_TARGET / ((float)ms * SAMPLE_PER_MS);
     }
 
-    float next()
+    void debug()
+    {
+        Serial.printf("attack %d step %d\n", attackMs, attackStep);
+        Serial.printf("release %d step %d\n", releaseMs, releaseStep);
+    }
+
+    int16_t next(int16_t data)
     {
         switch (phase)
         {
         case ATTACK_PHASE:
-            if (value < 1.0f)
+            if (value < ASR_STEP_TARGET)
             {
                 value += attackStep;
             }
             else
             {
-                value = 1.0f;
+                Serial.println("end ATTACK_PHASE");
+                value = ASR_STEP_TARGET;
                 phase = nextPhase;
                 nextPhase = END_PHASE;
             }
@@ -77,13 +89,14 @@ public:
         case SUSTAIN_PHASE:
             break;
         case RELEASE_PHASE:
-            if (value > 0.0f)
+            if (value > 0)
             {
                 value -= releaseStep;
             }
             else
             {
-                value = 0.0f;
+                Serial.println("end RELEASE_PHASE");
+                value = 0;
                 phase = END_PHASE;
             }
             break;
@@ -91,13 +104,14 @@ public:
             break;
         }
 
-        return value;
+        return (int16_t)(((int32_t)value * (int32_t)data) >> ASR_STEP_POWER);
     }
 
     void on(uint8_t _note = 0)
     {
+        Serial.println("start ATTACK_PHASE");
         note = _note;
-        value = 0.0f;
+        value = 0;
         nextPhase = noSustain ? RELEASE_PHASE : SUSTAIN_PHASE;
         phase = ATTACK_PHASE;
     }

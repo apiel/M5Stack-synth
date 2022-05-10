@@ -20,8 +20,7 @@ public:
 
     int16_t next()
     {
-        wave.amplitudeMod = asr.next();
-        return wave.next();
+        return asr.next(wave.next());
     }
 };
 
