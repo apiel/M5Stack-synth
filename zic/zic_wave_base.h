@@ -39,9 +39,7 @@ protected:
     virtual int16_t sample(uint32_t *freq);
 
     uint32_t frequency = 103.82617439443122f * FREQ_MULT; // C3
-    // FIXME might use bitwise to divide? >> 4
-    // and even multiply wavetable by 10000 instead 1000
-    uint16_t amplitude = 1; //100;
+    uint16_t amplitude = 100;
     // float pitch = 1.0f;
 
     // Pre-calculation
@@ -57,6 +55,7 @@ protected:
     }
 
 public:
+    // TODO dont use float for that
     float amplitudeMod = 1.0f;
     // float pitchMod = 1.0f;
 
@@ -66,8 +65,10 @@ public:
         uint16_t _amp = amplitudeMod * amplitude;
         time += DELTA_TIME;
 
-        // might divide AMPLITUDE_PEAK by 1000 and then multiply wavetable by 1000?
-        return _amp * sample(&_freq);
+        // use bitwise >> 8 to reduce amplitude (division by 256)
+        // we could have a higher quality wavetable to int32 using a higher bitwise value
+        // but is it really necessary? int16 make a gain on firmware size!
+        return (_amp * sample(&_freq)) >> 8;
     }
 
     /**
