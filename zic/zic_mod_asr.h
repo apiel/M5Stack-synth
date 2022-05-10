@@ -104,7 +104,7 @@ public:
             break;
         }
 
-        return (int16_t)(((int32_t)value * (int32_t)data) >> ASR_STEP_POWER);
+        return (value * data) >> ASR_STEP_POWER;
     }
 
     void on(uint8_t _note = 0)
