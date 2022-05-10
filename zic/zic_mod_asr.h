@@ -6,7 +6,7 @@
 #include "zic/zic_wave_base.h"
 
 #define ASR_STEP_POWER 15
-#define ASR_STEP_TARGET  (uint16_t)pow(2, ASR_STEP_POWER)// (uint16_t)65535 // pow(2, ASR_STEP_POWER)
+#define ASR_STEP_TARGET  (uint16_t)pow(2, ASR_STEP_POWER)
 
 // FIXME still make a cutting noise
 class Zic_Mod_Asr
