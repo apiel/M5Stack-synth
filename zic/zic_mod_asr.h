@@ -6,7 +6,7 @@
 #include "zic/zic_wave_base.h"
 
 #define ASR_STEP_POWER 15
-#define ASR_STEP_TARGET  (uint16_t)pow(2, ASR_STEP_POWER)
+#define ASR_STEP_TARGET (uint16_t) pow(2, ASR_STEP_POWER)
 
 // FIXME still make a cutting noise
 class Zic_Mod_Asr
@@ -51,16 +51,25 @@ public:
         return phase != END_PHASE;
     }
 
+    //  743ms 371ms 247ms
     void setAttack(uint16_t ms)
     {
         attackMs = ms;
         attackStep = (float)ASR_STEP_TARGET / ((float)ms * SAMPLE_PER_MS);
+        if (!attackStep)
+        {
+            attackStep = 1;
+        }
     }
 
     void setRelease(uint16_t ms)
     {
         releaseMs = ms;
         releaseStep = (float)ASR_STEP_TARGET / ((float)ms * SAMPLE_PER_MS);
+        if (!releaseStep)
+        {
+            releaseStep = 1;
+        }
     }
 
     void debug()
