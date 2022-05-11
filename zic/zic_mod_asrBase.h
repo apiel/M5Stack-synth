@@ -46,17 +46,33 @@ public:
         setRelease(releaseMs);
     }
 
+    /**
+     * @brief return if the envelop is currently playing
+     *
+     * @return true
+     * @return false
+     */
     bool isOn()
     {
         return phase != END_PHASE;
     }
 
+    /**
+     * @brief Set the Attack in millisecond.
+     *
+     * @param ms
+     */
     virtual void setAttack(uint16_t ms)
     {
         attackMs = ms;
         attackStep = stepTarget / ((float)ms * SAMPLE_PER_MS);
     }
 
+    /**
+     * @brief Set the Release in millisecond.
+     *
+     * @param ms
+     */
     virtual void setRelease(uint16_t ms)
     {
         releaseMs = ms;
@@ -73,7 +89,15 @@ public:
         Serial.println(releaseStep);
     }
 
-    int16_t next(int16_t data)
+    /**
+     * @brief To be call on each sample to update the phase. If a data value is passed as param,
+     * it will be returned with the envelop level applied to it. Else it return a value between
+     * 0 and 100.
+     *
+     * @param data
+     * @return int16_t
+     */
+    int16_t next(int16_t data = 100)
     {
         switch (phase)
         {
@@ -111,6 +135,11 @@ public:
         return getData(data);
     }
 
+    /**
+     * @brief Start to play the envelop
+     *
+     * @param _note
+     */
     void on(uint8_t _note = 0)
     {
         Serial.println("start ATTACK_PHASE");
@@ -120,6 +149,11 @@ public:
         phase = ATTACK_PHASE;
     }
 
+    /**
+     * @brief Stop to play the envelop
+     *
+     * @param _note
+     */
     void off(uint8_t _note = 0)
     {
         if (_note && _note != note)
@@ -130,6 +164,11 @@ public:
         phase = RELEASE_PHASE;
     }
 
+    /**
+     * @brief Stop to play the envelop but ensure that attack phase complete before to start release phase.
+     *
+     * @param _note
+     */
     void nextOff(uint8_t _note = 0)
     {
         if (_note && _note != note)

@@ -12,6 +12,7 @@
 class App_Tracks
 {
 public:
+    uint8_t trackId = TRACK_1;
     App_Audio_Track track0, track1, track2, track3;
     App_Audio_Track *tracks[TRACK_COUNT] = {&track0, &track1, &track2, &track3};
     App_Audio_Track *track = NULL;
@@ -20,12 +21,13 @@ public:
 
     App_Tracks() : track0(TRACK_1), track1(TRACK_2), track2(TRACK_3), track3(TRACK_4)
     {
-        select(TRACK_1);
+        select(trackId);
     }
 
     void select(uint8_t id)
     {
-        track = tracks[id % TRACK_COUNT];
+        trackId = id % TRACK_COUNT;
+        track = tracks[trackId];
         synth = &track->synth;
         looper = &track->looper;
     }
