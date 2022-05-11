@@ -3,8 +3,8 @@
 
 #include <M5Core2.h>
 
-#include "zic/zic_note.h"
-#include "zic/zic_seq_loop.h"
+#include <zic_note.h>
+#include <zic_seq_loop.h>
 
 #include "ui/ui_component.h"
 #include "ui/ui_color.h"

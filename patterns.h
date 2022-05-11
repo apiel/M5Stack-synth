@@ -1,8 +1,8 @@
 #ifndef PATTERNS_H_
 #define PATTERNS_H_
 
-#include "zic/zic_seq_pattern.h"
-#include "zic/zic_note.h"
+#include <zic_seq_pattern.h>
+#include <zic_note.h>
 
 #define PATTERN_COUNT 25
 

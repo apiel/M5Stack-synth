@@ -7,9 +7,9 @@
 
 #include "initAudio.h"
 
-#include "zic/zic_wavetable_SD.h"
-#include "zic/zic_seq_tempo.h"
-#include "zic/zic_seq_loop.h"
+#include <zic_wavetable_SD.h>
+#include <zic_seq_tempo.h>
+#include <zic_seq_loop.h>
 
 #include "app/app_def.h"
 #include "app/app_view_keyboard.h"
