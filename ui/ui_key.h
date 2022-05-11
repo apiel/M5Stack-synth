@@ -57,7 +57,7 @@ public:
         }
     }
 
-    bool update(Event &e)
+    uint8_t update(Event &e)
     {
         if (e.type == E_TOUCH || e.type == E_MOVE || e.type == E_RELEASE)
         {

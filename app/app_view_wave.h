@@ -53,7 +53,7 @@ public:
         renderKnobValue();
     }
 
-    bool update(Event &e)
+    uint8_t update(Event &e)
     {
         if (knob.update(e))
         {

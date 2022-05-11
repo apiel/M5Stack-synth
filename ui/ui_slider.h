@@ -48,7 +48,7 @@ public:
         }
     }
 
-    bool update(Event &e)
+    uint8_t update(Event &e)
     {
         // INFO might want to keep to respont to E_MOVE only if started to move slider in bar?
         // but in another way it's nice feature of be able to move just by passing over

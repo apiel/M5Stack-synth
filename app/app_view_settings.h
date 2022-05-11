@@ -24,7 +24,7 @@ public:
         volume.render();
     }
 
-    bool update(Event &e)
+    uint8_t update(Event &e)
     {
         volume.update(e);
         return false;

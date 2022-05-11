@@ -5,7 +5,7 @@ class UI_Component
 {
 public:
     virtual void render() = 0;
-    virtual bool update(Event &e) = 0;
+    virtual uint8_t update(Event &e) = 0;
 };
 
 #endif

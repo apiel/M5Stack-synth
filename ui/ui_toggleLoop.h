@@ -59,8 +59,7 @@ public:
         }
     }
 
-    // uint8_t update(Event &e)
-    bool update(Event &e)
+    uint8_t update(Event &e)
     {
         if (e.type == E_TOUCH && area.in(e))
         {
@@ -68,18 +67,15 @@ public:
             {
                 isOn = !isOn;
                 render();
-                // return UI_TOOGLE_LOOP_TOGGLE;
-                return true;
+                return UI_TOOGLE_LOOP_TOGGLE;
             }
             else
             {
                 // Serial.printf("active: %d\n", *active);
-                // return UI_TOOGLE_LOOP_ACTIVATE;
-                return true;
+                return UI_TOOGLE_LOOP_ACTIVATE;
             }
         }
-        // return UI_TOOGLE_LOOP_NONE;
-        return false;
+        return UI_TOOGLE_LOOP_NONE;
     }
 };
 

@@ -52,7 +52,7 @@ public:
         }
     }
 
-    bool update(Event &e)
+    uint8_t update(Event &e)
     {
         for (uint8_t k = 0; k < KEYS_COUNT; k++)
         {
