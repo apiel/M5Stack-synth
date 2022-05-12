@@ -204,6 +204,12 @@ void loopApp()
         }
         render();
     }
+    else if (M5.BtnC.wasPressed())
+    {
+        if (mode == MODE_LOOPER) {
+            looperView.changeMode();
+        }
+    }
 
     sequencer();
     playSpeaker();
