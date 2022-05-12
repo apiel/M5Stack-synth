@@ -13,6 +13,8 @@
 
 #include "app/app_tracks.h"
 
+#include "patterns.h"
+
 class App_View_Looper : public UI_Component
 {
 protected:
@@ -98,20 +100,27 @@ public:
         {
             if (keys[k].update(e))
             {
-                if (keys[k].isOn)
+                if (mode == LOOPER_MODE_KEYBOARD)
                 {
-                    // FIXME NOT perfect but somehow work
-                    keys[lastKeyOn].background = UI_BACKGROUND;
-                    keys[lastKeyOn].render();
-                    keys[k].background = UI_THEME_RED[0];
-                    keys[k].render();
-                    lastKeyOn = k;
+                    if (keys[k].isOn)
+                    {
+                        // FIXME NOT perfect but somehow work
+                        keys[lastKeyOn].background = UI_BACKGROUND;
+                        keys[lastKeyOn].render();
+                        keys[k].background = UI_THEME_RED[0];
+                        keys[k].render();
+                        lastKeyOn = k;
 
-                    tracks->looper->on(naturalNotesDown[keys[k].value + 28]); // 4*7 to start at C4
+                        tracks->looper->on(naturalNotesDown[keys[k].value + 28]); // 4*7 to start at C4
+                    }
+                    else
+                    {
+                        tracks->looper->off(naturalNotesDown[keys[k].value + 28]);
+                    }
                 }
-                else
+                else if (mode == LOOPER_MODE_PATTERNS)
                 {
-                    tracks->looper->off(naturalNotesDown[keys[k].value + 28]);
+                    tracks->looper->setNextPattern(&patterns[keys[k].value]);
                 }
             }
         }
