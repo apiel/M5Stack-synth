@@ -8,6 +8,7 @@ enum
     MODE_KEYBOARD,
     MODE_WAVE,
     MODE_TRACK,
+    MODE_FILTER,
     MODE_SETTINGS,
     MODE_COUNT
 };

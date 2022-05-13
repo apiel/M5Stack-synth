@@ -18,6 +18,7 @@
 #include "app/app_view_track.h"
 #include "app/app_view_settings.h"
 #include "app/app_view_looper.h"
+#include "app/app_view_filter.h"
 #include "app/app_tracks.h"
 
 #include "fastTrigo.h"
@@ -37,6 +38,7 @@ App_View_Menu menuView(&mode);
 App_View_Settings settingsView;
 App_View_Looper looperView(&tracks);
 App_View_Track trackView(&tracks);
+App_View_Filter filterView(&tracks);
 
 int16_t getSample()
 {
@@ -96,6 +98,10 @@ void render()
     {
         settingsView.render();
     }
+    else if (mode == MODE_FILTER)
+    {
+        filterView.render();
+    }
     else
     {
         menuView.render();
@@ -140,6 +146,10 @@ void eventHandler(Event &e)
     else if (mode == MODE_WAVE)
     {
         waveView.update(e);
+    }
+    else if (mode == MODE_FILTER)
+    {
+        filterView.update(e);
     }
     else if (mode == MODE_TRACK)
     {
@@ -206,7 +216,8 @@ void loopApp()
     }
     else if (M5.BtnC.wasPressed())
     {
-        if (mode == MODE_LOOPER) {
+        if (mode == MODE_LOOPER)
+        {
             looperView.changeMode();
         }
     }

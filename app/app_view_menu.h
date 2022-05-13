@@ -30,7 +30,7 @@ protected:
         {KEY_W, KEY_H, KEY_W, KEY_H, 5, UI_THEME_PURPLE, "Effect"},
         {KEY_W * 2, KEY_H, KEY_W, KEY_H, 6, UI_THEME_PURPLE, "Pattern"},
         {KEY_W * 3, KEY_H, KEY_W, KEY_H, 7, UI_THEME_PURPLE, "Modulation"},
-        {0, KEY_H * 2, KEY_W, KEY_H, 8, UI_THEME_PURPLE},
+        {0, KEY_H * 2, KEY_W, KEY_H, MODE_FILTER, UI_THEME_PURPLE, "Filter"},
         {KEY_W, KEY_H * 2, KEY_W, KEY_H, 9, UI_THEME_PURPLE},
         {KEY_W * 2, KEY_H * 2, KEY_W, KEY_H, 10, UI_THEME_PURPLE},
         {KEY_W * 3, KEY_H * 2, KEY_W, KEY_H, MODE_SETTINGS, UI_THEME_PURPLE, "Settings"}};
