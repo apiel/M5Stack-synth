@@ -39,6 +39,7 @@ public:
             lastY = e.to.y;
             float cutoff = lastX / 320.0f;
             float res = lastY / 240.0f;
+            // Serial.printf("Update filter %d %d %.2f %.2f\n", lastX, lastY, cutoff, res);
             tracks->synth->filter.set(cutoff, res);
             render();
             return true;

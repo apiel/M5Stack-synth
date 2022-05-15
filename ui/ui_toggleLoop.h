@@ -21,9 +21,10 @@ protected:
 
     bool isActive()
     {
-        bool yo = active && *active == value;
-        Serial.printf("isActive: %d, %d == %d\n", yo, *active, value);
-        return yo;
+        // bool yo = active && *active == value;
+        // Serial.printf("isActive: %d, %d == %d\n", yo, *active, value);
+        // return yo;
+        return active && *active == value;
     }
 
 public:
