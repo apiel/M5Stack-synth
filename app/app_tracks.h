@@ -9,8 +9,6 @@
 #include <zic_wavetable_synth.h>
 #include <zic_seq_loop.h>
 
-#include "LowPassFilter.h"
-
 class App_Tracks
 {
 public:
@@ -20,8 +18,6 @@ public:
     App_Audio_Track *track = NULL;
     Zic_Wavetable_Synth *synth = NULL;
     Zic_Seq_Loop *looper = NULL;
-
-    LowPassFilter filter;
 
     App_Tracks() : track0(TRACK_1), track1(TRACK_2), track2(TRACK_3), track3(TRACK_4)
     {
@@ -46,9 +42,9 @@ public:
 
     int16_t sample()
     {
-        // 4 track seem to be too much
+        return track0.synth.next();
         // return track0.synth.next() + track1.synth.next(); // + track2.synth.next() + track3.synth.next();
-        return filter.next(track0.synth.next()) + track1.synth.next() + track2.synth.next() + track3.synth.next();
+        // return track0.synth.next() + track1.synth.next() + track2.synth.next() + track3.synth.next();
     }
 };
 
