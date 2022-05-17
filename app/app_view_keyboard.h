@@ -38,6 +38,7 @@ public:
 
     uint8_t update(Event &e)
     {
+        // Serial.printf("Update keyboard %d %d %s\n", e.to.x, e.to.y, e.typeName());
         for (uint8_t k = 0; k < KEYS_COUNT; k++)
         {
             if (keys[k].update(e))

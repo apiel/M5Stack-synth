@@ -33,13 +33,13 @@ public:
 
     uint8_t update(Event &e)
     {
-        if (e.to.x != lastX || e.to.y != lastY)
+        if ((e.type == E_TOUCH || e.type == E_MOVE) && (e.to.x != lastX || e.to.y != lastY))
         {
             lastX = e.to.x;
             lastY = e.to.y;
             float cutoff = lastX / 320.0f;
             float res = lastY / 240.0f;
-            // Serial.printf("Update filter %d %d %.2f %.2f\n", lastX, lastY, cutoff, res);
+            // Serial.printf("Update filter %d %d %.2f %.2f %s\n", lastX, lastY, cutoff, res, e.typeName());
             tracks->synth->filter.set(cutoff, res);
             render();
             return true;

@@ -7,6 +7,13 @@
 #include "ui_area_rect.h"
 #include "ui_component.h"
 
+enum
+{
+    UI_KEY_NONE,
+    UI_KEY_ON,
+    UI_KEY_OFF,
+};
+
 class UI_Key : public UI_Component
 {
 protected:
@@ -25,6 +32,7 @@ public:
     bool isOn = false;
     uint8_t value = 0;
     uint16_t background = UI_BACKGROUND;
+    bool doRenderOnUpdate = true;
 
     UI_Key(uint16_t _x, uint16_t _y, uint8_t _value = 0,
            const uint16_t *_color = &UI_THEME_BLUE[0], const char *_name = NULL) : area(_x, _y, 45, 45)
@@ -66,18 +74,20 @@ public:
                 if (!isOn)
                 {
                     isOn = true;
-                    render();
-                    return true;
+                    if (doRenderOnUpdate)
+                        render();
+                    return UI_KEY_ON;
                 }
             }
             else if (isOn)
             {
                 isOn = false;
-                render();
-                return true;
+                if (doRenderOnUpdate)
+                    render();
+                return UI_KEY_OFF;
             }
         }
-        return false;
+        return UI_KEY_NONE;
     }
 };
 

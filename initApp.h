@@ -155,7 +155,7 @@ void eventHandler(Event &e)
     {
         if (trackView.update(e))
         {
-            Serial.printf("Select track %d\n", tracks.track->id);
+            // Serial.printf("Select track %d\n", tracks.track->id);
             mode = previousMode;
             render();
         }

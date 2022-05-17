@@ -54,13 +54,18 @@ public:
 
     uint8_t update(Event &e)
     {
+        // Serial.printf("Menu update %d %d %s\n", e.to.x, e.to.y, e.typeName());
         for (uint8_t k = 0; k < KEYS_COUNT; k++)
         {
+            keys[k].doRenderOnUpdate = false;
             if (keys[k].update(e))
             {
-                keys[k].isOn = false;
-                *mode = keys[k].value;
-                return true;
+                // keys[k].isOn = false;
+                if (!keys[k].isOn) // happen on release, to avoid to populate to other view after selection
+                {
+                    *mode = keys[k].value;
+                    return true;
+                }
             }
         }
         return false;
