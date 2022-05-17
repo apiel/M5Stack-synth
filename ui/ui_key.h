@@ -32,6 +32,8 @@ public:
     bool isOn = false;
     uint8_t value = 0;
     uint16_t background = UI_BACKGROUND;
+
+    // TODO This is a big ugly, might find a better solution
     bool doRenderOnUpdate = true;
 
     UI_Key(uint16_t _x, uint16_t _y, uint8_t _value = 0,
