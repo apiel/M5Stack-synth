@@ -214,6 +214,13 @@ void loopApp()
         }
         render();
     }
+    else if (m5.BtnB.wasPressed())
+    {
+        if (mode == MODE_FILTER)
+        {
+            filterView.changeMode();
+        }
+    }
     else if (M5.BtnC.wasPressed())
     {
         if (mode == MODE_LOOPER)

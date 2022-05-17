@@ -25,6 +25,11 @@ public:
     void render()
     {
         M5.Lcd.fillScreen(UI_BACKGROUND);
+
+        M5.Lcd.setCursor(5, 5);
+        M5.Lcd.setTextColor(color[0], UI_BACKGROUND);
+        M5.Lcd.println(tracks->synth->filter.getName());
+
         M5.Lcd.fillCircle(
             320 * tracks->synth->filter.cutoff,
             240 * tracks->synth->filter.resonance,
@@ -45,6 +50,12 @@ public:
             return true;
         }
         return false;
+    }
+
+    void changeMode()
+    {
+        tracks->synth->filter.setFilterMode(tracks->synth->filter.mode + 1);
+        render();
     }
 };
 
