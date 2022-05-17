@@ -42,9 +42,9 @@ public:
 
     int16_t sample()
     {
-        return track0.synth.next();
+        // return track0.synth.next();
         // return track0.synth.next() + track1.synth.next(); // + track2.synth.next() + track3.synth.next();
-        // return track0.synth.next() + track1.synth.next() + track2.synth.next() + track3.synth.next();
+        return track0.synth.next() + track1.synth.next() + track2.synth.next() + track3.synth.next();
     }
 };
 
